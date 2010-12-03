@@ -103,13 +103,19 @@ CVS ()
     fi
 }
 
+GitLog ()
+{
+    Run git log --max-count=1 --date=short '--pretty=format:%h %ci %s' ||
+    Run git rev-parse HEAD "|" cut -c1-7
+}
+
 Revno ()
 {
     # All other display revision on "pull"
 
     case "$vcs" in
 	git)
-	    Run git rev-parse HEAD "|" cut -c1-7
+	    GitLog
 	    ;;
 	*)
 	    ;;
