@@ -58,7 +58,18 @@ Initialize ()
 
 Run ()
 {
-    ${TEST:+echo} "$@"
+    case "$*" in
+	*[|]*)
+	    if [ "$TEST" ]; then
+		echo "$*"
+	    else
+		eval "$*"
+	    fi
+	    ;;
+	*)
+	    ${TEST:+echo} "$@"
+	    ;;
+    esac
 }
 
 UpdateLispFiles ()
@@ -92,15 +103,26 @@ CVS ()
     fi
 }
 
+Revno ()
+{
+    # All other display revision on "pull"
+
+    case "$vcs" in
+	git)
+	    Run "git rev-parse HEAD | cut -c1-7"
+	    ;;
+	*)
+	    ;;
+    esac
+}
+
 Vcs ()
 {
-    vcs=$1
-    url=$@
-
     if [ ! -d "$vcsdir" ]; then
-	$vcs clone "$url" "$vcsdir"
+	Run $vcs clone "$url" "$vcsdir"
+	Revno
     else
-	( Run cd "$vcsdir" && Run $vcs update )
+	( Run cd "$vcsdir" && Run $vcs update && Revno )
     fi
 }
 
