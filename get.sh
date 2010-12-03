@@ -122,7 +122,7 @@ Vcs ()
 	Run $vcs clone "$url" "$vcsdir"
 	Revno
     else
-	( Run cd "$vcsdir" && Run $vcs update && Revno )
+	( Run cd "$vcsdir" && Run $vcs pull && Revno )
     fi
 }
 
