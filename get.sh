@@ -63,7 +63,7 @@ Run ()
 	    if [ "$TEST" ]; then
 		echo "$*"
 	    else
-		eval "$*"
+		eval "$@"
 	    fi
 	    ;;
 	*)
@@ -109,7 +109,7 @@ Revno ()
 
     case "$vcs" in
 	git)
-	    Run "git rev-parse HEAD | cut -c1-7"
+	    Run git rev-parse HEAD "|" cut -c1-7
 	    ;;
 	*)
 	    ;;
