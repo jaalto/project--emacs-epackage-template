@@ -105,7 +105,7 @@ CVS ()
 
 GitLog ()
 {
-    Run git log --max-count=1 --date=short '--pretty=format:%h %ci %s' ||
+    Run git log --max-count=1 --date=short '--pretty=format:%h %ci %s%n' ||
     Run git rev-parse HEAD "|" cut -c1-7
 }
 
