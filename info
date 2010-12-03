@@ -2,8 +2,7 @@ Package:
 Section: data | extensions | files | languages | mail | tools <M-x finder-list-keywords>
 License: <GPL-2+ | BSD | Apache-2.0 | ... | None>
 Depends: emacs (>= 22)
-Status: core-emacs unmaintained broken stable unstable experimental
-  note YYYY-MM-DD the code hasn't been touched since 2006 ;
+Status: core-emacs unmaintained broken unsafe stable unstable experimental
 Compat:
 Maintainer:
 Email:
@@ -18,3 +17,5 @@ Homepage:
 Wiki: http://www.emacswiki.org/emacs/
 Description: <short one line>
  [<Longer description>]
+ .
+ Note YYYY-MM-DD the code hasn't been touched since YYYY.
