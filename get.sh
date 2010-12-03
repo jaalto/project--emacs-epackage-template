@@ -53,12 +53,12 @@ Initialize ()
     pkg=$( awk '/^Package:/    {print $2}' "$pwd/info" )
     vcs=$( awk '/^Vcs-Type:/   {print $2}' "$pwd/info" )
     url=$( awk '/^Vcs-Url:/    {print $2}' "$pwd/info" )
-    args=$( awk '/^Vcs-Args:/  {print $2}' "$pwd/info" )
+    args=$( awk '/^Vcs-Args:/  {sub("Vcs-Args:",""); print }' "$pwd/info" )
 }
 
 Run ()
 {
-    {TEST:+echo} "$@"
+    ${TEST:+echo} "$@"
 }
 
 UpdateLispFiles ()
@@ -118,7 +118,8 @@ Main ()
 	    Run wget --user-agent="$agent" \
 		 --no-check-certificate \
 		 --timestamping \
-		"$url"
+		"$url" \
+		"$args"
 	    ;;
 	[a-z]* )
 	    Run cd "$pwd"
