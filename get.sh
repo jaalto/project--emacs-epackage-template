@@ -142,7 +142,7 @@ Vcs ()
 {
     if [ ! -d "$vcsdir" ]; then
 	Run $vcs clone "$url" "$vcsdir"
-	Revno
+	( cd "$vcsdir" && Revno )
     else
 	( Run cd "$vcsdir" && Run $vcs pull && Revno )
     fi
