@@ -66,10 +66,10 @@ Initialize ()
 {
     # Define global variables
 
-    pkg=$( awk '/^Package:/    {print $2}' "$pwd/info" )
-    vcs=$( awk '/^Vcs-Type:/   {print $2}' "$pwd/info" )
-    url=$( awk '/^Vcs-Url:/    {print $2}' "$pwd/info" )
-    args=$( awk '/^Vcs-Args:/  {sub("Vcs-Args:",""); print }' "$pwd/info" )
+    pkg=$( awk '/^[Pp]ackage:/    {print $2}' "$pwd/info" )
+    vcs=$( awk '/^[V]cs-[Tt]ype:/   {print $2}' "$pwd/info" )
+    url=$( awk '/^[Vc]cs-[Uu]rl:/    {print $2}' "$pwd/info" )
+    args=$( awk '/^[Vv]cs-[Aa]rgs:/  {sub("Vcs-Args:",""); print }' "$pwd/info" )
 }
 
 Run ()
