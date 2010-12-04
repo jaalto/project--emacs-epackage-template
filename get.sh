@@ -29,19 +29,35 @@ Help ()
 {
     echo "\
 SYNOPSIS
-    [TEST=1] $0
+    $0 [--help | --test]
 
 DESCRIPTION
 
     epackage directory: $pwd
 
-    Generic POSIX shell download script for Emacs epackages. Typically
+    A POSIX shell script to download Emacs epackages. Typically
     located under name epackage/get.sh. Reads information from
     epackage/info file. If the Field 'Vcs-Type' is \"http\", download
     single file to \"epackage/..\" directory. If type is anything
     else, download repository pointed by field 'Vcs-Url' into
-    subdirectory \"epackage/$vcsdir\" and copy all file recursively under
-    it to epackage/.."
+    subdirectory \"epackage/$vcsdir\" and copy all file recursively
+    under it to epackage/..
+
+OPTIONS
+
+    --help
+	Display this help text.
+
+    --test
+	Run in test mode. Do not actually do anything.
+
+AUTHOR
+
+    Jari Aalto <jari.aalto@cante.net>
+
+    Released under license GNU GPL version 2 or (at your option) any later
+    version. For more information about license, visit
+    <http://www.gnu.org/copyleft/gpl.html>."
 
     exit 0
 }
@@ -86,7 +102,7 @@ UpdateLispFiles ()
 	-a ! -name .$vcs \
 	-o \( -type f -a ! -name .${vcs}ignore \)
        ) |
-    Run tar -C "$pwd/.." -xvf -
+    Run tar --directory "$pwd/.." -xvf -
 }
 
 CVS ()
@@ -136,9 +152,19 @@ Main ()
 {
     Initialize
 
-    case "$*" in
-	-h | --help) Help ;;
-    esac
+    for arg in "$@"			# Command line options
+    do
+	case "$arg" in
+	    -h | --help)
+		shift
+		Help
+		;;
+	    -t | --test)
+		shift
+		TEST="test"
+		;;
+	esac
+    done
 
     case "$vcs" in
 	http )
