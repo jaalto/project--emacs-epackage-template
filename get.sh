@@ -75,7 +75,7 @@ Initialize ()
 Run ()
 {
     case "$*" in
-	*[|]*)
+	*\|*)
 	    if [ "$TEST" ]; then
 		echo "$*"
 	    else
@@ -121,7 +121,7 @@ CVS ()
 
 GitLog ()
 {
-    Run git log --max-count=1 --date=short '--pretty=format:%h %ci %s%n' ||
+    Run git log --max-count=1 --date=short --pretty='format:%h %ci %s%n' ||
     Run git rev-parse HEAD "|" cut -c1-7
 }
 
