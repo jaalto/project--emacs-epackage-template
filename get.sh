@@ -21,9 +21,9 @@
 
 set -e
 
-pwd=$( cd $(dirname $0); pwd )		# The epackeg/ path
-vcsdir=upstream				# The VCS download directory
-agent="Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.1.3) Gecko/20090913 Firefox/3.5.3";
+EPKGDIR=$( cd $(dirname $0); pwd )		# The epackeg/ path
+VCSDIR="upstream"				# The VCS download directory
+UAGENT="Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.1.3) Gecko/20090913 Firefox/3.5.3";
 
 Help ()
 {
@@ -33,14 +33,14 @@ SYNOPSIS
 
 DESCRIPTION
 
-    epackage directory: $pwd
+    epackage directory: $EPKGDIR
 
     A POSIX shell script to download Emacs epackages. Typically
     located under name epackage/get.sh. Reads information from
     epackage/info file. If the Field 'Vcs-Type' is \"http\", download
     single file to \"epackage/..\" directory. If type is anything
     else, download repository pointed by field 'Vcs-Url' into
-    subdirectory \"epackage/$vcsdir\" and copy all file recursively
+    subdirectory \"epackage/$VCSDIR\" and copy all file recursively
     under it to epackage/..
 
 OPTIONS
@@ -66,10 +66,10 @@ Initialize ()
 {
     # Define global variables
 
-    pkg=$( awk '/^[Pp]ackage:/    {print $2}' "$pwd/info" )
-    vcs=$( awk '/^[V]cs-[Tt]ype:/   {print $2}' "$pwd/info" )
-    url=$( awk '/^[Vc]cs-[Uu]rl:/    {print $2}' "$pwd/info" )
-    args=$( awk '/^[Vv]cs-[Aa]rgs:/  {sub("Vcs-Args:",""); print }' "$pwd/info" )
+    PKG=$(     awk '/^[Pp]ackage:/     {print $2}' "$EPKGDIR/info" )
+    VCSNAME=$( awk '/^[V]cs-[Tt]ype:/  {print $2}' "$EPKGDIR/info" )
+    ARGS=$(    awk '/^[Vc]cs-[Uu]rl:/  {print $2}' "$EPKGDIR/info" )
+    args=$(    awk '/^[Vv]cs-[Aa]rgs:/ {sub("Vcs-Args:",""); print }' "$EPKGDIR/info" )
 }
 
 Run ()
@@ -92,30 +92,30 @@ UpdateLispFiles ()
 {
     dir="$1"
 
-    if [ "$vcs" = "http" ]; then
+    if [ "$VCSNAME" = "http" ]; then
 	return 0			# Skip
     fi
 
-    cd "$vcsdir" &&
+    cd "$VCSDIR" &&
     Run tar -cf - \
-      $(find . -type d \( -name .$vcs \) -prune  \
-	-a ! -name .$vcs \
+      $(find . -type d \( -name .$VCSNAME \) -prune  \
+	-a ! -name .$VCSNAME \
 	-o \( -type f -a ! -name .${vcs}ignore \)
        ) |
-    Run tar --directory "$pwd/.." -xvf -
+    Run tar --directory "$EPKGDIR/.." -xvf -
 }
 
 CVS ()
 {
     url=$@
 
-    if [ ! -d "$vcsdir" ]; then
+    if [ ! -d "$VCSDIR" ]; then
 	echo "# When asked, Press ENTER at login password..."
-	Run cvs -d "$url" login
-	Run cvs -d "$url" co -d "$vcsdir" $args
+	Run cvs -d "$URL" login
+	Run cvs -d "$URL" co -d "$VCSDIR" $ARGS
 
     else
-	( Run cd "$vcsdir" && Run cvs update -d -I\! )
+	( Run cd "$VCSDIR" && Run cvs update -d -I\! )
     fi
 }
 
@@ -129,7 +129,7 @@ Revno ()
 {
     # All other display revision on "pull"
 
-    case "$vcs" in
+    case "$VCSNAME" in
 	git)
 	    GitLog
 	    ;;
@@ -140,11 +140,11 @@ Revno ()
 
 Vcs ()
 {
-    if [ ! -d "$vcsdir" ]; then
-	Run $vcs clone "$url" "$vcsdir"
-	( cd "$vcsdir" && Revno )
+    if [ ! -d "$VCSDIR" ]; then
+	Run $VCSNAME clone "$URL" "$VCSDIR"
+	( cd "$VCSDIR" && Revno )
     else
-	( Run cd "$vcsdir" && Run $vcs pull && Revno )
+	( Run cd "$VCSDIR" && Run $VCSNAME pull && Revno )
     fi
 }
 
@@ -166,28 +166,28 @@ Main ()
 	esac
     done
 
-    case "$vcs" in
+    case "$VCSNAME" in
 	http )
-	    Run cd $pwd/..
-	    Run wget --user-agent="$agent" \
+	    Run cd $EPKGDIR/..
+	    Run wget --user-agent="$UAGENT" \
 		 --no-check-certificate \
 		 --timestamping \
-		"$url" \
-		"$args"
+		"$URL" \
+		"$ARGS"
 	    ;;
 	[a-z]* )
-	    Run cd "$pwd"
-	    if [ "$vcs" = "cvs" ]; then
-		CVS "$url"
+	    Run cd "$EPKGDIR"
+	    if [ "$VCSNAME" = "cvs" ]; then
+		CVS "$URL"
 	    else
-		Vcs "$vcs" "$url"
+		Vcs "$VCSNAME" "$URL"
 	    fi
 	    ;;
-	*)  echo "Unknown Vcs-Type: $vcs Vcs-Url: $url" >&2
+	*)  echo "Unknown Vcs-Type: $VCSNAME Vcs-Url: $URL" >&2
 	    return 1
 	    ;;
     esac &&
-    UpdateLispFiles "$vcs" "$vcsdir"
+    UpdateLispFiles "$VCSNAME" "$VCSDIR"
 }
 
 Main "$@"
