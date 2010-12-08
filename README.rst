@@ -2,24 +2,27 @@ Description
 ===========
 
 This directory contains template files for the Emacs packaging system
-called "Epackage". The epackages for Emacs are Git Distributed Version
-Control System (DVCS) containers that contains the original extenstion
-code plus subdirectory named ``epackage/``. The containers can reside
-anywhere publicly available and in distributed fashion, any Emacs user
-can download and install those. The person who is doing the epackage
-work is called *maintainer* and the person who is writing the
-extenstion is called *upstream*.
+called "Epackage" or "Distributed Emacs Lisp Package System (DELPS).
+The packages use GitVersion Control System (DVCS) containers for
+distribution of the original extension code plus a subdirectory named
+``epackage/``. These epackage repositories, containers, can reside
+anywhere publicly available. Their location is recorded in a aseparate
+**yellow pages** to make them availale for userd. The person who wraps
+Emacs extensions into containers is called epackage *maintainer*. The
+person who is he author of the extension is called *upstream*. These
+two can be the same or two separate people.
 
-Template files available for maintainers in this directory:
+Template files available here for maintainers include:
 
-* ``get-http.sh``     - Simple downloader (obsolete)
-* ``get.sh``          - Generic downloader that reads 'info' file
+* ``get-http.sh``     - Simple download script (obsolete)
+* ``get.sh``          - Generic download script that reads 'info' file
 * ``info``            - The Epackage information file
 
-In a nutshell, the epackages have the format::
+In a nutshell, the epackage has the format::
 
     <Emacs extension root dir>
     | *.el
+    | <and any other upstream files, directories>
     |
     +- .git/                    Version control branches: master + upstream
     |
@@ -32,9 +35,9 @@ In a nutshell, the epackages have the format::
         PACKAGE-uninstall.el    optional: to remove package
         PACKAGE-xactivate.el    optional: Code to activate package
 
-**NOTE:** This document is just a quickref. The Gory details of
-epackage format and it's use, as well as detailed description fo all
-the files can be found from <TODO:URL>.
+**NOTE:** This document is just a quick reference. The gory details of
+epackage format and description of all the files can be found at
+<http://www.nongnu.org/emacs-epackage/manual>.
 
 The Epackage Primer
 ===================
@@ -42,15 +45,12 @@ The Epackage Primer
 Making an epackage
 ------------------
 
-The steps to convert existing Emacs extension into **epackage** format goes
-like this.
-
 1. Prepare empty directory::
 
      mkdir extension
      cd extension
 
-2. Init Git repository. Name it *upstream* branch::
+2. Init Git repository. Start at *upstream* branch directly::
 
      git init
      git branch -m upstream
@@ -59,18 +59,18 @@ like this.
 
     wget http://example.com/project/some-mode.el
 
-4. Examine the version and import the code to version control repository::
+4. Determine version information and import code to Git repository. Use clean commit message::
 
-    egrep 'version|[0-9][0-9][0-9][0-9]' *.el
+    $ egrep 'version|[0-9][0-9][0-9][0-9]' *.el
 
     Copyright (C) 2010 John Doe <jdoe@example.net>
     Last-Updated: 2010-05-10
     (defvar some-mode-version "1.12")
 
-    git add *.el
-    git commit -m "import upstream 1.12 (2010-05-10) from example.com"
+    $ git add *.el
+    $ git commit -m "import upstream 1.12 (2010-05-10) from example.com"
 
-5. Mark this commit with a tag that has format "upstream/<UPSTREAM-DATE>[--<UPSTREAM-VERSION>]"::
+5. Mark this commit with a tag that has format ``upstream/<UPSTREAM-DATE>[--<UPSTREAM-VERSION>]``::
 
     git tag upstream/2010-05-10--1.12
 
@@ -84,63 +84,77 @@ like this.
     cp <path>/{info,get.sh} epackage/
     rm epackage/get-http.sh     # Not needed
 
-8. Edit the epackage information file. You need to search http://emacswiki.org, Google and study the extenstion's comments to fill in the fields.::
+8. Edit the information file. You need to search http://emacswiki.org, Google and study the extension's comments to fill in the fields.::
 
     $EDITOR epackage/info
 
-9. Last, a little hard part. You have to write at least two files that will be used for epackage installation: the *autoload* file and the *install* file. Third file, xactivate, is optional but recommended.::
+9. Last, a little hard part. You have to write at least two files that will be used for installation: the *autoload* file and the *install* file. Third file, xactivate, is optional but recommended. Refer to <http://www.nongnu.org/emacs-epackage/manual>.::
 
-    # Generated automatically from ##autoload tags. Use some utility
+    # Generated automatically from ##autoload tags. Use some utility.
 
     epackage/PACKAGE-0loaddefs.el
 
-    # By hand, write '(autoload ....)' statements.
+    # Afternatively, by hand. Write '(autoload ....)' statements.
     # Only needed if code didn't have ###autoload definitions.
 
     epackage/PACKAGE-autoloads.el
 
-    # By hand: Figure out reading the code how it is activated for
-    # immediate use: add autoloads and erite Emacs lisp code. Try not to
-    # load any package with 'require' (slows emacs startup).
+    # By hand: Figure out by reading the commentary how the extension
+    # is activated for immediate use. Add autoloads and Write Emacs
+    # lisp code. Try not to load any other packages with 'require' (slows
+    # emacs startup).
 
-    epackage/PACKAGE-xinstall.el
+    epackage/PACKAGE-install.el
 
 #. Commit files to *master* branch::
 
     git add epackage/
     git commit -m "epackage/: new files"
 
-#. Upload this Git repository somewhere publicly available, e.g.  <http://github.com>.
+#. Upload this Git repository somewhere publicly available, e.g. <http://github.com>.
 
-#. Add information about new epackage to the **yellow pages** so that others know find it. The information needed is::
+   git remote add github <your URL>
+   git push github upstream
+   git push github master
+
+#. Add information about this new epackage to the **yellow pages** so that others know find it. The information needed is::
 
     PACKAGE-NAME (from epackage/info::Package field)
     GIT-URL      (the public git repository URL)
     DESCRIPTION  (from epackage/info::Description, the 1st line)
 
-The **yellow pages** list can be updated at: <TODO>
+Fork the current **yellow pages**, clone it to your local disk, edit
+add new information, commit, and send a *Pull request* through github.
+See these page:
 
-Updating an epackage
---------------------
+- http://help.github.com/forking/  (Forking a project)
+- http://help.github.com/pull-requests/ (Sending pull requests)
 
-Periodically follow new releases of upstream code. Once new release is
-available, make updates to Emacs extension's epackage.
+After your URL has been merged, update your copy of yellow pages::
 
-1. Verify that the repository is in a clean state::
+    git pull
+
+Keeping epackage up to date
+---------------------------
+
+Periodically follow new releases of upstream code. Once a new release is
+made available, make an update.
+
+1. Verify that the repository is in a clean state. Commit any changes::
 
     git status
 
-2. Switch to *upstream* branch::
-
-    git checkout upstream
-
-3. Download new upstream release::
+2. Download new upstream release::
 
     sh epackage/get.sh
 
+3. Switch to *upstream* branch::
+
+    git checkout upstream
+
 4. Examine version and release date of upstream code. Commit and tag::
 
-    git add *.el
+    git add <list of files>
     git commit -m "import upstream 1.13 (2010-06-10) from example.com"
     git tag  upstream/2010-06-10--1.13
 
@@ -150,32 +164,41 @@ available, make updates to Emacs extension's epackage.
     ... edit epackage/ and commit
     ... test that all works
 
-6. Rebase your work in top of *upstream*::
+6. Merge upstream to your *master*::
 
-    git rebase upstream
+    git merge upstream
 
-7. Push your chnages to public repository that you have defined::
+7. Push new epackage available:
 
     git push
 
 Epackage Git repository layout
 ==============================
 
-At first import the Git repository tree looks like this::
+At the beginning the Git repository tree looks like::
 
                 1.12
     upstream:   o
                  \
     master:       o (the epackage/)
 
-After updating to 1.13 the developement tree chnages shape.
-Notice how *master* branch has moved forward as a result of
-``git rebase``::
+After updating to next upstream release (1.13), these two run in
+prallel. The *upstream* is periodically merged to *master* branch.
 
                 1.12 1.13
     upstream:   o -- o
-                      \
-    master:            o (the epackage/)
+                 \    \ (merge upstream changes)
+    master:       o -- o -- =>
+
+If you may need to fix code, make all fixes in a separate *patches*
+branch and merge those to *master*:
+
+
+    patches:           o - o
+		      /    |
+    upstream:   o -- o     |
+                 \    \    \/ (merge)
+    master:       o -- o - o =>
 
 
 End of file
