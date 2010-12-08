@@ -6,8 +6,8 @@ called "Epackage" or "Distributed Emacs Lisp Package System (DELPS).
 The packages use Git Version Control System (DVCS) containers for
 distribution of the original extension code plus a subdirectory named
 ``epackage/``. These epackage repositories, containers, can reside
-anywhere publicly available. Their location is recorded in a aseparate
-**yellow pages** to make them availale for userd. The person who wraps
+anywhere publicly available. Their location is recorded in a separate
+**yellow pages** to make them available for users. The person who wraps
 Emacs extensions into containers is called epackage *maintainer*. The
 person who is he author of the extension is called *upstream*. These
 two can be the same or two separate people.
@@ -201,8 +201,8 @@ branch and merge those to *master*:
     master:       o -- o - o =>
 
 
-Refrences
-=========
+References
+==========
 
 * Epackage extension for Emacs: http://freshmeat.net/project/epackage
 * Epackage manual: http://www.nongnu.org/emacs-epackage/manual
@@ -210,3 +210,4 @@ Refrences
 * Epackage Yellow Pages: https://github.com/jaalto/project--emacs-epackage-sources-list
 
 End of file
+
