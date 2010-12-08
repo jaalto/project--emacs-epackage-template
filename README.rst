@@ -204,6 +204,7 @@ branch and merge those to *master*:
 References
 ==========
 
+* Epackage main project hub: http://freshmeat.net/projects/emacs-epackage
 * Epackage extension for Emacs: http://freshmeat.net/project/epackage
 * Epackage manual: http://www.nongnu.org/emacs-epackage/manual
 * Epackage template files: https://github.com/jaalto/project--emacs-epackage-template
