@@ -3,7 +3,7 @@ Description
 
 This directory contains template files for the Emacs packaging system
 called "Epackage" or "Distributed Emacs Lisp Package System (DELPS).
-The packages use GitVersion Control System (DVCS) containers for
+The packages use Git Version Control System (DVCS) containers for
 distribution of the original extension code plus a subdirectory named
 ``epackage/``. These epackage repositories, containers, can reside
 anywhere publicly available. Their location is recorded in a aseparate
