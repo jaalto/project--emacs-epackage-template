@@ -36,8 +36,8 @@ In a nutshell, the epackage has the format::
         PACKAGE-xactivate.el    optional: Code to activate package
 
 **NOTE:** This document is just a quick reference. The gory details of
-epackage format and description of all the files can be found at
-<http://www.nongnu.org/emacs-epackage/manual>.
+epackage format and description of all the files can be found from the
+manual.
 
 The Epackage Primer
 ===================
@@ -200,5 +200,13 @@ branch and merge those to *master*:
                  \    \    \/ (merge)
     master:       o -- o - o =>
 
+
+Refrences
+=========
+
+* Epackage extension for Emacs: http://freshmeat.net/project/epackage
+* Epackage manual: http://www.nongnu.org/emacs-epackage/manual
+* Epackage template files: https://github.com/jaalto/project--emacs-epackage-template
+* Epackage Yellow Pages: https://github.com/jaalto/project--emacs-epackage-sources-list
 
 End of file
