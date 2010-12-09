@@ -35,9 +35,9 @@ In a nutshell, the epackage has the format::
         PACKAGE-uninstall.el    optional: Code to remove extension
         PACKAGE-xactivate.el    optional: Code to activate extension
 
-**NOTE:** This document is just a quick reference. The gory details of
+*NOTE:* This document is just a quick reference. The gory details of
 epackage format and description of all the files can be found from the
-manual.
+manual (see REFERENCES at the bottom).
 
 The Epackage Primer
 ===================
