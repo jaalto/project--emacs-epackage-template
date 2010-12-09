@@ -15,7 +15,7 @@ two can be the same or two separate people.
 Template files available here for maintainers include:
 
 * ``get-http.sh``     - Simple download script (obsolete)
-* ``get.sh``          - Generic download script that reads 'info' file
+* ``get.sh``          - Generic download script that reads "info" file
 * ``info``            - The Epackage information file
 
 In a nutshell, the epackage has the format::
@@ -45,7 +45,7 @@ The Epackage Primer
 Making an epackage
 ------------------
 
-1. Prepare empty directory::
+1. Prepare an empty directory. If extension more than one file, stay at extension's root directory ans skip (3)::
 
      mkdir extension
      cd extension
@@ -59,7 +59,7 @@ Making an epackage
 
     wget http://example.com/project/some-mode.el
 
-4. Determine version information and import code to Git repository. Use clean commit message::
+4. Determine version information and import code to Git repository. Use clear commit message::
 
     $ egrep 'version|[0-9][0-9][0-9][0-9]' *.el
 
@@ -70,7 +70,7 @@ Making an epackage
     $ git add *.el
     $ git commit -m "import upstream 1.12 (2010-05-10) from example.com"
 
-5. Mark this commit with a tag that has format ``upstream/<UPSTREAM-DATE>[--<UPSTREAM-VERSION>]``::
+5. Mark the commit with a tag that has format ``upstream/<UPSTREAM-DATE>[--<UPSTREAM-VERSION>]``. In case information about the release date is not available, use year only format YYYY-01-01. Leave out the ``--<UPSTREAM-VERSION>]`` if there is no information about release version. An exmaple::
 
     git tag upstream/2010-05-10--1.12
 
@@ -78,24 +78,26 @@ Making an epackage
 
     git branch -b master upstream
 
-7. Copy the template files::
+7. Copy the template files (which are available here, in this repo you're reading)::
 
     mkdir epackage/
     cp <path>/{info,get.sh} epackage/
-    rm epackage/get-http.sh     # Not needed
 
-8. Edit the information file. You need to search http://emacswiki.org, Google and study the extension's comments to fill in the fields.::
+8. Edit the information file. You need to search http://emacswiki.org, Google and study the extension's comments to fill in the details::
 
     $EDITOR epackage/info
 
-9. Last, a little hard part. You have to write at least two files that will be used for installation: the *autoload* file and the *install* file. Third file, xactivate, is optional but recommended. Refer to <http://www.nongnu.org/emacs-epackage/manual>.::
+9. Last, a little hard part. You have to write at least two files that will be used for installation: one of the *autoload* files and the *install* file. Third file, xactivate, is optional but recommended. Refer to <http://www.nongnu.org/emacs-epackage/manual>.::
 
-    # Generated automatically from ##autoload tags. Use some utility.
+    # Generated automatically from ##autoload tags.
+    #
+    # Use some utility. E.g. From "Emacs Tiny Tools" distribution tinylisp.el
+    # provides M-x tinylisp-autoload-quick-build-interactive-from-file
 
     epackage/PACKAGE-0loaddefs.el
 
-    # Afternatively, by hand. Write '(autoload ....)' statements.
-    # Only needed if code didn't have ###autoload definitions.
+    # Alternatively, write this by hand: '(autoload ....)' statements.
+    # Only needed if the code didn't have ###autoload definitions.
 
     epackage/PACKAGE-autoloads.el
 
@@ -108,12 +110,13 @@ Making an epackage
 
 #. Commit files to *master* branch::
 
+    git status			# Verify that you're in branch "master"
     git add epackage/
-    git commit -m "epackage/: new files"
+    git commit -m "epackage/: new"
 
-#. Upload this Git repository somewhere publicly available, e.g. <http://github.com>.
+#. Upload the Git repository somewhere publicly available, e.g. to <http://github.com>.
 
-   git remote add github <your URL>
+   git remote add github <your URL>	# See "Addnemum" at bottom
    git push github upstream
    git push github master
 
@@ -208,6 +211,56 @@ References
 * Epackage manual: http://www.nongnu.org/emacs-epackage/manual
 * Epackage template files: https://github.com/jaalto/project--emacs-epackage-template
 * Epackage Yellow Pages: https://github.com/jaalto/project--emacs-epackage-sources-list
+* Emacs Tiny Tools: http://freshmeat.net/projects/emacs-tiny-tools
+
+
+Addenum
+=======
+
+How to set up project at Github
+-------------------------------
+
+1. Generate the SSH keys, if you don't have those already
+
+- Generating SSH keys (Linux)
+- http://help.github.com/linux-key-setup/
+
+2. Register an account
+
+- [top right corner, Signup] https://github.com
+
+3. Log into account
+
+- [top right] select *login* https://github.com/
+- [(own page) at top right] *account settings / SSH public keys*
+  followed by **button:Submit (Copy/paste) your SSH keys (*.pub)**
+
+4. Create a project, say "xxx"
+
+- [back to main page] ``https://github.com/<login>``. At top click
+  **button:dashboard**. In new page to the right click **button:New
+  repository**. In new page type in project name, say "xxx". Write down
+  the ``git://`` repository URL.
+
+5. In shell prompt, type::
+
+    cd ~/dir/xxx                        # Source code of project "xxx"
+    git init                            # Initialize
+    git add .                           # add all files
+    git commit -m "Initial import"      # Put into version control
+
+    # Let Git know about Github
+    git remote add github git@github.com:<your github login>/xxx.git
+
+    # Publish "master" branch to Github
+    git push github master
+
+That should be all. For more information about Git, see:
+
+- http://www.kernel.org/pub/software/scm/git/docs
+- http://git-scm.com
+- http://gitref.org
+- http://gitcasts.com
 
 End of file
 
