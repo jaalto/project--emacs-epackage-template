@@ -28,12 +28,12 @@ In a nutshell, the epackage has the format::
     |
     +-- epackage/
         info                    required: The package control file
-        PACKAGE-0loaddefs.el    optional: ###autoload statements
-        PACKAGE-autoloads.el    optional: all autoload statements (raw)
-        PACKAGE-compile.el      optional: Code to byte compile package
-        PACKAGE-install.el      required: Code to make package available
-        PACKAGE-uninstall.el    optional: to remove package
-        PACKAGE-xactivate.el    optional: Code to activate package
+        PACKAGE-0loaddefs.el    optional: extracted ###autoload statements
+        PACKAGE-autoloads.el    optional: manually written autoload statements (raw)
+        PACKAGE-compile.el      optional: Code to byte compile extension
+        PACKAGE-install.el      required: Code to make extension available
+        PACKAGE-uninstall.el    optional: Code to remove extension
+        PACKAGE-xactivate.el    optional: Code to activate extension
 
 **NOTE:** This document is just a quick reference. The gory details of
 epackage format and description of all the files can be found from the
