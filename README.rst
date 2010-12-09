@@ -31,6 +31,7 @@ In a nutshell, the epackage has the format::
         PACKAGE-0loaddefs.el    optional: extracted ###autoload statements
         PACKAGE-autoloads.el    optional: manually written autoload statements (raw)
         PACKAGE-compile.el      optional: Code to byte compile extension
+        PACKAGE-examples.el     optional: Custmization examples
         PACKAGE-install.el      required: Code to make extension available
         PACKAGE-uninstall.el    optional: Code to remove extension
         PACKAGE-xactivate.el    optional: Code to activate extension
