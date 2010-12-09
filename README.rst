@@ -50,7 +50,7 @@ Making an epackage
      mkdir extension
      cd extension
 
-2. Init Git repository. Start at *upstream* branch directly::
+2. Initialize a Git repository. Start at *upstream* branch directly::
 
      git init
      git branch -m upstream
@@ -183,7 +183,7 @@ At the beginning the Git repository tree looks like::
     master:       o (the epackage/)
 
 After updating to next upstream release (1.13), these two run in
-prallel. The *upstream* is periodically merged to *master* branch.
+parallel. The *upstream* is periodically merged to *master* branch::
 
                 1.12 1.13
     upstream:   o -- o
@@ -191,8 +191,7 @@ prallel. The *upstream* is periodically merged to *master* branch.
     master:       o -- o -- =>
 
 If you may need to fix code, make all fixes in a separate *patches*
-branch and merge those to *master*:
-
+branch and merge those to *master*::
 
     patches:           o - o
 		      /    |
