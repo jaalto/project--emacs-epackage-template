@@ -222,8 +222,7 @@ How to set up project at Github
 
 1. Generate the SSH keys, if you don't have those already
 
-- Generating SSH keys (Linux)
-- http://help.github.com/linux-key-setup/
+- Generating SSH keys (Linux) http://help.github.com/linux-key-setup/
 
 2. Register an account
 
