@@ -172,8 +172,8 @@ made available, make an update.
 
     git push
 
-Epackage Git repository layout
-==============================
+Epackage Git repository management
+==================================
 
 At the beginning the Git repository tree looks like::
 
