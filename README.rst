@@ -226,7 +226,7 @@ How to set up project at Github
 
 2. Register an account
 
-- [top right corner, Signup] https://github.com
+- [top right corner] select *Signup* https://github.com
 
 3. Log into account
 
