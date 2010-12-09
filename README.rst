@@ -206,6 +206,7 @@ branch and merge those to *master*::
 References
 ==========
 
+* DELPS at Emacs Wiki: http://www.emacswiki.org/emacs/DELPS
 * Epackage main project hub: http://freshmeat.net/projects/emacs-epackage
 * Epackage extension for Emacs: http://freshmeat.net/project/epackage
 * Epackage manual: http://www.nongnu.org/emacs-epackage/manual
