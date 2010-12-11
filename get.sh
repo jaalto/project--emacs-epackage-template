@@ -29,7 +29,7 @@
 
 set -e
 
-EPKGDIR=$( cd $(dirname $0); pwd )		# The epackeg/ path
+EPKGDIR=$( cd $(dirname $0); pwd )		# The epackage/ absolute path
 VCSDIR="upstream"				# The VCS download directory
 UAGENT="Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.1.3) Gecko/20090913 Firefox/3.5.3";
 
