@@ -18,6 +18,14 @@
 #
 #       You should have received a copy of the GNU General Public License
 #       along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+#   Depends
+#
+#	Always:
+#	- POSIX Shell
+#
+#	Depending on transport (Vcs-Type field in "info" file):
+#	- wget, git, hg, bzr, cvs, svn
 
 set -e
 
@@ -41,14 +49,14 @@ DESCRIPTION
     single file to \"epackage/..\" directory. If type is anything
     else, download repository pointed by field 'Vcs-Url' into
     subdirectory \"epackage/$VCSDIR\" and copy all file recursively
-    under it to epackage/..
+    under it to \"epackage/..\".
 
 OPTIONS
 
-    --help
+    -h, --help
 	Display this help text.
 
-    --test
+    -t, --test
 	Run in test mode. Do not actually do anything.
 
 AUTHOR
@@ -70,6 +78,11 @@ Initialize ()
     VCSNAME=$( awk '/^[V]cs-[Tt]ype:/  {print $2}' "$EPKGDIR/info" )
     ARGS=$(    awk '/^[Vc]cs-[Uu]rl:/  {print $2}' "$EPKGDIR/info" )
     args=$(    awk '/^[Vv]cs-[Aa]rgs:/ {sub("Vcs-Args:",""); print }' "$EPKGDIR/info" )
+}
+
+Warn ()
+{
+    echo "$*" >&2
 }
 
 Run ()
@@ -96,7 +109,8 @@ UpdateLispFiles ()
 	return 0			# Skip
     fi
 
-    cd "$VCSDIR" &&
+    cd "$VCSDIR"
+
     Run tar -cf - \
       $(find . -type d \( -name .$VCSNAME \) -prune  \
 	-a ! -name .$VCSNAME \
@@ -166,16 +180,22 @@ Main ()
 	esac
     done
 
+    if [ "$VCSNAME" = "git" ]; then
+	Warn "[WARN] For Git, you should use: \
+'git remote add upstream $URL' and work through it directly."
+    fi
+
     case "$VCSNAME" in
-	http )
-	    Run cd $EPKGDIR/..
+	http)
+	    Run cd "$EPKGDIR/.."
 	    Run wget --user-agent="$UAGENT" \
 		 --no-check-certificate \
 		 --timestamping \
 		"$URL" \
 		"$ARGS"
 	    ;;
-	[a-z]* )
+
+	[a-z]*)
 	    Run cd "$EPKGDIR"
 	    if [ "$VCSNAME" = "cvs" ]; then
 		CVS "$URL"
@@ -183,10 +203,12 @@ Main ()
 		Vcs "$VCSNAME" "$URL"
 	    fi
 	    ;;
-	*)  echo "Unknown Vcs-Type: $VCSNAME Vcs-Url: $URL" >&2
+
+	*)  Warn "[WARN] Unknown Vcs-Type: $VCSNAME Vcs-Url: $URL"
 	    return 1
 	    ;;
-    esac &&
+    esac
+
     UpdateLispFiles "$VCSNAME" "$VCSDIR"
 }
 
