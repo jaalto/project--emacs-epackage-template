@@ -77,7 +77,9 @@ Initialize ()
     PKG=$(     awk '/^[Pp]ackage:/     {print $2}' "$EPKGDIR/info" )
     VCSNAME=$( awk '/^[V]cs-[Tt]ype:/  {print $2}' "$EPKGDIR/info" )
     ARGS=$(    awk '/^[Vc]cs-[Uu]rl:/  {print $2}' "$EPKGDIR/info" )
-    args=$(    awk '/^[Vv]cs-[Aa]rgs:/ {sub("Vcs-Args:",""); print }' "$EPKGDIR/info" )
+
+    args=$(    awk '/^[Vv]cs-[Aa]rgs:/ {sub("Vcs-Args:",""); print }' \
+               "$EPKGDIR/info" )
 }
 
 Warn ()
