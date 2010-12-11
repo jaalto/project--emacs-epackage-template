@@ -263,5 +263,14 @@ That should be all. For more information about Git, see:
 - http://gitref.org
 - http://gitcasts.com
 
+Copyright and License
+=====================
+
+Copyright (C) 2010 Jari Aalto <jari.aalto@cante.net>
+
+The material is free; you can redistribute and/or modify it under
+the terms of GNU General Public license either version 2 of the
+License, or (at your option) any later version.
+
 End of file
 
