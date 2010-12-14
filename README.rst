@@ -1,3 +1,7 @@
+..  comment: the source is maintained in ReST format.
+    Emacs: http://docutils.sourceforge.net/tools/editors/emacs/rst.el
+    Manual: http://docutils.sourceforge.net/docs/user/rst/quickref.html
+
 Description
 ===========
 
@@ -274,4 +278,3 @@ the terms of GNU General Public license either version 2 of the
 License, or (at your option) any later version.
 
 End of file
-
