@@ -133,6 +133,7 @@ See these page:
 
 - http://help.github.com/forking/  (Forking a project)
 - http://help.github.com/pull-requests/ (Sending pull requests)
+- https://github.com/blog/270-the-fork-queue (Keeping fork in synch)
 
 After your URL has been merged, update your copy of yellow pages::
 
