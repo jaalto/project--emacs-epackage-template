@@ -76,9 +76,9 @@ Initialize ()
 
     PKG=$(     awk '/^[Pp]ackage:/     {print $2}' "$EPKGDIR/info" )
     VCSNAME=$( awk '/^[V]cs-[Tt]ype:/  {print $2}' "$EPKGDIR/info" )
-    ARGS=$(    awk '/^[Vc]cs-[Uu]rl:/  {print $2}' "$EPKGDIR/info" )
+    URL=$(     awk '/^[Vc]cs-[Uu]rl:/  {print $2}' "$EPKGDIR/info" )
 
-    args=$(    awk '/^[Vv]cs-[Aa]rgs:/ {sub("Vcs-Args:",""); print }' \
+    ARGS=$(    awk '/^[Vv]cs-[Aa]rgs:/ {sub("Vcs-Args:",""); print }' \
                "$EPKGDIR/info" )
 }
 
@@ -121,20 +121,6 @@ UpdateLispFiles ()
     Run tar --directory "$EPKGDIR/.." -xvf -
 }
 
-CVS ()
-{
-    url=$@
-
-    if [ ! -d "$VCSDIR" ]; then
-	echo "# When asked, Press ENTER at login password..."
-	Run cvs -d "$URL" login
-	Run cvs -d "$URL" co -d "$VCSDIR" $ARGS
-
-    else
-	( Run cd "$VCSDIR" && Run cvs update -d -I\! )
-    fi
-}
-
 GitLog ()
 {
     Run git log --max-count=1 --date=short --pretty='format:%h %ci %s%n' ||
@@ -161,6 +147,20 @@ Vcs ()
 	( cd "$VCSDIR" && Revno )
     else
 	( Run cd "$VCSDIR" && Run $VCSNAME pull && Revno )
+    fi
+}
+
+CVS ()
+{
+    url="$1"
+
+    if [ -d "$VCSDIR" ]; then
+	echo "# When asked, Press ENTER at login password..."
+	Run cvs -d "$url" login
+	Run cvs -d "$url" co -d "$VCSDIR" $ARGS
+
+    else
+	( Run cd "$VCSDIR" && Run cvs update -d -I\! )
     fi
 }
 
@@ -199,6 +199,7 @@ Main ()
 
 	[a-z]*)
 	    Run cd "$EPKGDIR"
+
 	    if [ "$VCSNAME" = "cvs" ]; then
 		CVS "$URL"
 	    else
