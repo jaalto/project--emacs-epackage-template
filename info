@@ -5,8 +5,9 @@ Depends: emacs (>= 22)
 Status: core-emacs[-NN.N] unmaintained broken unsafe stable unstable experimental
 Compat:
 Maintainer:
-Email:
 Bugs:
+Upstream:
+Upstream-Bugs:
 Vcs-Type:
 Vcs-Url:
 Vcs-Args:
