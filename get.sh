@@ -21,10 +21,10 @@
 #
 #   Depends
 #
-#	Always:
+#	Required
 #	- POSIX Shell
 #
-#	Depending on transport (Vcs-Type field in "info" file):
+#	Depending on used transport (Vcs-Type field in file "info"):
 #	- wget, git, hg, bzr, cvs, svn
 
 set -e
@@ -74,12 +74,12 @@ Initialize ()
 {
     # Define global variables
 
-    PKG=$(     awk '/^[Pp]ackage:/     {print $2}' "$EPKGDIR/info" )
-    VCSNAME=$( awk '/^[V]cs-[Tt]ype:/  {print $2}' "$EPKGDIR/info" )
-    URL=$(     awk '/^[Vc]cs-[Uu]rl:/  {print $2}' "$EPKGDIR/info" )
+    PKG=$(awk '/^[Pp]ackage:/  {print $2}' "$EPKGDIR/info" )
+    VCSNAME=$(awk '/^[V]cs-[Tt]ype:/  {print $2}' "$EPKGDIR/info" )
+    URL=$(awk '/^[Vc]cs-[Uu]rl:/  {print $2}' "$EPKGDIR/info" )
 
-    ARGS=$(    awk '/^[Vv]cs-[Aa]rgs:/ {sub("Vcs-Args:",""); print }' \
-               "$EPKGDIR/info" )
+    ARGS=$(awk '/^[Vv]cs-[Aa]rgs:/ {sub("Vcs-Args:",""); print }' \
+           "$EPKGDIR/info" )
 }
 
 Warn ()
@@ -129,7 +129,7 @@ GitLog ()
 
 Revno ()
 {
-    # All other display revision on "pull"
+    # All other VCS's will display revision during "pull"
 
     case "$VCSNAME" in
 	git)
@@ -143,10 +143,10 @@ Revno ()
 Vcs ()
 {
     if [ ! -d "$VCSDIR" ]; then
-	Run $VCSNAME clone "$URL" "$VCSDIR"
+	Run "$VCSNAME" clone "$URL" "$VCSDIR"
 	( cd "$VCSDIR" && Revno )
     else
-	( Run cd "$VCSDIR" && Run $VCSNAME pull && Revno )
+	( Run cd "$VCSDIR" && Run "$VCSNAME" pull && Revno )
     fi
 }
 
@@ -155,12 +155,16 @@ CVS ()
     url="$1"
 
     if [ -d "$VCSDIR" ]; then
-	echo "# When asked, Press ENTER at login password..."
+	echo "# For asked password, possibly press RETURN..."
 	Run cvs -d "$url" login
 	Run cvs -d "$url" co -d "$VCSDIR" $ARGS
 
     else
-	( Run cd "$VCSDIR" && Run cvs update -d -I\! )
+	# -f = Do not read ~/.cvsrc
+	# -d = Create missing directories
+	# -I = Do not use ~/.cvsignore (show all files)
+
+	( Run cd "$VCSDIR" && Run cvs -f update -d -I\! )
     fi
 }
 
@@ -207,7 +211,7 @@ Main ()
 	    fi
 	    ;;
 
-	*)  Warn "[WARN] Unknown Vcs-Type: $VCSNAME Vcs-Url: $URL"
+	*)  Warn "[WARN] Unknown 'Vcs-Type: $VCSNAME' 'Vcs-Url: $URL'"
 	    return 1
 	    ;;
     esac
