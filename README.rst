@@ -6,17 +6,18 @@ Description
 ===========
 
 This directory contains template files for the Emacs packaging system
-called "Epackage" or "Distributed Emacs Lisp Package System (DELPS).
-The packages use Git Version Control System (DVCS) containers for
-distribution of the original extension code plus a subdirectory named
-``epackage/``. These epackage repositories, containers, can reside
-anywhere publicly available. Their location is recorded in a separate
-**yellow pages** to make them available for users. The person who wraps
-Emacs extensions into containers is called epackage *maintainer*. The
-person who is he author of the extension is called *upstream*. These
-two can be the same or two separate people.
+called "Distributed Emacs Lisp Package System (DELPS), or shortly
+"Epackage". The packages in DELPS format use Git Version Control
+System (DVCS) containers for distribution of the original extension
+code plus a subdirectory named ``epackage/``. These Git repositories,
+containers, can reside anywhere publicly available. The repository
+locations are recorded in a separate **yellow pages** which is used as
+a master list to available epackages. The person who wraps Emacs
+extensions into these Git containers is called epackage *maintainer*.
+The person who is he author of the original extension is called
+*upstream*. These two can be the same or separate persons.
 
-Template files available here for maintainers include:
+Template files available here for maintainers to include:
 
 * ``get-http.sh``     - Simple download script (obsolete)
 * ``get.sh``          - Generic download script that reads "info" file
@@ -28,21 +29,18 @@ In a nutshell, the epackage has the format::
     | *.el
     | <and any other upstream files, directories>
     |
-    +- .git/                    Version control branches: master + upstream
+    +- .git/                    [Version control branches: master + upstream]
     |
-    +-- epackage/
+    +-- epackage/		[Only the most important files listed]
         info                    required: The package control file
         PACKAGE-0loaddefs.el    optional: extracted ###autoload statements
         PACKAGE-autoloads.el    optional: manually written autoload statements (raw)
-        PACKAGE-compile.el      optional: Code to byte compile extension
-        PACKAGE-examples.el     optional: Custmization examples
         PACKAGE-install.el      required: Code to make extension available
-        PACKAGE-uninstall.el    optional: Code to remove extension
         PACKAGE-xactivate.el    optional: Code to activate extension
 
-*NOTE:* This document is just a quick reference. The gory details of
+*NOTE:* This document is just a quick reference. The full details of
 epackage format and description of all the files can be found from the
-manual (see REFERENCES at the bottom).
+manual. See REFERENCES at the bottom.
 
 The Epackage Primer
 ===================
@@ -92,26 +90,25 @@ Making an epackage
 
     $EDITOR epackage/info
 
-9. Last, a little hard part. You have to write at least two files that will be used for installation: one of the *autoload* files and the *install* file. Third file, xactivate, is optional but recommended. Refer to <http://www.nongnu.org/emacs-epackage/manual>.::
+9. Last, write at least two files that will be used for installation. One is the *autoload* file and the other is the *install* file. You can also add optional *xactivate* file. Refer to <http://www.nongnu.org/emacs-epackage/manual>.::
 
-    # Generated automatically from ##autoload tags.
-    #
-    # Use some utility. E.g. From "Emacs Tiny Tools" distribution tinylisp.el
-    # provides M-x tinylisp-autoload-quick-build-interactive-from-file
+    # Generated from ##autoload tags with epackage.el command
+    # M-x epackage-devel-generate-loaddefs
 
     epackage/PACKAGE-0loaddefs.el
 
-    # Alternatively, write this by hand: '(autoload ....)' statements.
-    # Only needed if the code didn't have ###autoload definitions.
+    # If the original extension did not have ##autoload tags, these must
+    # be extracted manually. Write '(autoload ....)' statements by hand, or
+    # call epackage.el command M-x epackage-devel-generate-autoloads
 
     epackage/PACKAGE-autoloads.el
 
-    # By hand: Figure out by reading the commentary how the extension
-    # is activated for immediate use. Add autoloads and Write Emacs
-    # lisp code. Try not to load any other packages with 'require' (slows
-    # emacs startup).
+    # [optional] Figure out by reading the commentary how the
+    # extension is activated for immediate use. Add autoloads and
+    # write Emacs lisp code. Try not to load any other packages here
+    # with 'require' (slows emacs startup).
 
-    epackage/PACKAGE-install.el
+    epackage/PACKAGE-xinstall.el
 
 #. Commit files to *master* branch::
 
@@ -121,7 +118,7 @@ Making an epackage
 
 #. Upload the Git repository somewhere publicly available, e.g. to <http://github.com>.
 
-   git remote add github <your URL>	# See "Addnemum" at bottom
+   git remote add github <your URL>	# See section "Addnemum" at the end
    git push github upstream
    git push github master
 
@@ -155,7 +152,8 @@ made available, make an update.
 
 2. Download new upstream release::
 
-    sh epackage/get.sh
+   cd epackage/
+   sh get.sh
 
 3. Switch to *upstream* branch::
 
@@ -208,7 +206,6 @@ branch and merge those to *master*::
                  \    \    \/ (merge)
     master:       o -- o - o =>
 
-
 References
 ==========
 
@@ -219,7 +216,6 @@ References
 * Epackage template files: https://github.com/jaalto/project--emacs-epackage-template
 * Epackage Yellow Pages: https://github.com/jaalto/project--emacs-epackage-sources-list
 * Emacs Tiny Tools: http://freshmeat.net/projects/emacs-tiny-tools
-
 
 Addenum
 =======
@@ -271,7 +267,7 @@ That should be all. For more information about Git, see:
 Copyright and License
 =====================
 
-Copyright (C) 2010 Jari Aalto <jari.aalto@cante.net>
+Copyright (C) 2010-2011 Jari Aalto <jari.aalto@cante.net>
 
 The material is free; you can redistribute and/or modify it under
 the terms of GNU General Public license either version 2 of the
