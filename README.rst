@@ -152,8 +152,8 @@ made available, make an update.
 
 2. Download new upstream release::
 
-   cd epackage/
-   sh get.sh
+    cd epackage/
+    sh get.sh
 
 3. Switch to *upstream* branch::
 
