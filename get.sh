@@ -199,6 +199,7 @@ Main ()
 		 --timestamping \
 		"$URL" \
 		"$ARGS"
+	    return $?
 	    ;;
 
 	[a-z]*)
