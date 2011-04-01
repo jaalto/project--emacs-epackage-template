@@ -116,9 +116,9 @@ Making an epackage
     git add epackage/
     git commit -m "epackage/: new"
 
-#. Upload the Git repository somewhere publicly available, e.g. to <http://github.com>.
+#. Upload the Git repository somewhere publicly available, e.g. to <http://github.com>::
 
-    git remote add github <your URL>	# See section "Addnemum" at the end
+    git remote add github <your URL>	# See section "Addenum" at the end
     git push github upstream
     git push github master
 
