@@ -90,7 +90,7 @@ Making an epackage
 
     $EDITOR epackage/info
 
-9. Last, write at least two files that will be used for installation. One is the *autoload* file and the other is the *install* file. You can also add optional *xactivate* file. Refer to <http://www.nongnu.org/emacs-epackage/manual>.::
+9. Last, write at least two files that will be used for installation. One is the *autoload* file and the other is the *install* file. You can also add optional *xactivate* file. Refer to <http://www.nongnu.org/emacs-epackage/manual>::
 
     # Generated from ##autoload tags with epackage.el command
     # M-x epackage-devel-generate-loaddefs
@@ -118,9 +118,9 @@ Making an epackage
 
 #. Upload the Git repository somewhere publicly available, e.g. to <http://github.com>.
 
-   git remote add github <your URL>	# See section "Addnemum" at the end
-   git push github upstream
-   git push github master
+    git remote add github <your URL>	# See section "Addnemum" at the end
+    git push github upstream
+    git push github master
 
 #. Add information about this new epackage to the **yellow pages** so that others know find it. The information needed is::
 
@@ -175,7 +175,7 @@ made available, make an update.
 
     git merge upstream
 
-7. Push new epackage available:
+7. Push new epackage available::
 
     git push
 
