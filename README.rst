@@ -23,7 +23,7 @@ Template files available here for maintainers to include:
 * ``get.sh``          - Generic download script that reads "info" file
 * ``info``            - The Epackage information file
 
-In a nutshell, the epackage has the format::
+In a nutshell, the epackage has the format ::
 
     <Emacs extension root dir>
     | *.el
@@ -48,21 +48,21 @@ The Epackage Primer
 Making an epackage
 ------------------
 
-1. Prepare an empty directory. If extension more than one file, stay at extension's root directory ans skip (3)::
+1. Prepare an empty directory. If extension more than one file, stay at extension's root directory ans skip (3) ::
 
      mkdir extension
      cd extension
 
-2. Initialize a Git repository. Start at *upstream* branch directly::
+2. Initialize a Git repository. Start at *upstream* branch directly ::
 
      git init
      git branch -m upstream
 
-3. Download Emacs extension code::
+3. Download Emacs extension code ::
 
     wget http://example.com/project/some-mode.el
 
-4. Determine version information and import code to Git repository. Use clear commit message::
+4. Determine version information and import code to Git repository. Use clear commit message ::
 
     $ egrep 'version|[0-9][0-9][0-9][0-9]' *.el
 
@@ -73,20 +73,20 @@ Making an epackage
     $ git add *.el
     $ git commit -m "import upstream 1.12 (2010-05-10) from example.com"
 
-5. Mark the commit with a tag that has format ``upstream/<UPSTREAM-DATE>[--<UPSTREAM-VERSION>]``. In case information about the release date is not available, use year only format YYYY-01-01. Leave out the ``--<UPSTREAM-VERSION>]`` if there is no information about release version. An exmaple::
+5. Mark the commit with a tag that has format ``upstream/<UPSTREAM-DATE>[--<UPSTREAM-VERSION>]``. In case information about the release date is not available, use year only format YYYY-01-01. Leave out the ``--<UPSTREAM-VERSION>]`` if there is no information about release version. An exmaple ::
 
     git tag upstream/2010-05-10--1.12
 
-6. Create *master* branch on top of *upstream* branch::
+6. Create *master* branch on top of *upstream* branch ::
 
     git branch -b master upstream
 
-7. Copy the template files (which are available here, in this repo you're reading)::
+7. Copy the template files (which are available here, in this repo you're reading) ::
 
     mkdir epackage/
     cp <path>/{info,get.sh} epackage/
 
-8. Edit the information file. You need to search http://emacswiki.org, Google and study the extension's comments to fill in the details::
+8. Edit the information file. You need to search http://emacswiki.org, Google and study the extension's comments to fill in the details ::
 
     $EDITOR epackage/info
 
@@ -110,19 +110,19 @@ Making an epackage
 
     epackage/PACKAGE-xinstall.el
 
-#. Commit files to *master* branch::
+#. Commit files to *master* branch ::
 
     git status			# Verify that you're in branch "master"
     git add epackage/
     git commit -m "epackage/: new"
 
-#. Upload the Git repository somewhere publicly available, e.g. to <http://github.com>::
+#. Upload the Git repository somewhere publicly available, e.g. to <http://github.com> ::
 
     git remote add github <your URL>	# See section "Addenum" at the end
     git push github upstream
     git push github master
 
-#. Add information about this new epackage to the **yellow pages** so that others know find it. The information needed is::
+#. Add information about this new epackage to the **yellow pages** so that others know find it. The information needed is ::
 
     PACKAGE-NAME (from epackage/info::Package field)
     GIT-URL      (the public git repository URL)
@@ -136,7 +136,7 @@ See these page:
 - http://help.github.com/pull-requests/ (Sending pull requests)
 - https://github.com/blog/270-the-fork-queue (Keeping fork in synch)
 
-After your URL has been merged, update your copy of yellow pages::
+After your URL has been merged, update your copy of yellow pages ::
 
     git pull
 
@@ -146,43 +146,43 @@ Keeping epackage up to date
 Periodically follow new releases of upstream code. Once a new release is
 made available, make an update.
 
-1. Verify that the repository is in a clean state. Commit any changes::
+1. Verify that the repository is in a clean state. Commit any changes ::
 
     git status
 
-2. Download new upstream release::
+2. Download new upstream release ::
 
     cd epackage/
     sh get.sh
 
-3. Switch to *upstream* branch::
+3. Switch to *upstream* branch ::
 
     git checkout upstream
 
-4. Examine version and release date of upstream code. Commit and tag::
+4. Examine version and release date of upstream code. Commit and tag ::
 
     git add <list of files>
     git commit -m "import upstream 1.13 (2010-06-10) from example.com"
     git tag  upstream/2010-06-10--1.13
 
-5. Switch back to *master* and update `epackage/` directory information if needed::
+5. Switch back to *master* and update `epackage/` directory information if needed ::
 
     git checkout master
     ... edit epackage/ and commit
     ... test that all works
 
-6. Merge upstream to your *master*::
+6. Merge upstream to your *master* ::
 
     git merge upstream
 
-7. Push new epackage available::
+7. Push new epackage available ::
 
     git push
 
 Epackage Git repository management
 ==================================
 
-At the beginning the Git repository tree looks like::
+At the beginning the Git repository tree looks like ::
 
                 1.12
     upstream:   o
@@ -190,7 +190,7 @@ At the beginning the Git repository tree looks like::
     master:       o (the epackage/)
 
 After updating to next upstream release (1.13), these two run in
-parallel. The *upstream* is periodically merged to *master* branch::
+parallel. The *upstream* is periodically merged to *master* branch ::
 
                 1.12 1.13
     upstream:   o -- o
@@ -198,7 +198,7 @@ parallel. The *upstream* is periodically merged to *master* branch::
     master:       o -- o -- =>
 
 If you may need to fix code, make all fixes in a separate *patches*
-branch and merge those to *master*::
+branch and merge those to *master* ::
 
     patches:           o - o
 		      /    |
@@ -244,7 +244,7 @@ How to set up project at Github
   repository**. In new page type in project name, say "xxx". Write down
   the ``git://`` repository URL.
 
-5. In shell prompt, type::
+5. In shell prompt, type ::
 
     cd ~/dir/xxx                        # Source code of project "xxx"
     git init                            # Initialize
