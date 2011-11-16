@@ -171,7 +171,7 @@ steps 1-3 are as follows:
 
 After that proceed as usual by tagging the release and adding
 ``epackage/`` directory as outlined previously. To follow upstream
-development, from time to time pull, merge and rebase:
+development, from time to time pull, merge and rebase ::
 
     git fetch upstream
 
@@ -224,7 +224,6 @@ made available, make an update.
 7. Push updated epackage for others to download ::
 
     git push
-
 
 Epackage Git repository management
 ==================================
