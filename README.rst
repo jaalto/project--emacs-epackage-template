@@ -50,13 +50,13 @@ Making an epackage
 
 1. Prepare an empty directory. If extension more than one file, stay at extension's root directory ans skip (3) ::
 
-     mkdir extension
-     cd extension
+    mkdir extension
+    cd extension
 
 2. Initialize a Git repository. Start at *upstream* branch directly ::
 
-     git init
-     git branch -m upstream
+    git init
+    git branch -m upstream
 
 3. Download Emacs extension code ::
 
@@ -122,7 +122,7 @@ Making an epackage
     git push github upstream
     git push github master
 
-#. Add information about this new epackage to the **yellow pages** so that others know find it. The information needed is ::
+#. Add information about this new epackage to the **yellow pages** so that others know how to find it. The information needed is ::
 
     PACKAGE-NAME (from epackage/info::Package field)
     GIT-URL      (the public git repository URL)
@@ -139,6 +139,51 @@ See these page:
 After your URL has been merged, update your copy of yellow pages ::
 
     git pull
+
+When upstream uses Git repository too
+-------------------------------------
+
+It is possible that the upstream is also using Git. In that case, the
+steps 1-3 are as follows:
+
+1. Prepare an empty directory ::
+
+    mkdir extension
+    cd extension
+
+2. Initialize a Git repository. Start at *upstream* branch directly ::
+
+    git init
+    git branch -m upstream
+
+    # To init branch: Make an empty file, commit
+    touch .ignore
+    git add .ignore
+    git commit -m "Add dummy file to start the branch"
+
+3. Instead of downloading, add remote to track upstream code, pull, and merge ::
+
+    git add remote upstream git://example.com/some-emacs-project
+    git fetch upstream
+    git checkout --track -b upstream-master upstream/master
+    git checkout upstream
+    git merge upstream-master
+
+After that proceed as usual by tagging the release and adding
+``epackage/`` directory as outlined previously. To follow upstream
+development, from time to time pull, merge and rebase:
+
+    git fetch upstream
+
+    git checkout upstream-master
+    git pull
+
+    git checkout upstream
+    git merge upstream-master
+    git tag upstream/$(date "+%Y-%m-%d)--git-$(git rev-parse HEAD | cut -c1-7)
+
+    git checkout master
+    git rebase upstream-master
 
 Keeping epackage up to date
 ---------------------------
@@ -165,19 +210,21 @@ made available, make an update.
     git commit -m "import upstream 1.13 (2010-06-10) from example.com"
     git tag  upstream/2010-06-10--1.13
 
-5. Switch back to *master* and update `epackage/` directory information if needed ::
+5. Switch back to *master* and merge latest upstream ::
 
     git checkout master
-    ... edit epackage/ and commit
-    ... test that all works
-
-6. Merge upstream to your *master* ::
-
     git merge upstream
 
-7. Push new epackage available ::
+5. If needed, pdate `epackage/` directory information ::
+
+    ... edit epackage/* files
+    ... commit
+    ... test that all works
+
+7. Push updated epackage for others to download ::
 
     git push
+
 
 Epackage Git repository management
 ==================================
@@ -267,7 +314,7 @@ That should be all. For more information about Git, see:
 Copyright and License
 =====================
 
-Copyright (C) 2010-2011 Jari Aalto <jari.aalto@cante.net>
+Copyright (C) 2010-2012 Jari Aalto <jari.aalto@cante.net>
 
 The material is free; you can redistribute and/or modify it under
 the terms of GNU General Public license either version 2 of the
