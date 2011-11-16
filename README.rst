@@ -183,7 +183,7 @@ development, from time to time pull, merge and rebase ::
     git tag upstream/$(date "+%Y-%m-%d)--git-$(git rev-parse HEAD | cut -c1-7)
 
     git checkout master
-    git rebase upstream-master
+    git rebase upstream
 
 Keeping epackage up to date
 ---------------------------
