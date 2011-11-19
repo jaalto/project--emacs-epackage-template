@@ -56,7 +56,7 @@ Making an epackage
 2. Initialize a Git repository. Start at *upstream* branch directly ::
 
     git init
-    git branch -m upstream
+    git symbolic-ref HEAD refs/heads/upstream
 
 3. Download Emacs extension code ::
 
@@ -154,7 +154,7 @@ steps 1-3 are as follows:
 2. Initialize a Git repository. Start at *upstream* branch directly ::
 
     git init
-    git branch -m upstream
+    git symbolic-ref HEAD refs/heads/upstream
 
     # To init branch: Make an empty file, commit
     touch .ignore
