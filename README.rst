@@ -188,8 +188,8 @@ development, from time to time pull, merge and rebase ::
 Keeping epackage up to date
 ---------------------------
 
-Periodically follow new releases of upstream code. Once a new release is
-made available, make an update.
+Periodically follow new releases of upstream code. Once upstream
+releases new code, make an update.
 
 1. Verify that the repository is in a clean state. Commit any changes ::
 
@@ -206,9 +206,9 @@ made available, make an update.
 
 4. Examine version and release date of upstream code. Commit and tag ::
 
-    git add <list of files>
+    git add -A  # Import all changes since.
     git commit -m "import upstream 1.13 (2010-06-10) from example.com"
-    git tag  upstream/2010-06-10--1.13
+    git tag upstream/2010-06-10--1.13
 
 5. Switch back to *master* and merge latest upstream ::
 
