@@ -224,6 +224,7 @@ releases new code, make an update.
 7. Push updated epackage for others to download ::
 
     git push github upstream master
+    git push github --tags
 
 Epackage Git repository management
 ==================================
