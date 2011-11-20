@@ -215,7 +215,7 @@ releases new code, make an update.
     git checkout master
     git merge upstream
 
-5. If needed, pdate `epackage/` directory information ::
+6. If needed, update `epackage/` directory information ::
 
     ... edit epackage/* files
     ... commit
