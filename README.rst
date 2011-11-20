@@ -6,24 +6,24 @@ Description
 ===========
 
 This directory contains template files for the Emacs packaging system
-called "Distributed Emacs Lisp Package System (DELPS), or shortly
-"Epackage". The packages in DELPS format use Git Version Control
-System (DVCS) containers for distribution of the original extension
-code plus a subdirectory named ``epackage/``. These Git repositories,
-containers, can reside anywhere publicly available. The repository
-locations are recorded in a separate **yellow pages** which is used as
-a master list to available epackages. The person who wraps Emacs
-extensions into these Git containers is called epackage *maintainer*.
-The person who is he author of the original extension is called
-*upstream*. These two can be the same or separate persons.
+called "Distributed Emacs Lisp Package System (DELPS), or in short
+"Epackage". The package format use Git Distributed Version Control
+System (DVCS) containers for the original source code plus a separate
+``epackage/`` subdirectory. These Git repositories can reside anywhere
+publicly available. The repository locations are recorded in a public
+**yellow pages** file which is used as a master list to available
+Epackages. The person who wraps Emacs extension into these Git
+repositories is called Epackage *maintainer*. The person who is the
+author of the original Emacs extension developer is called *upstream*.
+These two can be the same or separate persons.
 
-Template files available here for maintainers to include:
+Template files available here for Epackage maintainers include:
 
 * ``get-http.sh``     - Simple download script (obsolete)
 * ``get.sh``          - Generic download script that reads "info" file
 * ``info``            - The Epackage information file
 
-In a nutshell, the epackage has the format ::
+In a nutshell, Epackages have the following format ::
 
     <Emacs extension root dir>
     | *.el
@@ -39,7 +39,7 @@ In a nutshell, the epackage has the format ::
         PACKAGE-xactivate.el    optional: Code to activate extension
 
 *NOTE:* This document is just a quick reference. The full details of
-epackage format and description of all the files can be found from the
+concept description of all the files in deteail can be found from the
 manual. See REFERENCES at the bottom.
 
 The Epackage Primer
