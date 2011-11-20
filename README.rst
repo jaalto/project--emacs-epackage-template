@@ -223,7 +223,7 @@ releases new code, make an update.
 
 7. Push updated epackage for others to download ::
 
-    git push
+    git push github upstream master
 
 Epackage Git repository management
 ==================================
