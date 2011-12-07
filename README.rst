@@ -163,7 +163,7 @@ steps 1-3 are as follows:
 
 3. Instead of downloading, add remote to track upstream code, pull, and merge ::
 
-    git add remote upstream git://example.com/some-emacs-project
+    git remote add upstream git://example.com/some-emacs-project
     git fetch upstream
     git checkout --track -b upstream-master upstream/master
     git checkout upstream
@@ -180,7 +180,7 @@ development, from time to time pull, merge and rebase ::
 
     git checkout upstream
     git merge upstream-master
-    git tag upstream/$(date "+%Y-%m-%d)--git-$(git rev-parse HEAD | cut -c1-7)
+    git tag upstream/$(date "+%Y-%m-%d")--git-$(git rev-parse HEAD | cut -c1-7)
 
     git checkout master
     git rebase upstream
