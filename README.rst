@@ -40,7 +40,15 @@ In a nutshell, Epackages have the following format ::
 
 *NOTE:* This document is just a quick reference. The full details of
 concept description of all the files in deteail can be found from the
-manual. See REFERENCES at the bottom.
+manual:
+
+* DELPS at Emacs Wiki: http://www.emacswiki.org/emacs/DELPS
+* Epackage main project hub: http://freshmeat.net/projects/emacs-epackage
+* Epackage extension for Emacs: http://freshmeat.net/project/epackage
+* Epackage manual: http://www.nongnu.org/emacs-epackage/manual
+* Epackage template files: https://github.com/jaalto/project--emacs-epackage-template
+* Epackage Yellow Pages: https://github.com/jaalto/project--emacs-epackage-sources-list
+* Emacs Tiny Tools: http://freshmeat.net/projects/emacs-tiny-tools
 
 The Epackage Primer
 ===================
@@ -252,17 +260,6 @@ branch and merge those to *master* ::
     upstream:   o -- o     |
                  \    \    \/ (merge)
     master:       o -- o - o =>
-
-References
-==========
-
-* DELPS at Emacs Wiki: http://www.emacswiki.org/emacs/DELPS
-* Epackage main project hub: http://freshmeat.net/projects/emacs-epackage
-* Epackage extension for Emacs: http://freshmeat.net/project/epackage
-* Epackage manual: http://www.nongnu.org/emacs-epackage/manual
-* Epackage template files: https://github.com/jaalto/project--emacs-epackage-template
-* Epackage Yellow Pages: https://github.com/jaalto/project--emacs-epackage-sources-list
-* Emacs Tiny Tools: http://freshmeat.net/projects/emacs-tiny-tools
 
 Addenum
 =======
