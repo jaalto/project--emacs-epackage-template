@@ -179,7 +179,7 @@ steps 1-3 are as follows:
 
 After that proceed as usual by tagging the release and adding
 ``epackage/`` directory as outlined previously. To follow upstream
-development, from time to time pull, merge and rebase ::
+development, from time to time pull, merge ::
 
     git fetch upstream
 
@@ -191,7 +191,7 @@ development, from time to time pull, merge and rebase ::
     git tag upstream/$(date "+%Y-%m-%d")--git-$(git rev-parse HEAD | cut -c1-7)
 
     git checkout master
-    git rebase upstream
+    git merge upstream
 
 Keeping epackage up to date
 ---------------------------
