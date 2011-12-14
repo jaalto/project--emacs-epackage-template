@@ -114,9 +114,10 @@ UpdateLispFiles ()
     cd "$VCSDIR"
 
     Run tar -cf - \
-      $(find . -type d \( -name .$VCSNAME \) -prune  \
+      $(find . -type d \( -name .$VCSNAME -o -name .git \) -prune  \
 	-a ! -name .$VCSNAME \
-	-o \( -type f -a ! -name .${vcs}ignore \)
+	-a ! -name .git \
+	-o \( -type f -a ! -name .${vcs}ignore -a ! -name "*.elc" \)
        ) |
     Run tar --directory "$EPKGDIR/.." -xvf -
 }
@@ -129,7 +130,7 @@ GitLog ()
 
 Revno ()
 {
-    # All other VCS's will display revision during "pull"
+    # All other VCS's will display revision during "pull/update"
 
     case "$VCSNAME" in
 	git)
@@ -143,20 +144,26 @@ Revno ()
 Vcs ()
 {
     if [ ! -d "$VCSDIR" ]; then
-	cmd="clone"
-
-	if [ "$1" = "svn" ] ; then
-	    cmd="co"
-	fi
-
-	Run "$VCSNAME" $cmd "$URL" "$VCSDIR"
+	Run "$VCSNAME" clone "$URL" "$VCSDIR"
 	( cd "$VCSDIR" && Revno )
     else
 	( Run cd "$VCSDIR" && Run "$VCSNAME" pull && Revno )
     fi
 }
 
-CVS ()
+Svn ()
+{
+    url="$1"
+
+    if [ ! -d "$VCSDIR" ]; then
+	Run "$VCSNAME" co "$URL" "$VCSDIR"
+	( cd "$VCSDIR" && Revno )
+    else
+	( Run cd "$VCSDIR" && Run "$VCSNAME" update && Revno )
+    fi
+}
+
+Cvs ()
 {
     url="$1"
 
@@ -212,7 +219,9 @@ Main ()
 	    Run cd "$EPKGDIR"
 
 	    if [ "$VCSNAME" = "cvs" ]; then
-		CVS "$URL"
+		Cvs "$URL"
+	    elif [ "$VCSNAME" = "svn" ]; then
+		Svn "$URL"
 	    else
 		Vcs "$VCSNAME" "$URL"
 	    fi
