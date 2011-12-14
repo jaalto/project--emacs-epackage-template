@@ -116,7 +116,7 @@ Making an epackage
     # write Emacs lisp code. Try not to load any other packages here
     # with 'require' (slows emacs startup).
 
-    epackage/PACKAGE-xinstall.el
+    epackage/PACKAGE-install.el
 
 #. Commit files to *master* branch ::
 
