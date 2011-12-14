@@ -127,8 +127,8 @@ Making an epackage
 #. Upload the Git repository somewhere publicly available, e.g. to <http://github.com> ::
 
     git remote add github <your URL>	# See section "Addenum" at the end
-    git push github upstream
-    git push github master
+    git push github upstream master
+    git push github --tags
 
 #. Add information about this new epackage to the **yellow pages** so that others know how to find it. The information needed is ::
 
