@@ -287,7 +287,7 @@ How to set up project at Github
   **text:GitHub**. In new page, scroll a little past icons at top, to
   the right click **button:New repository**. In new page type in
   project details. After finishing, Write down the shown``git://``
-  repository URL.
+  repository URL. ::
 
        Project Name : myproject
        Description  : <fill in>
