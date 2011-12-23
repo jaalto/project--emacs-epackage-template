@@ -269,7 +269,7 @@ How to set up project at Github
 
 1. Generate the SSH keys, if you don't have those already
 
-- Generating SSH keys (Linux) http://help.github.com/linux-key-setup/
+- See, generating SSH keys for Linux http://help.github.com/linux-key-setup/
 
 2. Register an account
 
@@ -283,20 +283,28 @@ How to set up project at Github
 
 4. Create a project, say "xxx"
 
-- [back to main page] ``https://github.com/<login>``. At top click
-  **button:dashboard**. In new page to the right click **button:New
-  repository**. In new page type in project name, say "xxx". Write down
-  the ``git://`` repository URL.
+- [back to main page] ``https://github.com/<login>``. At top left, click
+  **text:GitHub**. In new page, scroll a little past icons at top, to
+  the right click **button:New repository**. In new page type in
+  project details. After finishing, Write down the shown``git://``
+  repository URL.
+
+       Project Name : myproject
+       Description  : <fill in>
+       homepage     : <fill in>
+       [x] anyone can access to this repository
+
+       [lower right] Press button "create repository"
 
 5. In shell prompt, type ::
 
-    cd ~/dir/xxx                        # Source code of project "xxx"
+    cd ~/dir/myproject                  # Source code
     git init                            # Initialize
     git add .                           # add all files
     git commit -m "Initial import"      # Put into version control
 
     # Let Git know about Github
-    git remote add github git@github.com:<your github login>/xxx.git
+    git remote add github git@github.com:<your github login>/myproject.git
 
     # Publish "master" branch to Github
     git push github master
