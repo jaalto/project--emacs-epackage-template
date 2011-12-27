@@ -31,6 +31,47 @@
 #       Management <http://www.emacswiki.org/emacs/DELPS>. Updates to this
 #       file are available at
 #       <https://github.com/jaalto/project--emacs-epackage-template>.
+#
+#	In simplest case, the steps to start creating epackage:
+#
+#	1. You have epackage.el downloaded and stored in ~/.emacs.d
+#	2. You have the URL to lisp file you want to package (EmacsWiki.org)
+#	3. Make empty directory, name does not matter. Cd into it.
+#	4. Import code from URL
+#
+#	    Egit <URL>
+#
+#	    Follow the instructions to commit and tag accordingly.
+#	    If you don't see obvious version number, you must open the *.el
+#	    in $EDITOR and examine what might be the last modified date
+#	    and version number.
+#
+#	    After this step, raw upstream code is in Git "upstream" branch.
+#
+#	5.  Create "master" branch (as instructed by "Egit" output above):
+#
+#	    git git checkout -b master
+#
+#	6.  Generate template files:
+#
+#	    Edit PACKAGE-NAME ./*.el
+#
+#	7.  Edit the generated files in epackage/ dir and commit.
+#
+#	    cd epackage/
+#	    .. edit files
+#	    .. remove files if not relevant (*-compile.el etc.).
+#	    git add .
+#	    git commit -m "epackage/: new"
+#
+#	8.  Create repository at Github, and push
+#
+#	    git remote add github <your repository URL>
+#	    git push github upstream master
+#	    git push github --tags
+#
+#	9   Last, contact Sources List maintainer to have your epackage
+#	    URL included.
 
 Ever ()
 {
