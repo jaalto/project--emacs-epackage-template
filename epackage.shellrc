@@ -1,0 +1,200 @@
+#!/bin/sh
+#
+#   Copyright
+#
+#       Copyright (C) 2011-2012 Jari Aalto <jari.aalto@cante.net>
+#
+#   License
+#
+#       This program is free software; you can redistribute it and/or modify
+#       it under the terms of the GNU General Public License as published by
+#       the Free Software Foundation; either version 2 of the License, or
+#       (at your option) any later version.
+#
+#       This program is distributed in the hope that it will be useful,
+#       but WITHOUT ANY WARRANTY; without even the implied warranty of
+#       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#       GNU General Public License for more details.
+#
+#       You should have received a copy of the GNU General Public License
+#       along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+#   Install
+#
+#	Source this file:
+#
+#	    . <this file's name>
+#
+#   Decription
+#
+#       Shell command line functions for Distributed Emacs Lisp Package
+#       Management <http://www.emacswiki.org/emacs/DELPS>. Updates to this
+#       file are available at
+#       <https://github.com/jaalto/project--emacs-epackage-template>.
+#
+
+Ever ()
+{
+    local help
+    help="\
+SYNOPSIS
+    Ever
+
+DESCRIPTION
+    Epackage version information
+
+    Grep lines looking like REQUIRE, DATE, EMAIL, URL, VERSION from all
+    Emacs Lisp files recursively from current directory."
+
+    case "$1" in
+	-h | --help )
+	    echo $help
+	    return 0
+	    ;;
+    esac
+
+    find -type f -name "*.el" |
+    xargs \
+    egrep -i '\<v[0-9]+\.|version|[a-z0-9]@[a-z]|http:/|git:/|\(require |\<20[0-1][0-9]' |
+    egrep -iv 'emacs-(major-|minor-)?version|%s|(lat|eith)er version|version( of|\))|\(version' |
+    egrep -iv '; *\(require|\"\(require|[\[\"]http|http-version|version of|www.gnu.org' |
+    egrep -iv 'mime-version'
+}
+
+Egit ()
+{
+    local url
+    url=$1
+
+    local help
+    help="\
+SYNOPSIS
+    Egit [options] [URL]
+
+DESCRIPTION
+    Epackage git import.
+
+    Import source code (Emacs Lisp *.el) in currect directory into epackage Git
+    repository. This command is only the start as it only does the initial
+    import to \"upstream\" branch. From there the steps needed are:
+
+    - commit (to upstream branch)
+    - tag the upstream branch
+    - create "master" branch off upstream
+    - populate epackage/ directory.
+
+OPTIONS
+    -t, --test  Run in test mode. Do now actually execute commands.
+
+EXAMPLES
+    You have a direct URL to the Emacs Lisp file. Import it:
+
+      Egit http://www.emacswiki.org/emacs/download/<filename>.el
+
+    Upstream uses Git repository for Emacs Lisp source code. Import it:
+
+      Egit git://github.com/USER/PROJECT.git
+
+    The sources are in the currect directory; unpacked. Import them:
+
+   Egit
+
+STANDARDS
+   Epackage Git management quick guide
+   <https://github.com/jaalto/project--emacs-epackage-template>."
+
+    unset test
+
+    case "$1" in
+	-h | --help )
+	    echo $help
+	    return 0
+	    ;;
+	-t | --test)
+	    test="test"
+	    ;;
+    esac
+
+    if [ -d .git ]; then
+        echo "[ERROR] .git exists" >&2
+        return 1
+    fi
+
+    local empty
+    empty="empty"
+
+    local files
+
+    if find . -type f | grep  '.' ; then
+        empty=""
+    fi
+
+    local giturl
+
+    case "$url" in
+	http:/* )
+            wget "$url" || return $?
+	    ;;
+	git://* | *.git)
+	    giturl="$url"
+            url=""
+	    ;;
+	*[a-z]*)
+            echo "[ERROR] Not a valid URL: $url" >&2
+            return 1
+	    ;;
+    esac
+
+    local date
+    date=$(date "+%Y-%m-%d")
+
+    if [ "$giturl" ]; then
+        [ "$empty" ] || read -p "[WARN] Directory not empty. Press (C-c) to abort" >&2
+
+        ${test+echo} git init
+        ${test+echo} git symbolic-ref HEAD refs/heads/upstream
+
+        rm -f .gitignore
+        ${test+echo} touch .ignore
+        ${test+echo} git add .ignore
+        ${test+echo} git commit -m "add .ignore"
+
+        ${test+echo} git remote add upstream $giturl
+        ${test+echo} git fetch upstream
+        ${test+echo} git checkout --track -b upstream-master upstream/master
+
+        ${test+echo} git checkout upstream
+        ${test+echo} git merge upstream-master
+
+        ${test+echo} git rm .ignore
+        ${test+echo} git commit -m "rm .ignore"
+
+        ${test+echo} git checkout -b master upstream
+
+        ${test+echo} git checkout upstream
+
+	Ever
+
+	echo "# Examine dates, version above and fill correct information below."
+
+        echo upstream/$date--git-$(git rev-parse HEAD | cut -c1-7)
+
+    else
+        ${test+echo} git init
+        ${test+echo} git symbolic-ref HEAD refs/heads/upstream
+
+        ${test+echo} git add -A
+
+	Ever
+
+	echo "# Examine dates, version above and fill correct information below."
+
+        echo "git commit -m \"Import upstream $date from $url\""
+        echo "git tag upstream/$date--VERSION"
+        echo "git git checkout -b master"
+    fi
+
+    unset test
+}
+
+# End of file
