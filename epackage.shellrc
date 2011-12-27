@@ -47,7 +47,7 @@ DESCRIPTION
 
     case "$1" in
 	-h | --help )
-	    echo $help
+	    echo "$help"
 	    return 0
 	    ;;
     esac
@@ -106,7 +106,7 @@ STANDARDS
 
     case "$1" in
 	-h | --help )
-	    echo $help
+	    echo "$help"
 	    return 0
 	    ;;
 	-t | --test)
@@ -148,6 +148,7 @@ STANDARDS
     date=$(date "+%Y-%m-%d")
 
     if [ "$giturl" ]; then
+
         [ "$empty" ] || read -p "[WARN] Directory not empty. Press (C-c) to abort" >&2
 
         ${test+echo} git init
@@ -174,11 +175,12 @@ STANDARDS
 
 	Ever
 
-	echo "# Examine dates, version above and fill correct information below."
+	echo "# Examine dates, version and fill correct information below."
 
         echo upstream/$date--git-$(git rev-parse HEAD | cut -c1-7)
 
-    else
+    elif [ ! "$empty" ]; then
+
         ${test+echo} git init
         ${test+echo} git symbolic-ref HEAD refs/heads/upstream
 
@@ -186,11 +188,18 @@ STANDARDS
 
 	Ever
 
-	echo "# Examine dates, version above and fill correct information below."
+	echo "# Examine dates, version and fill correct information below."
 
         echo "git commit -m \"Import upstream $date from $url\""
         echo "git tag upstream/$date--VERSION"
         echo "git git checkout -b master"
+
+    else
+
+        read -p "[WARN] No files. Create upstream branch (C-c to abort)" >&2
+
+        ${test+echo} git init
+        ${test+echo} git symbolic-ref HEAD refs/heads/upstream
     fi
 
     unset test
