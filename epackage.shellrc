@@ -37,7 +37,7 @@
 #	1. You have epackage.el downloaded and stored in ~/.emacs.d
 #	2. You have the URL to lisp file you want to package (EmacsWiki.org)
 #	3. Make empty directory, name does not matter. Cd into it.
-#	4. Import code from URL
+#	4. Import code to Git repository from URL
 #
 #	    Egit <URL>
 #
