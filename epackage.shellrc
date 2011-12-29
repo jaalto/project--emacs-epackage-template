@@ -55,7 +55,7 @@
 #
 #	6.  Generate template files:
 #
-#	    Edir <PACKAGE-NAME> ./*.el
+#	    Edir <PACKAGE-NAME> <FILE>.el
 #
 #	7.  Edit the generated files in epackage/ dir and commit.
 #
