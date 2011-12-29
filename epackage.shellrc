@@ -21,58 +21,67 @@
 #
 #   Install
 #
-#	Source this file:
+#       Source this file on command line or from POSIX shell startup file:
 #
-#	    . <this file's name>
+#           . <this file's name>
+#
+#   Requirements
+#
+#       You must know Emacs Lisp Programming
+#       You must know Git well (branching, merging etc.)
+#       You must have epackage.el installed, see
+#       <http://www.emacswiki.org/emacs/DELPS#toc6>
 #
 #   Decription
 #
 #       Shell command line functions for Distributed Emacs Lisp Package
 #       Management <http://www.emacswiki.org/emacs/DELPS>. Updates to this
 #       file are available at
-#       <https://github.com/jaalto/project--emacs-epackage-template>.
+#       <https://github.com/jaalto/project--emacs-epackage-template>. Please
+#       familiarize yourself with the procedure by reading README at the above
+#       site first before using this file's helper functions.
 #
-#	In simplest case, the steps to start creating epackage:
+#       In simplest case, the steps to start creating epackage:
 #
-#	1. You have epackage.el downloaded and stored in ~/.emacs.d
-#	2. You have the URL to lisp file you want to package (EmacsWiki.org)
-#	3. Make empty directory, name does not matter. Cd into it.
-#	4. Import code to Git repository from URL
+#       1. You have epackage.el downloaded and stored in ~/.emacs.d
+#       2. You have the URL to lisp file you want to package (EmacsWiki.org)
+#       3. Make empty directory, name does not matter. Cd into it.
+#       4. Import code to Git repository from URL
 #
-#	    Egit <URL>
+#           Egit <URL>
 #
-#	    Follow the displayed instructions to commit and tag.
-#	    If you don't see obvious version number, you must open the *.el
-#	    in $EDITOR and examine what might be the last modified date
-#	    and version number.
+#           Follow the displayed instructions to commit and tag.
+#           If you don't see obvious version number, you must open the *.el
+#           in $EDITOR and examine what might be the last modified date
+#           and version number.
 #
-#	    After this step, you have imported raw upstream code is in
+#           After this step, you have imported raw upstream code is in
 #           Git "upstream" branch.
 #
-#	5.  Create "master" branch (as instructed by "Egit" output above):
+#       5.  Create "master" branch (as instructed by "Egit" output above):
 #
-#	    git git checkout -b master
+#           git git checkout -b master
 #
-#	6.  Generate template files:
+#       6.  Generate template files:
 #
-#	    Edir <PACKAGE-NAME> <FILE>.el
+#           Edir <PACKAGE-NAME> <FILE>.el
 #
-#	7.  Edit the generated files in epackage/ dir and commit.
+#       7.  Edit the generated files in epackage/ dir and commit.
 #
-#	    cd epackage/
-#	    .. edit files
-#	    .. remove files if not relevant (*-compile.el etc.).
-#	    git add .
-#	    git commit -m "epackage/: new"
+#           cd epackage/
+#           .. edit files
+#           .. remove files if not relevant (*-compile.el etc.).
+#           git add .
+#           git commit -m "epackage/: new"
 #
-#	8.  Create repository at Github, and push
+#       8.  Create repository at Github, and push
 #
-#	    git remote add github <your repository URL>
-#	    git push github upstream master
-#	    git push github --tags
+#           git remote add github <your repository URL>
+#           git push github upstream master
+#           git push github --tags
 #
-#	9   Last, contact Sources List maintainer to have your epackage
-#	    URL included.
+#       9   Last, contact Sources List maintainer to have your epackage
+#           URL included.
 
 Ever ()
 {
@@ -88,10 +97,10 @@ DESCRIPTION
     Emacs Lisp files recursively from current directory."
 
     case "$1" in
-	-h | --help )
-	    echo "$help"
-	    return 0
-	    ;;
+        -h | --help )
+            echo "$help"
+            return 0
+            ;;
     esac
 
     # Package-Requires is ELPA header.
@@ -132,28 +141,28 @@ ENVIRONMENT
     unset test
 
     case "$1" in
-	-h | --help )
-	    echo "$help"
-	    return 0
-	    ;;
-	-t | --test)
-	    test="test"
-	    shift
-	    ;;
+        -h | --help )
+            echo "$help"
+            return 0
+            ;;
+        -t | --test)
+            test="test"
+            shift
+            ;;
     esac
 
     local lisp
 
     if [ "$EPACKAGE_ROOT" ]; then
-	lisp="$EPACKAGE_ROOT/epackage.el"
+        lisp="$EPACKAGE_ROOT/epackage.el"
     else
-	# Try to guess
-	lisp=$(find $HOME/.emacs.d -maxdepth 3 -type f 2> /dev/null)
+        # Try to guess
+        lisp=$(find $HOME/.emacs.d -maxdepth 3 -type f 2> /dev/null)
     fi
 
     if [ ! "$lisp" ]; then
-	echo "[ERROR] \$EPACKAGE_ROOT not set to directory of epackage.el" >&2
-	return 1
+        echo "[ERROR] \$EPACKAGE_ROOT not set to directory of epackage.el" >&2
+        return 1
     fi
 
     local package
@@ -163,33 +172,33 @@ ENVIRONMENT
     file=$2
 
     if [ ! "$package" ]; then
-	echo "[ERROR] Argument 1 missing (package NAME)." >&2
-	return 1
+        echo "[ERROR] Argument 1 missing (package NAME)." >&2
+        return 1
     fi
 
     if [ ! "$file" ]; then
-	echo "[ERROR] Argument 2 missing (*.el FILE)." >&2
-	return 1
+        echo "[ERROR] Argument 2 missing (*.el FILE)." >&2
+        return 1
     fi
 
     case "$file" in
-	*/*.el)
-	    ;;
-	*.el)
-	    file="./$file"		# Must have path
+        */*.el)
             ;;
-	*)
-	    echo "[ERROR] *.el expected, instead of $file" >&2
-	    return 1
-	    ;;
+        *.el)
+            file="./$file"              # Must have path
+            ;;
+        *)
+            echo "[ERROR] *.el expected, instead of $file" >&2
+            return 1
+            ;;
     esac
 
     ${test+echo} emacs \
-	-Q --batch \
-	-l $lisp \
-	-f epackage-batch-devel-compose-package-dir \
-	$package \
-	$file
+        -Q --batch \
+        -l $lisp \
+        -f epackage-batch-devel-compose-package-dir \
+        $package \
+        $file
 
     unset test
 }
@@ -236,14 +245,14 @@ STANDARDS
     unset test
 
     case "$1" in
-	-h | --help )
-	    echo "$help"
-	    return 0
-	    ;;
-	-t | --test)
-	    test="test"
-	    shift
-	    ;;
+        -h | --help )
+            echo "$help"
+            return 0
+            ;;
+        -t | --test)
+            test="test"
+            shift
+            ;;
     esac
 
     local url
@@ -266,18 +275,18 @@ STANDARDS
     local giturl
 
     case "$url" in
-	http:/* )
+        http:/* )
             wget "$url" || return $?
             empty=""
-	    ;;
-	git://* | *.git)
-	    giturl="$url"
+            ;;
+        git://* | *.git)
+            giturl="$url"
             url=""
-	    ;;
-	*[a-z]*)
+            ;;
+        *[a-z]*)
             echo "[ERROR] Not a valid URL: $url" >&2
             return 1
-	    ;;
+            ;;
     esac
 
     local date
@@ -286,9 +295,9 @@ STANDARDS
     if [ "$giturl" ]; then
 
         if [ ! "$empty" ]; then
-	    echo "[WARN] Directory not empty. Press (C-c) to abort" >&2
-	    read
-	fi
+            echo "[WARN] Directory not empty. Press (C-c) to abort" >&2
+            read
+        fi
 
         ${test+echo} git init
         ${test+echo} git symbolic-ref HEAD refs/heads/upstream
@@ -312,9 +321,9 @@ STANDARDS
 
         ${test+echo} git checkout upstream
 
-	Ever
+        Ever
 
-	echo "# Examine dates, version and fill correct information below."
+        echo "# Examine dates, version and fill correct information below."
 
         echo upstream/$date--git-$(git rev-parse HEAD | cut -c1-7)
 
@@ -325,9 +334,9 @@ STANDARDS
 
         ${test+echo} git add -A
 
-	Ever
+        Ever
 
-	echo "# Examine dates, version and fill correct information below."
+        echo "# Examine dates, version and fill correct information below."
 
         echo "git commit -m \"Import upstream $date from $url\""
         echo "git tag upstream/$date--VERSION"
@@ -336,9 +345,9 @@ STANDARDS
     else
 
         if [ "$empty" ]; then
-	    echo "[WARN] No files. Create upstream branch (C-c to abort)" >&2
-	    read
-	fi
+            echo "[WARN] No files. Create upstream branch (C-c to abort)" >&2
+            read
+        fi
 
         ${test+echo} git init
         ${test+echo} git symbolic-ref HEAD refs/heads/upstream
