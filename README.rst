@@ -78,13 +78,11 @@ later, follow this exercise to create your first epackage: ::
 
     . epackage.shellrc
 
-    Egit -h
-
     # Import Emacs Lisp package from URL
 
-    Egit http://www.emacswiki.org/emacs/download/toggle.el
+    Egit [-h] http://www.emacswiki.org/emacs/download/toggle.el
 
-    # Follow the instructions....
+    # Follow the instructions at end of output....
 
 	Initialized empty Git repository in /home/jaalto/vc/epackage/xxx/.git/
 	;; Copyright (C) 2006-2007 by Ryan Davis
@@ -100,7 +98,8 @@ later, follow this exercise to create your first epackage: ::
 	;; 1.1.0 2007-03-30 Initial release to emacswiki.org. Added named styles and bidi.
 	;; 1.0.0 2006-03-22 Birfday.
 	(require 'cl)
-	# Examine dates, version and fill correct information below.
+        # WHAT YOU NEED TO DO NEXT:
+	# Examine dates, version and correct information to commands below.
 	git commit -m "Import upstream 2011-12-29 from http://www.emacswiki.org/emacs/download/toggle.el"
 	git tag upstream/2011-12-29--VERSION
 	git checkout -b master
@@ -108,10 +107,11 @@ later, follow this exercise to create your first epackage: ::
     # (1) commit upstream code
 
     git commit -m "Import upstream 2011-12-29 from http://www.emacswiki.org/emacs/download/toggle.el"
-    # (2) tag it according to displayed information. We were lucky. Not all
-    # Lisp Files present date and version information this clearly.
-    # Notice, the date is LAST MODIFIED date of original author. If
-    # not shown, you could check "ls -l *.el"
+
+    # (2) Tag, according to displayed information. We were lucky. Not
+    # all Lisp Files present date and version information this
+    # clearly. Notice, the date is LAST MODIFIED date of code by the
+    # original author. If not shown, you could check "ls -l *.el"
 
     git tag upstream/2008-09-25--1.3.1
 
@@ -119,9 +119,9 @@ later, follow this exercise to create your first epackage: ::
 
     git checkout -b master
 
-    # Select PACKAGE NAME. If this were library, you would have used
-    # "lib-*" prefix for package name. If this would have been mode,
-    # you would have used "*-mode" suffix.
+    # Select PACKAGE NAME. If this would have been a library, you
+    # would have used "lib-*" prefix for package name. If this were a
+    # minor or major mode, you would have added "*-mode" suffix.
 
     Edir [-h] toggle toggle.el
 
@@ -147,7 +147,7 @@ later, follow this exercise to create your first epackage: ::
 
     # Rqeruired files: info, *-autoloads.el, -*install.el
     # - No need for compile, this is a single file package
-    # - No examples for the user n EmacsWiki to show
+    # - No examples this time for this simple package
     # - Nothing to uninstall
 
     rm *-compile.el *-examples.el *-uninstall.el
@@ -156,7 +156,7 @@ later, follow this exercise to create your first epackage: ::
 
     $EDITOR info
 
-    # Edit done? Finish your first epackage.
+    # Edit done? Finish the epackage.
 
     git add .
     git commit -m "epackage/: new"
