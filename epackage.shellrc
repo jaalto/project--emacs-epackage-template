@@ -284,7 +284,10 @@ STANDARDS
 
     if [ "$giturl" ]; then
 
-        [ "$empty" ] || read -p "[WARN] Directory not empty. Press (C-c) to abort" >&2
+        if [ ! "$empty" ]; then
+	    echo "[WARN] Directory not empty. Press (C-c) to abort" >&2
+	    read
+	fi
 
         ${test+echo} git init
         ${test+echo} git symbolic-ref HEAD refs/heads/upstream
@@ -331,7 +334,10 @@ STANDARDS
 
     else
 
-        read -p "[WARN] No files. Create upstream branch (C-c to abort)" >&2
+        if [ "$empty" ]; then
+	    echo "[WARN] No files. Create upstream branch (C-c to abort)" >&2
+	    read
+	fi
 
         ${test+echo} git init
         ${test+echo} git symbolic-ref HEAD refs/heads/upstream
