@@ -53,6 +53,119 @@ manual:
 The Epackage Primer
 ===================
 
+Hands on example
+----------------
+
+If you want to get your hands dirty immediately and read documentation
+later, follow this exercise to create your first epackage: ::
+
+    # The helper shellrc needs epackage.el installed
+
+    mkdir -p $HOME/emacs.d/packages
+    cd $HOME/emacs.d/packages
+    git clone git://github.com/jaalto/project--emacs-epackage.git epackage
+    cd epackage
+    git checkout --track -b devel origin/devel
+
+    # Change to a directory for epackage development
+
+    mkdir -p $HOME/epackage
+    cd $HOME/epackage
+    git clone git://github.com/jaalto/project--emacs-epackage-template.git template
+    cd template
+
+    # Yes, type dot(.) at your shell prompt; any *sh SHELL will do
+
+    . epackage.shellrc
+
+    Egit -h
+
+    # Import Emacs Lisp package from URL
+
+    Egit http://www.emacswiki.org/emacs/download/toggle.el
+
+    # Follow the instructions....
+
+	Initialized empty Git repository in /home/jaalto/vc/epackage/xxx/.git/
+	;; Copyright (C) 2006-2007 by Ryan Davis
+	;; Author: Ryan Davis <ryand-ruby@zenspider.com>
+	;; Version 1.3.1
+	;; Created: 2006-03-22
+	;; URL(en): http://seattlerb.rubyforge.org/
+	;; http://en.wikipedia.org/wiki/MIT_License
+	;; There are 4 different mapping styles in this version: zentest,
+	;; 1.3.1 2008-09-25 Fixed doco & typo in rspec patterns.
+	;; 1.3.0 2007-05-10 Added tab completion to toggle-style. Suggested by TingWang.
+	;; 1.2.0 2007-04-06 Interleave bidirectional mappings. Fixed interactive setter.
+	;; 1.1.0 2007-03-30 Initial release to emacswiki.org. Added named styles and bidi.
+	;; 1.0.0 2006-03-22 Birfday.
+	(require 'cl)
+	# Examine dates, version and fill correct information below.
+	git commit -m "Import upstream 2011-12-29 from http://www.emacswiki.org/emacs/download/toggle.el"
+	git tag upstream/2011-12-29--VERSION
+	git checkout -b master
+
+    # (1) commit upstream code
+
+    git commit -m "Import upstream 2011-12-29 from http://www.emacswiki.org/emacs/download/toggle.el"
+    # (2) tag it according to displayed information. We were lucky. Not all
+    # Lisp Files present date and version information this clearly.
+    # Notice, the date is LAST MODIFIED date of original author. If
+    # not shown, you could check "ls -l *.el"
+
+    git tag upstream/2008-09-25--1.3.1
+
+    # (3) Upstream code is now archived. Start "epackaging"
+
+    git checkout -b master
+
+    # Select PACKAGE NAME. If this were library, you would have used
+    # "lib-*" prefix for package name. If this would have been mode,
+    # you would have used "*-mode" suffix.
+
+    Edir [-h] toggle toggle.el
+
+	Loading vc-git...
+	Wrote toggle-epkg-autoloads.el
+	Wrote toggle-epkg-install.el
+	Generating autoloads for toggle.el...
+	Generating autoloads for toggle.el...done
+	Wrote toggle-epkg-compile.el
+	Wrote toggle-epkg-examples.el
+	Wrote toggle-epkg-uninstall.el
+
+    # (4) templates are ready, go and edit
+
+    cd epackage/
+    ls -1
+
+	toggle-epkg-autoloads.el
+	toggle-epkg-compile.el
+	toggle-epkg-examples.el
+	toggle-epkg-install.el
+	toggle-epkg-uninstall.el
+
+    # Rqeruired files: info, *-autoloads.el, -*install.el
+    # - No need for compile, this is a single file package
+    # - No examples for the user n EmacsWiki to show
+    # - Nothing to uninstall
+
+    rm *-compile.el *-examples.el *-uninstall.el
+
+    # Edit information and fill in fields
+
+    $EDITOR info
+
+    # Edit done? Finish your first epackage.
+
+    git add .
+    git commit -m "epackage/: new"
+
+    # ... and continue reading this READNE to fill in the questions
+    # you may have in mind. Open account at github and push. Notify
+    # Sources List maintainer about your new epackage to make it
+    # available for others.
+
 Making an epackage
 ------------------
 
