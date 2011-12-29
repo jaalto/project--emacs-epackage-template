@@ -35,8 +35,10 @@ SRCTEST	= $(SRCS:.sh=.xsh) $(SRCS:.sh=.xposh) $(SRCS:.sh=.xdash)
 SRCS1	= epackage.shellrc
 SRCTEST	+= $(SRCS1:.shellrc=.xsh) $(SRCS1:.shellrc=.xposh) $(SRCS1:.shellrc=.xdash)
 
+SRCCHECK = $(SRCS:.sh=.xcheck) $(SRCS1:.shellrc=.xcheck)
+
 .SUFFIXES:
-.SUFFIXES: .sh .shellrc .xsh .xposh .xdash
+.SUFFIXES: .sh .shellrc .xsh .xposh .xdash .xcheck
 
 .sh.xsh:
 	sh -nx $< > $@
@@ -44,6 +46,8 @@ SRCTEST	+= $(SRCS1:.shellrc=.xsh) $(SRCS1:.shellrc=.xposh) $(SRCS1:.shellrc=.xda
 	posh -nx $< > $@
 .sh.xdash:
 	dash -nx $< > $@
+.sh.xcheck:
+	-checkbashisms $< > $@
 
 .shellrc.xsh:
 	sh -nx $< > $@
@@ -51,6 +55,8 @@ SRCTEST	+= $(SRCS1:.shellrc=.xsh) $(SRCS1:.shellrc=.xposh) $(SRCS1:.shellrc=.xda
 	posh -nx $< > $@
 .shellrc.xdash:
 	dash -nx $< > $@
+.shellrc.xcheck:
+	-checkbashisms $< > $@
 
 all:
 	@echo "Nothing to do. Run: make help"
@@ -62,7 +68,10 @@ help:
 clean:
 	rm -f *.x*
 
+# Rule - check: Run syntax checks
+lint:  $(SRCCHECK)
+
 # Rule - test: Run tests to check for errors.
-test: $(SRCTEST)
+test: $(SRCTEST) lint
 
 # End of file
