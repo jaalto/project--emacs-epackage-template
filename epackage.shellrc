@@ -119,15 +119,23 @@ Edir ()
     local help
     help="\
 SYNOPSIS
-    Edir [options] <package name> file.el
+    Edir [options] <PACKAGE NAME> NAME.el
 
 DESCRIPTION
     Epackage directory populate (epackage/)
 
-    Use FILE.EL to examine information about license, upstream email etc.
-    and write template files to epackage/ directory (will be created). This
-    command is suitable only for packages that consist of only one single
-    Emacs Lisp file.
+    Examine *.el to find information about license, upstream email
+    etc. and write template files to epackage/ directory (will be
+    created). This command is suitable only for packages that consist
+    of only one single Emacs Lisp file.
+
+    Good naming conventions help in organizing and managing packages.
+    Rules for selecting PACKAGE NAME:
+
+    - Use <NAME>-mode if the package is a major or minor mode.
+      An example: python.el => python-mode.
+    - use lib-<NAME> if package is meant to be a library.
+      An example: date-calc.el => lib-date-calc
 
 OPTIONS
     -t, --test  Run in test mode. Do now actually execute commands.
