@@ -72,14 +72,15 @@ later, follow this exercise to create your first epackage: ::
     mkdir -p $HOME/epackage
     cd $HOME/epackage
     git clone git://github.com/jaalto/project--emacs-epackage-template.git template
-    cd template
 
-    # Yes, type dot(.) at your shell prompt; any *sh SHELL will do
+    # Type dot(.) POSIX source command to read utilities
 
-    . epackage.shellrc
+    . template/epackage.shellrc
 
     # Import Emacs Lisp package from URL
 
+    mkdir -p $HOME/epackage/toggle
+    cd $HOME/epackage/toggle
     Egit [-h] http://www.emacswiki.org/emacs/download/toggle.el
 
     # Follow the instructions at end of output....
