@@ -161,7 +161,7 @@ later, follow this exercise to create your first epackage: ::
     git add .
     git commit -m "epackage/: new"
 
-    # ... and continue reading this READNE to fill in the questions
+    # ... and continue reading this README to fill in questions
     # you may have in mind. Open account at github and push. Notify
     # Sources List maintainer about your new epackage to make it
     # available for others.
