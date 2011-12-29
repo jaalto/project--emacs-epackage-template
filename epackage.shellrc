@@ -232,15 +232,15 @@ OPTIONS
 EXAMPLES
     You have a direct URL to the Emacs Lisp file. Import it:
 
-      Egit http://www.emacswiki.org/emacs/download/<filename>.el
+        Egit http://www.emacswiki.org/emacs/download/<filename>.el
 
     Upstream uses Git repository for Emacs Lisp source code. Import it:
 
-      Egit git://github.com/USER/PROJECT.git
+        Egit git://github.com/USER/PROJECT.git
 
     The sources are in the currect directory; unpacked. Import them:
 
-   Egit
+        Egit
 
 STANDARDS
    Epackage Git management quick guide
