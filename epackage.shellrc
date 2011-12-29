@@ -41,12 +41,13 @@
 #
 #	    Egit <URL>
 #
-#	    Follow the instructions to commit and tag accordingly.
+#	    Follow the displayed instructions to commit and tag.
 #	    If you don't see obvious version number, you must open the *.el
 #	    in $EDITOR and examine what might be the last modified date
 #	    and version number.
 #
-#	    After this step, raw upstream code is in Git "upstream" branch.
+#	    After this step, you have imported raw upstream code is in
+#           Git "upstream" branch.
 #
 #	5.  Create "master" branch (as instructed by "Egit" output above):
 #
