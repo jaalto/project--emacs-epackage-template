@@ -323,7 +323,8 @@ STANDARDS
 
         Ever
 
-        echo "# Examine dates, version and fill correct information below."
+        echo "# WHAT YOU NEED TO DO NEXT:"
+        echo "# Examine dates, version and correct information to commands below."
 
         echo upstream/$date--git-$(git rev-parse HEAD | cut -c1-7)
 
@@ -336,7 +337,8 @@ STANDARDS
 
         Ever
 
-        echo "# Examine dates, version and fill correct information below."
+        echo "# WHAT YOU NEED TO DO NEXT:"
+        echo "# Examine dates, version and correct information to commands below."
 
         echo "git commit -m \"Import upstream $date from $url\""
         echo "git tag upstream/$date--VERSION"
