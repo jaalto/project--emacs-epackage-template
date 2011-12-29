@@ -136,7 +136,11 @@ ENVIRONMENT
 
     EPACKAGE_ROOT
         Directory location of epackage.el file to use. By default Various
-        locations under ~/.emacs.d are tried."
+        locations under ~/.emacs.d are tried.
+
+STANDARDS
+   The Epackage primer
+   <https://github.com/jaalto/project--emacs-epackage-template>."
 
     unset test
 
@@ -243,7 +247,7 @@ EXAMPLES
         Egit
 
 STANDARDS
-   Epackage Git management quick guide
+   The Epackage primer
    <https://github.com/jaalto/project--emacs-epackage-template>."
 
     unset test
