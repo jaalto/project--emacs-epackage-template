@@ -213,14 +213,18 @@ SYNOPSIS
 DESCRIPTION
     Epackage git import.
 
-    Import source code (Emacs Lisp *.el) in currect directory into epackage Git
-    repository. This command is only the start as it only does the initial
-    import to \"upstream\" branch. From there the steps needed are:
+    Import source code (Emacs Lisp *.el) into epackage Git repository.
+    The URL can be http:// to a single *.el file or git:// locations
+    of upstream code. If URL is not given, it is expected that the
+    upstream code is already in current directory.
+
+    This command only prepares for the initial import to Git
+    \"upstream\" branch. From there the steps needed are:
 
     - commit (to upstream branch)
     - tag the upstream branch
     - create "master" branch off upstream
-    - populate epackage/ directory.
+    - populate epackage/ directory. See command \"Edir\".
 
 OPTIONS
     -t, --test  Run in test mode. Do now actually execute commands.
