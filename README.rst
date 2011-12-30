@@ -210,10 +210,10 @@ EXAMING FILES
   Emacs features lisp-mnt, checkdoc etc. Report problems to upstream
   issue tracker.
 
-BUILDING CONTACT TO UPSTREAM
+CONTACTING UPSTREAM
 
-Is upstream still there? Find out his email from file, EmacsWiki or
-Google and send a mail to notify about his software being packaged.
+Is upstream still there? Find out his email from files, EmacsWiki or
+Google and send a mail to notify that his software is being packaged.
 Ask what email address he prefers to use for contact. Ask where he
 keeps latest code. Ask if he uses public Version Control. It's very
 important to try to reach upstream and build contact for future
