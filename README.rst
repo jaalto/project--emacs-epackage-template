@@ -5,6 +5,7 @@
 
 .. _epackage.el: http://www.emacswiki.org/emacs/DELPS
 .. _Tiny Tools: http://www.emacswiki.org/emacs/TinyTools
+.. _Sources List: https://github.com/jaalto/project--emacs-epackage-sources-list
 
 Description
 ===========
@@ -231,8 +232,8 @@ no-one unless you are able to serve as the new usptream.
 FINISHING
 
 After you've dug into all the previous steps, open account at github
-and push the package. Notify Sources List maintainer about your new
-epackage to make it available for others.
+and push the package. Notify `Sources List`_ about your new epackage
+to make it available for others.
 
 Making an epackage
 ------------------
