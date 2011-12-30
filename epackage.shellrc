@@ -143,6 +143,9 @@ OPTIONS
 
 ENVIRONMENT
 
+    EPACKAGE_EMACS
+        Path to emacs binary to use. Defaults to \"emacs\".
+
     EPACKAGE_ROOT
         Directory location of epackage.el file to use. By default Various
         locations under ~/.emacs.d are tried.
@@ -206,7 +209,7 @@ STANDARDS
             ;;
     esac
 
-    ${test+echo} emacs \
+    ${test+echo} ${EPACKAGE_EMACS:-emacs} \
         -quick \
 	--batch \
         --debug-init \
