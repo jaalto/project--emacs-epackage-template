@@ -188,7 +188,7 @@ EXAMING FILES
   *epackage/info::Status* . Explain the reason for the unsafe status
   the end of *epackage/info::Description* field. You can use e.g.
   *tinylisp.el* from
-  `Tiny Tools <http://www.emacswiki.org/emacs/TinyTools>`
+  `Tiny Tools <http://www.emacswiki.org/emacs/TinyTools>`_
   and functions ``M-x`` ``tinylisp-find-function-list``
   and ``tinylisp-find-variable-list`` to check files.
 * When was the code last touched? Years ago? In that case consider
