@@ -2,7 +2,7 @@
     Emacs: http://docutils.sourceforge.net/tools/editors/emacs/rst.el
     quick: http://docutils.sourceforge.net/docs/user/rst/quickref.html
     Reference: http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html
-    Emacs fill-column for the text if 70
+    comment: Emacs fill-column for the text if 70
 
 .. _epackage.el: http://www.emacswiki.org/emacs/DELPS
 .. _Tiny Tools: http://www.emacswiki.org/emacs/TinyTools
