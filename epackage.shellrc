@@ -408,7 +408,7 @@ STANDARDS
 
 	echo
         echo "# WHAT YOU NEED TO DO NEXT:"
-        echo "# Examine dates, version and correct information to commands below."
+        echo "# Examine iformation and correct commands below."
 
 	# User must fill in the VERSION
 
@@ -424,13 +424,16 @@ STANDARDS
 	local version
 
         Ever | tee "$file"
+
 	local version
+	unset VERSIONOK
 
 	set -- $(egrep --only-matching --max-count=1 "^;+ +Version: *[^ ]+" "$file")
 	rm -f "$file"
 
 	if [ "$3" ]; then
 	    version="$3"
+	    VERSIONOK="eval"
 	fi
 
 	[ "$version" ] || version="VERSION"
@@ -451,12 +454,21 @@ STANDARDS
 
 	[ "$test" ] || ls -l
 
-        echo "# WHAT YOU NEED TO DO NEXT:"
-        echo "# Examine dates, version and correct information to commands below."
+	if [ ! "$VERSIONOK" ]; then
+            echo "# WHAT YOU NEED TO DO NEXT:"
+            echo "# Examine iformation and correct commands below."
+	fi
 
-        echo "git commit -m \"Import upstream $date from $url\""
-        echo "git tag upstream/$fdate--$version"
-        echo "git checkout -b master"
+        ${VERSIONOK:-echo} "git commit -m 'Import upstream $date from $url'"
+        ${VERSIONOK:-echo} "git tag upstream/$fdate--$version"
+
+	if [ "$VERSIONOK" ]; then
+	    git tag			# Show what we set tag to
+	fi
+
+        ${VERSIONOK:-echo} git checkout -b master
+
+	unset VERSIONOK
 
     else
 
