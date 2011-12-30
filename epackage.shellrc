@@ -173,7 +173,7 @@ STANDARDS
         lisp="$EPACKAGE_ROOT/epackage.el"
     else
         # Try to guess
-        lisp=$(find $HOME/.emacs.d -maxdepth 3 -type f 2> /dev/null)
+        lisp=$(find $HOME/.emacs.d -maxdepth 3 -type f -name epackage.el 2> /dev/null)
     fi
 
     if [ ! "$lisp" ]; then
