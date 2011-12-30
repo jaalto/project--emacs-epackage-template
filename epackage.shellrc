@@ -301,7 +301,7 @@ STANDARDS
     fi
 
     local giturl
-    locl wget
+    local wget
 
     case "$url" in
         http:/* )
