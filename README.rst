@@ -173,6 +173,15 @@ practises include:
 
 EXAMING FILES
 
+* Exmine ``require`` commands. Does packge need other than
+  standard Emacs features? If it does, you must package those
+  first. You can continue packaging this one after you have
+  dealt with the dependencies.
+* Examine ``require`` commands closer. How many are there? Perhaps the
+  author dind't consider library requirements carefully. It may be
+  possible to arrange code to load faster and consume less memory
+  by arranging utilizing ``autoload`` instead of ``require`` for
+  features that are not immediately used.
 * Does every variable and function start with a common ``package-*``
   prefix? If not, label package as **unsafe** in
   *epackage/info::Status* . Explain the reason for the unsafe status
@@ -191,8 +200,7 @@ EXAMING FILES
 * Is the package well structured and behaving? Run all code quality
   checks from *epackage.el* with ``M-x``
   ``epackage-lint-extra-buffer-file`` (calls lisp-mnt, checkdoc etc.)
-  and report problems to upstream. Try also byte compiling if it
-  reveals anything.
+  and report problems to upstream. Try also byte compiling.
 
 BUILDING CONTACT TO UPSTREAM
 
