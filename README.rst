@@ -179,7 +179,7 @@ EXAMING FILES
   the end of *epackage/info::Description* field.
 * When was the code last touched? Years ago? In that case consider
   labeling package **unmaintained** while it also may be labeled
-  **stable** in ``epackage/info::Status``.
+  **stable** in *epackage/info::Status*.
 * Does code unconditionally set hooks like ``find-file-hooks``? Not
   good. Package should not change user's settings on load. You need to
   fix this by removing offending code and moving it into
