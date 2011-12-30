@@ -392,19 +392,20 @@ development, from time to time pull, merge ::
 When upstream IS also the packager (Git)
 ----------------------------------------
 
-Say you are the upstream. You have Emacs extensions that you would
-also like to provide. And you use Git. All your code is in Git
-repositories. The thought may aoccur to you that you just add
-``epackage/`` directory to your sources and that it.
+Say you are the upstream. You would like to put your Emacs extensions
+available as epackages. All your code is in Git repositories. The
+thought may aoccur to you that, "Hm, I'll just add ``epackage/``
+directory, and be done with it".
 
 **Don't** **do** **that**.
 
-We're dealing with differen Git repositories here. The *Epackage* has
-a specific structure and your own development Git repository has its
-own. These two cannot be mixed; they simply are not, and cannot be
-made compatible. You see, all the branches are different: ::
+We're dealing with Git repositories which have very different needs.
+The *Epackages* have a specific structure and your own development Git
+repositories have their own. These two cannot be mixed; they simply
+are not, and cannot be made compatible. You see, all the branches are
+different: ::
 
-    YOUR GIT REPOSITORY
+    YOUR GIT REPOSITORY (may vary from project to project)
     master      - You stable development
     devel       - Your unstable development
     fix-this    - Whatever else...
