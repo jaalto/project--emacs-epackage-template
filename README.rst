@@ -3,6 +3,9 @@
     quick: http://docutils.sourceforge.net/docs/user/rst/quickref.html
     Reference: http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html
 
+.. _epackage.el: http://freshmeat.net/projects/emacs-epackage
+.. _Tiny Tools: http://www.emacswiki.org/emacs/TinyTools
+
 Description
 ===========
 
@@ -188,8 +191,7 @@ EXAMING FILES
   *epackage/info::Status* . Explain the reason for the unsafe status
   the end of *epackage/info::Description* field. You can use e.g.
   *tinylisp.el* from
-  `Tiny Tools <http://www.emacswiki.org/emacs/TinyTools>`_
-  and functions ``M-x`` ``tinylisp-find-function-list``
+  `Tiny Tools`_ and functions ``M-x`` ``tinylisp-find-function-list``
   and ``tinylisp-find-variable-list`` to check files.
 * When was the code last touched? Years ago? In that case consider
   labeling package **unmaintained** while it also may be labeled
@@ -203,7 +205,7 @@ EXAMING FILES
   Contact upstream and suggest him to move all setup code to a
   separate functions like *\*-install-{default-key-bindings,hooks}*.
 * Is the package well structured and behaving? Run all code quality
-  checks. Try also byte compiling. You can use e.g. *epackage.el* and
+  checks. Try also byte compiling. You can use e.g. `epackage.el`_ and
   ``M-x`` ``epackage-lint-extra-buffer-file`` which uses standard
   Emacs features lisp-mnt, checkdoc etc. Report problems to upstream
   issue tracker.
