@@ -412,27 +412,31 @@ Epackage Git repository management
 
 At the beginning the Git repository tree looks like ::
 
-                1.0
+    master:       o (the epackage/ added)
+                 /
     upstream:   o
-                 \
-    master:       o (the epackage/)
+                1.0
 
-After updating to next upstream release (1.13), these two run in
+After updating to the next upstream release, these two run in
 parallel. The *upstream* is periodically merged to *master* branch ::
 
-                1.0 1.1
-    upstream:   o -- o
-                 \    \ (merge upstream changes)
+                  (merge upstream)
     master:       o -- o -- =>
+                 /    /
+    upstream:   o -- o
+                1.0  1.1
 
-If you may need to fix code, make all fixes in a separate *patches*
-branch and merge those to *master* ::
+If you need to fix upstream code, make changes in separate *patches*
+branch and merge those to *master*. Send patch to upstream so that you
+don't need to maintain different code base. ::
 
-    patches:           o - o
-		      /    |
-    upstream:   o -- o     |
-                 \    \    \/ (merge)
-    master:       o -- o - o =>
+                  (merge: upstream, patches)
+    master:       o -- o -- o =>
+                 /    /     ^
+    upstream:   o -- o      |
+                1.0  1.1    |
+		      \     |
+    patches:           o -- o
 
 Addenum
 =======
