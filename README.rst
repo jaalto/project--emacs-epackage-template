@@ -339,7 +339,7 @@ See these page:
 - http://help.github.com/pull-requests/ (Sending pull requests)
 - https://github.com/blog/270-the-fork-queue (Keeping fork in synch)
 
-After your URL has been merged, update your copy of `_Sources List`_ ::
+After your URL has been merged, update your copy of `Sources List`_ ::
 
     git pull
 
@@ -402,18 +402,16 @@ repositories. The thought may aoccur to you that you just add
 We're dealing with differen Git repositories here. The *Epackage* has
 a specific structure and your own development Git repository has its
 own. These two cannot be mixed; they simply are not, and cannot be
-made compatible. You see, all the branches are different:
+made compatible. You see, all the branches are different: ::
 
-    Your Git repository
-    -------------------
+    YOUR GIT REPOSITORY
     master      - You stable development
     devel       - Your unstable development
     fix-this    - Whatever else...
     fix-that
     and-branch-here
 
-    Whereas epackage has a rigid structure
-    --------------------------------------
+    EPACKAGE GIT REPOSITORY
     master      - epackaged software, install, autoloads etc.
     upstream    - Your::master branch contents here
     patches     - (You don't have this for your own software)
