@@ -2,6 +2,7 @@
     Emacs: http://docutils.sourceforge.net/tools/editors/emacs/rst.el
     quick: http://docutils.sourceforge.net/docs/user/rst/quickref.html
     Reference: http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html
+    Emacs fill-column for the text if 70
 
 .. _epackage.el: http://www.emacswiki.org/emacs/DELPS
 .. _Tiny Tools: http://www.emacswiki.org/emacs/TinyTools
@@ -238,7 +239,8 @@ to make it available for others.
 Making an epackage
 ------------------
 
-1. Prepare an empty directory. If extension more than one file, stay at extension's root directory ans skip (3) ::
+1. Prepare an empty directory. If extension more than one file, stay
+   at extension's root directory ans skip (3) ::
 
     mkdir extension
     cd extension
@@ -252,7 +254,8 @@ Making an epackage
 
     wget http://example.com/project/some-mode.el
 
-4. Determine version information and import code to Git repository. Use clear commit message ::
+4. Determine version information and import code to Git repository.
+   Use clear commit message ::
 
     $ egrep 'version|[0-9][0-9][0-9][0-9]' *.el
 
@@ -263,7 +266,11 @@ Making an epackage
     $ git add *.el
     $ git commit -m "import upstream 1.0 (2010-05-10) from example.com"
 
-5. Mark the commit with a tag that has format ``upstream/<UPSTREAM-DATE>[--<UPSTREAM-VERSION>]``. In case information about the release date is not available, use year only format YYYY-01-01. Leave out the ``--<UPSTREAM-VERSION>]`` if there is no information about release version. An exmaple ::
+5. Mark the commit with a tag that has format
+   ``upstream/<UPSTREAM-DATE>[--<UPSTREAM-VERSION>]``. In case
+   information about the release date is not available, use year only
+   format YYYY-01-01. Leave out the ``--<UPSTREAM-VERSION>]`` if there is
+   no information about release version. An exmaple ::
 
     git tag upstream/2010-05-10--1.0
 
@@ -271,16 +278,21 @@ Making an epackage
 
     git branch -b master upstream
 
-7. Copy the template files (which are available here, in this repo you're reading) ::
+7. Copy the template files (which are available here, in this repo
+   you're reading) ::
 
     mkdir epackage/
     cp <path>/{info,get.sh} epackage/
 
-8. Edit the information file. You need to search http://emacswiki.org, Google and study the extension's comments to fill in the details ::
+8. Edit the information file. You need to search http://emacswiki.org,
+   Google and study the extension's comments to fill in the details ::
 
     $EDITOR epackage/info
 
-9. Last, write at least two files that will be used for installation. One is the *autoload* file and the other is the *install* file. You can also add optional *xactivate* file. Refer to <http://www.nongnu.org/emacs-epackage/manual>::
+9. Last, write at least two files that will be used for installation.
+   One is the *autoload* file and the other is the *install* file. You
+   can also add optional *xactivate* file. Refer to
+   <http://www.nongnu.org/emacs-epackage/manual>::
 
     # Generated from ##autoload tags with epackage.el command
     # M-x epackage-devel-generate-loaddefs
@@ -306,13 +318,15 @@ Making an epackage
     git add epackage/
     git commit -m "epackage/: new"
 
-#. Upload the Git repository somewhere publicly available, e.g. to <http://github.com> ::
+#. Upload the Git repository somewhere publicly available, e.g. to
+   <http://github.com> ::
 
     git remote add github <your URL>	# See section "Addenum" at the end
     git push github upstream master
     git push github --tags
 
-#. Add information about this new epackage to the `Sources List`_ so that others know how to find it. The information needed is ::
+#. Add information about this new epackage to the `Sources List`_ so
+   that others know how to find it. The information needed is ::
 
     PACKAGE-NAME (from epackage/info::Package field)
     GIT-URL      (the public git repository URL)
@@ -351,7 +365,8 @@ steps 1-3 are as follows:
     git add .ignore
     git commit -m "Add dummy file to start the branch"
 
-3. Instead of downloading, add remote to track upstream code, pull, and merge ::
+3. Instead of downloading, add remote to track upstream code, pull,
+   and merge ::
 
     git remote add upstream git://example.com/some-emacs-project
     git fetch upstream
@@ -374,6 +389,56 @@ development, from time to time pull, merge ::
 
     git checkout master
     git merge upstream
+
+When upstream IS also the packager (Git)
+----------------------------------------
+
+Say you are the upstream. You have Emacs extensions that you would
+also like to provide. And you use Git. All your code is in Git
+repositories. The thought may aoccur to you that you just add
+``epackage/`` directory to your sources and that it.
+
+**Don't** **do** **that**.
+
+We're dealing with differen Git repositories here. The *Epackage* has
+a specific structure and your own development Git repository has its
+own. These two cannot be mixed; they simply are not, and cannot be
+made compatible. You see, all the branches are different:
+
+    Your Git repository
+    -------------------
+    master	- You stable development
+    devel	- Your unstable development
+    fix-this	- Whatever else...
+    fix-that
+    and-branch-here
+
+    Whereas epackage has a rigid structure
+    --------------------------------------
+    master	- epackaged software, install, autoloads etc.
+    upstream	- Your::master branch contents here
+    patches	- (You don't have this for your own software)
+		  (But it's a RESERVED branch name for epackages)
+    <there should ne nothing else in official epackage Git repository>
+
+There is also a packaging philosophy of treating code "pristine" in a
+sense that it does not contain any extra information. This makes it
+possible to use it for any purpose easily. If sources contains
+separate pieces for X, Y, and Z, the code starts to deviate from being
+"pristine". There are now lot of files that have nothing to do with
+how the software is used by the standard user. Consider also that
+package manager Z does not use or need any of the other pieces X or Y
+that may be in there. These pieces are in their way to everyone trying
+to make sense what they are used for. The lessons in Linux Debian
+package management have well shown that the idea of "pristine" sources
+is the best approach.
+
+Sorry to cut your plans to using your existing Git development
+repository for epackaging work too. You need to maintain a separate
+Git repository for each individual Emacs Lisp extension. Fortunately,
+Git-to-Git import from "pristine" sources is daily bread for Git
+program. Just follow the instructions in previous section "When
+upstream uses Git repository too".
 
 Keeping epackage up to date
 ---------------------------
