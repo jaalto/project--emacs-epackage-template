@@ -171,12 +171,12 @@ Packgaing best pracises
 There are lots of things to do when doing packaging. The best
 practises include:
 
-EXAMING files
+EXAMING FILES
 
 * Does every variable and function start with a common ``package-*``
   prefix? If not, label package as **unsafe** in
-  ``epackage/info::Status`` . Explain the reason for the unsafe status
-  the end of ``epackage/info::Description`` field.
+  *epackage/info::Status* . Explain the reason for the unsafe status
+  the end of *epackage/info::Description* field.
 * When was the code last touched? Years ago? In that case consider
   labeling package **unmaintained** while it also may be labeled
   **stable** in ``epackage/info::Status``.
