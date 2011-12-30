@@ -16,7 +16,7 @@ called "Distributed Emacs Lisp Package System (DELPS), or in short
 System (DVCS) containers for the original source code plus a separate
 ``epackage/`` subdirectory. These Git repositories can reside anywhere
 publicly available. The repository locations are recorded in a public
-**Sources List** file which is used as a master list to available
+`Sources List`_ file which is used as a master list to available
 Epackages. The person who wraps Emacs extension into these Git
 repositories is called Epackage *maintainer*. The person who is the
 author of the original Emacs extension developer is called *upstream*.
@@ -312,13 +312,13 @@ Making an epackage
     git push github upstream master
     git push github --tags
 
-#. Add information about this new epackage to the **Sources List** so that others know how to find it. The information needed is ::
+#. Add information about this new epackage to the `Sources List`_ so that others know how to find it. The information needed is ::
 
     PACKAGE-NAME (from epackage/info::Package field)
     GIT-URL      (the public git repository URL)
     DESCRIPTION  (from epackage/info::Description, the 1st line)
 
-Fork the current **Sources List**, clone it to your local disk, edit
+Fork the `Sources List`_, clone it to your local disk, edit
 add new information, commit, and send a *Pull request* through github.
 See these page:
 
@@ -326,7 +326,7 @@ See these page:
 - http://help.github.com/pull-requests/ (Sending pull requests)
 - https://github.com/blog/270-the-fork-queue (Keeping fork in synch)
 
-After your URL has been merged, update your copy of Sources List ::
+After your URL has been merged, update your copy of `_Sources List`_ ::
 
     git pull
 
