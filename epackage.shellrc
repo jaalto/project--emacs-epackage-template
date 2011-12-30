@@ -393,7 +393,6 @@ STANDARDS
         ${test+echo} git add -A
 
 	local version
-	version="VERSION"
 
         Ever | tee "$file"
 	local version
@@ -405,18 +404,18 @@ STANDARDS
 	    version="$3"
 	fi
 
-	if [ ! "$version" ]; then
-	    # Read file's modfied time in ISO 8601 format
-
-	    version=$( perl -e '$mtime     = (stat shift @ARGV)[9];
-			        ($y,$m,$d) = (localtime $mtime)[5,4,3];
-				$y += 1900;
-				printf( qq(%d-%02d-%02d), $y, $m, $d)
-				' \
-				"$wget" )
-	fi
-
 	[ "$version" ] || version="VERSION"
+
+        # Read file's modfied time in ISO 8601 format
+
+	date=$( perl -e '$mtime     = (stat shift @ARGV)[9];
+		         ($y,$m,$d) = (localtime $mtime)[5,4,3];
+			 $y += 1900;
+			 printf( qq(%d-%02d-%02d), $y, $m, $d)
+			 ' \
+			 "$wget" )
+
+	ls -l
 
         echo "# WHAT YOU NEED TO DO NEXT:"
         echo "# Examine dates, version and correct information to commands below."
