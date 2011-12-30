@@ -207,11 +207,13 @@ STANDARDS
     esac
 
     ${test+echo} emacs \
-        -Q --batch \
-        -l $lisp \
-        -f epackage-batch-devel-compose-package-dir \
+        -quick \
+	--batch \
+        --debug-init \
+        --load "$lisp" \
+        --funcall epackage-batch-devel-compose-package-dir \
         $package \
-        $file
+        "$file"
 
     unset test
 }
