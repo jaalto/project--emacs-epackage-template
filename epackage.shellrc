@@ -344,7 +344,8 @@ STANDARDS
         Ever | tee "$file"
 
 	local version
-	set -- $(egrep --only-matching --max-count=1 "^;+ +Version: *[^ ]+")
+	set -- $(egrep --only-matching --max-count=1 "^;+ +Version: *[^ ]+" "$file")
+	rm -f "$file"
 
 	if [ "$3" ]; then
 	    version="$3"
@@ -383,7 +384,8 @@ STANDARDS
         Ever | tee "$file"
 
 	local version
-	set -- $(egrep --only-matching --max-count=1 "^;+ +Version: *[^ ]+")
+	set -- $(egrep --only-matching --max-count=1 "^;+ +Version: *[^ ]+" "$file")
+	rm -f "$file"
 
 	if [ "$3" ]; then
 	    version="$3"
@@ -409,7 +411,6 @@ STANDARDS
         ${test+echo} git symbolic-ref HEAD refs/heads/upstream
     fi
 
-    [ -f "$file" ] && rm -f "$file"
     unset test
 }
 
