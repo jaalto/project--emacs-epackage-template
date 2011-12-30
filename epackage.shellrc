@@ -138,8 +138,23 @@ DESCRIPTION
     - use lib-<NAME> if package is meant to be a library.
       An example: date-calc.el => lib-date-calc
 
+    Special case:
+
+    - If PACKAGE NAME is sama as FILE, the extension is removed.
+      This helps working on the command where TAB can be used
+      complete file names.
+
 OPTIONS
     -t, --test  Run in test mode. Do now actually execute commands.
+
+EXAMPLES
+    Generate templates for regular file:
+
+	Edir toggle.el toggle.el
+
+    Generate templates for a library package:
+
+	Edir lib-date-calc date-calc.el
 
 ENVIRONMENT
 
@@ -188,7 +203,7 @@ STANDARDS
     fi
 
     local package
-    package=$1
+    package=$(echo "$1" | sed "s/\.el$//")
 
     local file
     file=$2
