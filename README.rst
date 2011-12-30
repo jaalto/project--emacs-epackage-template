@@ -1,6 +1,7 @@
 ..  comment: the source is maintained in ReST format.
     Emacs: http://docutils.sourceforge.net/tools/editors/emacs/rst.el
-    Manual: http://docutils.sourceforge.net/docs/user/rst/quickref.html
+    quick: http://docutils.sourceforge.net/docs/user/rst/quickref.html
+    Reference: http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html
 
 Description
 ===========
@@ -187,7 +188,7 @@ EXAMING FILES
   *epackage/info::Status* . Explain the reason for the unsafe status
   the end of *epackage/info::Description* field. You can use e.g.
   *tinylisp.el* from
-  _tiny tools: http://www.emacswiki.org/emacs/TinyTools
+  `Tiny Tools <http://www.emacswiki.org/emacs/TinyTools>`
   and functions ``M-x`` ``tinylisp-find-function-list``
   and ``tinylisp-find-variable-list`` to check files.
 * When was the code last touched? Years ago? In that case consider
