@@ -185,7 +185,11 @@ EXAMING FILES
 * Does every variable and function start with a common ``package-*``
   prefix? If not, label package as **unsafe** in
   *epackage/info::Status* . Explain the reason for the unsafe status
-  the end of *epackage/info::Description* field.
+  the end of *epackage/info::Description* field. You can use e.g.
+  *tinylisp.el* from
+  _tiny tools: http://www.emacswiki.org/emacs/TinyTools
+  and functions ``M-x`` ``tinylisp-find-function-list``
+  and ``tinylisp-find-variable-list`` to check files.
 * When was the code last touched? Years ago? In that case consider
   labeling package **unmaintained** while it also may be labeled
   **stable** in *epackage/info::Status*.
