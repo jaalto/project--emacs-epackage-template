@@ -171,9 +171,15 @@ STANDARDS
 
     if [ "$EPACKAGE_ROOT" ]; then
         lisp="$EPACKAGE_ROOT/epackage.el"
-    else
-        # Try to guess
-        lisp=$(find $HOME/.emacs.d -maxdepth 3 -type f -name epackage.el 2> /dev/null)
+
+	if [ ! -f "$lisp" ]; then
+            echo "[ERROR] Invalid $EPACKAGE_ROOT, not such file: $list" >&2
+            return 1
+	fi
+
+    else # Try to guess
+        lisp=$(find $HOME/.emacs.d -maxdepth 3 \
+	       -type f -name epackage.el 2> /dev/null)
     fi
 
     if [ ! "$lisp" ]; then
