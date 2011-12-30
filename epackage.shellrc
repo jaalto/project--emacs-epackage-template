@@ -27,6 +27,7 @@
 #
 #   Requirements
 #
+#       You must have GNU programs (grep etc.) in PATH first
 #       You must know Emacs Lisp Programming
 #       You must know Git well (branching, merging etc.)
 #       You must have epackage.el installed, see
@@ -308,6 +309,9 @@ STANDARDS
     local date
     date=$(date "+%Y-%m-%d")
 
+    local file
+    file="${TMPDIR:-/tmp}/Egit.${LOGNAME:-${NAME:-foo}}.$$.tmp"
+
     if [ "$giturl" ]; then
 
         if [ ! "$empty" ]; then
@@ -337,7 +341,18 @@ STANDARDS
 
         ${test+echo} git checkout upstream
 
-        Ever
+        Ever | tee "$file"
+
+	local version
+	set -- $(egrep --only-matching --max-count=1 "^;+ +Version: *[^ ]+")
+
+	if [ "$3" ]; then
+	    version="$3"
+	else
+	    version="VERSION"
+	fi
+
+	# Search for standard line ";; Version: 3.0"
 
 	git log --max-count=5 --date=short --pretty='format:%h %ci %s' |
 	sed "s/^/#GIT /"
@@ -353,7 +368,7 @@ STANDARDS
 
 	# User mut fill in the VERSION
 
-        echo "git tag upstream/$2--VERSION-git-$1"
+        echo "git tag upstream/$2--$version-git-$1"
 
     elif [ ! "$empty" ]; then
 
@@ -362,13 +377,25 @@ STANDARDS
 
         ${test+echo} git add -A
 
-        Ever
+	local version
+	version="VERSION"
+
+        Ever | tee "$file"
+
+	local version
+	set -- $(egrep --only-matching --max-count=1 "^;+ +Version: *[^ ]+")
+
+	if [ "$3" ]; then
+	    version="$3"
+	else
+	    version="VERSION"
+	fi
 
         echo "# WHAT YOU NEED TO DO NEXT:"
         echo "# Examine dates, version and correct information to commands below."
 
         echo "git commit -m \"Import upstream $date from $url\""
-        echo "git tag upstream/$date--VERSION"
+        echo "git tag upstream/$date--$version"
         echo "git git checkout -b master"
 
     else
@@ -382,6 +409,7 @@ STANDARDS
         ${test+echo} git symbolic-ref HEAD refs/heads/upstream
     fi
 
+    [ -f "$file" ] && rm -f "$file"
     unset test
 }
 
