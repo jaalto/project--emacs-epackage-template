@@ -3,7 +3,7 @@
     quick: http://docutils.sourceforge.net/docs/user/rst/quickref.html
     Reference: http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html
 
-.. _epackage.el: http://freshmeat.net/projects/emacs-epackage
+.. _epackage.el: http://www.emacswiki.org/emacs/DELPS
 .. _Tiny Tools: http://www.emacswiki.org/emacs/TinyTools
 
 Description
