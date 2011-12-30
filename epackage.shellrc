@@ -301,11 +301,13 @@ STANDARDS
     fi
 
     local giturl
+    locl wget
 
     case "$url" in
         http:/* )
             wget "$url" || return $?
             empty=""
+	    wget=$(basename $url)
             ;;
         git://* | *.git)
             giturl="$url"
@@ -394,16 +396,28 @@ STANDARDS
 	version="VERSION"
 
         Ever | tee "$file"
-
 	local version
+
 	set -- $(egrep --only-matching --max-count=1 "^;+ +Version: *[^ ]+" "$file")
 	rm -f "$file"
 
 	if [ "$3" ]; then
 	    version="$3"
-	else
-	    version="VERSION"
 	fi
+
+	if [ ! "$version" ]; then
+	    # Read file's modfied time in ISO 8601 format
+
+	    version=$( perl -e '$mtime     = (stat shift @ARGV)[9];
+			        ($y,$m,$d) = (localtime $mtime)[5,4,3];
+				$y += 1900;
+				printf( qq(%d-%02d-%02d), $y, $m, $d)
+				' \
+				"$wget" )
+	    fi
+	fi
+
+	[ "$version" ] || version="VERSION"
 
         echo "# WHAT YOU NEED TO DO NEXT:"
         echo "# Examine dates, version and correct information to commands below."
