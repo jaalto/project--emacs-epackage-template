@@ -249,14 +249,14 @@ Making an epackage
 
     Copyright (C) 2010 John Doe <jdoe@example.net>
     Last-Updated: 2010-05-10
-    (defvar some-mode-version "1.12")
+    (defvar some-mode-version "1.0")
 
     $ git add *.el
-    $ git commit -m "import upstream 1.12 (2010-05-10) from example.com"
+    $ git commit -m "import upstream 1.0 (2010-05-10) from example.com"
 
 5. Mark the commit with a tag that has format ``upstream/<UPSTREAM-DATE>[--<UPSTREAM-VERSION>]``. In case information about the release date is not available, use year only format YYYY-01-01. Leave out the ``--<UPSTREAM-VERSION>]`` if there is no information about release version. An exmaple ::
 
-    git tag upstream/2010-05-10--1.12
+    git tag upstream/2010-05-10--1.0
 
 6. Create *master* branch on top of *upstream* branch ::
 
@@ -412,7 +412,7 @@ Epackage Git repository management
 
 At the beginning the Git repository tree looks like ::
 
-                1.12
+                1.0
     upstream:   o
                  \
     master:       o (the epackage/)
@@ -420,7 +420,7 @@ At the beginning the Git repository tree looks like ::
 After updating to next upstream release (1.13), these two run in
 parallel. The *upstream* is periodically merged to *master* branch ::
 
-                1.12 1.13
+                1.0 1.1
     upstream:   o -- o
                  \    \ (merge upstream changes)
     master:       o -- o -- =>
