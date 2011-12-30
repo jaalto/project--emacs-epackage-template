@@ -425,7 +425,7 @@ STANDARDS
 
         echo "git commit -m \"Import upstream $date from $url\""
         echo "git tag upstream/$fdate--$version"
-        echo "git git checkout -b master"
+        echo "git checkout -b master"
 
     else
 
