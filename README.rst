@@ -36,7 +36,7 @@ In a nutshell, Epackages have the following format ::
     |
     +- .git/                    [Version control branches: master + upstream]
     |
-    +-- epackage/		[Only the most important files listed]
+    +-- epackage/               [Only the most important files listed]
         info                    required: The package control file
         PACKAGE-0loaddefs.el    optional: extracted ###autoload statements
         PACKAGE-autoloads.el    optional: manually written autoload statements (raw)
@@ -90,25 +90,25 @@ later, follow this exercise to create your first epackage: ::
 
     # Follow the instructions at end of output....
 
-	Initialized empty Git repository in /home/jaalto/vc/epackage/xxx/.git/
-	;; Copyright (C) 2006-2007 by Ryan Davis
-	;; Author: Ryan Davis <ryand-ruby@zenspider.com>
-	;; Version 1.3.1
-	;; Created: 2006-03-22
-	;; URL(en): http://seattlerb.rubyforge.org/
-	;; http://en.wikipedia.org/wiki/MIT_License
-	;; There are 4 different mapping styles in this version: zentest,
-	;; 1.3.1 2008-09-25 Fixed doco & typo in rspec patterns.
-	;; 1.3.0 2007-05-10 Added tab completion to toggle-style. Suggested by TingWang.
-	;; 1.2.0 2007-04-06 Interleave bidirectional mappings. Fixed interactive setter.
-	;; 1.1.0 2007-03-30 Initial release to emacswiki.org. Added named styles and bidi.
-	;; 1.0.0 2006-03-22 Birfday.
-	(require 'cl)
+        Initialized empty Git repository in /home/jaalto/vc/epackage/xxx/.git/
+        ;; Copyright (C) 2006-2007 by Ryan Davis
+        ;; Author: Ryan Davis <ryand-ruby@zenspider.com>
+        ;; Version 1.3.1
+        ;; Created: 2006-03-22
+        ;; URL(en): http://seattlerb.rubyforge.org/
+        ;; http://en.wikipedia.org/wiki/MIT_License
+        ;; There are 4 different mapping styles in this version: zentest,
+        ;; 1.3.1 2008-09-25 Fixed doco & typo in rspec patterns.
+        ;; 1.3.0 2007-05-10 Added tab completion to toggle-style. Suggested by TingWang.
+        ;; 1.2.0 2007-04-06 Interleave bidirectional mappings. Fixed interactive setter.
+        ;; 1.1.0 2007-03-30 Initial release to emacswiki.org. Added named styles and bidi.
+        ;; 1.0.0 2006-03-22 Birfday.
+        (require 'cl)
         # WHAT YOU NEED TO DO NEXT:
-	# Examine dates, version and correct information to commands below.
-	git commit -m "Import upstream 2011-12-29 from http://www.emacswiki.org/emacs/download/toggle.el"
-	git tag upstream/2011-12-29--VERSION
-	git checkout -b master
+        # Examine dates, version and correct information to commands below.
+        git commit -m "Import upstream 2011-12-29 from http://www.emacswiki.org/emacs/download/toggle.el"
+        git tag upstream/2011-12-29--VERSION
+        git checkout -b master
 
     # (1) commit upstream code
 
@@ -131,25 +131,25 @@ later, follow this exercise to create your first epackage: ::
 
     Edir [-h] toggle toggle.el
 
-	Loading vc-git...
-	Wrote toggle-epkg-autoloads.el
-	Wrote toggle-epkg-install.el
-	Generating autoloads for toggle.el...
-	Generating autoloads for toggle.el...done
-	Wrote toggle-epkg-compile.el
-	Wrote toggle-epkg-examples.el
-	Wrote toggle-epkg-uninstall.el
+        Loading vc-git...
+        Wrote toggle-epkg-autoloads.el
+        Wrote toggle-epkg-install.el
+        Generating autoloads for toggle.el...
+        Generating autoloads for toggle.el...done
+        Wrote toggle-epkg-compile.el
+        Wrote toggle-epkg-examples.el
+        Wrote toggle-epkg-uninstall.el
 
     # (4) templates are ready, go and edit
 
     cd epackage/
     ls -1
 
-	toggle-epkg-autoloads.el
-	toggle-epkg-compile.el
-	toggle-epkg-examples.el
-	toggle-epkg-install.el
-	toggle-epkg-uninstall.el
+        toggle-epkg-autoloads.el
+        toggle-epkg-compile.el
+        toggle-epkg-examples.el
+        toggle-epkg-install.el
+        toggle-epkg-uninstall.el
 
     # Rqeruired files: info, *-autoloads.el, -*install.el
     # - No need for compile, this is a single file package
@@ -313,14 +313,14 @@ Making an epackage
 
 #. Commit files to *master* branch ::
 
-    git status			# Verify that you're in branch "master"
+    git status                  # Verify that you're in branch "master"
     git add epackage/
     git commit -m "epackage/: new"
 
 #. Upload the Git repository somewhere publicly available, e.g. to
    <http://github.com> ::
 
-    git remote add github <your URL>	# See section "Addenum" at the end
+    git remote add github <your URL>    # See section "Addenum" at the end
     git push github upstream master
     git push github --tags
 
@@ -406,18 +406,18 @@ made compatible. You see, all the branches are different:
 
     Your Git repository
     -------------------
-    master	- You stable development
-    devel	- Your unstable development
-    fix-this	- Whatever else...
+    master      - You stable development
+    devel       - Your unstable development
+    fix-this    - Whatever else...
     fix-that
     and-branch-here
 
     Whereas epackage has a rigid structure
     --------------------------------------
-    master	- epackaged software, install, autoloads etc.
-    upstream	- Your::master branch contents here
-    patches	- (You don't have this for your own software)
-		  (But it's a RESERVED branch name for epackages)
+    master      - epackaged software, install, autoloads etc.
+    upstream    - Your::master branch contents here
+    patches     - (You don't have this for your own software)
+                  (But it's a RESERVED branch name for epackages)
     <there should ne nothing else in official epackage Git repository>
 
 There is also a packaging philosophy of treating code "pristine" in a
@@ -508,7 +508,7 @@ don't need to maintain different code base. ::
                  /    /     ^
     upstream:   o -- o      |
                 1.0  1.1    |
-		      \     |
+                      \     |
     patches:           o -- o
 
 Addenum
