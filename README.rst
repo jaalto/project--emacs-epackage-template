@@ -420,7 +420,7 @@ At the beginning the Git repository tree looks like ::
 After updating to the next upstream release, these two run in
 parallel. The *upstream* is periodically merged to *master* branch ::
 
-                  (merge upstream)
+                  (merge: upstream)
     master:       o -- o -- =>
                  /    /
     upstream:   o -- o
