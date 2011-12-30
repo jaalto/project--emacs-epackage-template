@@ -1,21 +1,21 @@
 #   Copyright
 #
-#       Copyright (C) 2011-2012 Jari Aalto <jari.aalto@cante.net>
+#	Copyright (C) 2011-2012 Jari Aalto <jari.aalto@cante.net>
 #
 #   License
 #
-#       This program is free software; you can redistribute it and/or modify
-#       it under the terms of the GNU General Public License as published by
-#       the Free Software Foundation; either version 2 of the License, or
-#       (at your option) any later version.
+#	This program is free software; you can redistribute it and/or modify
+#	it under the terms of the GNU General Public License as published by
+#	the Free Software Foundation; either version 2 of the License, or
+#	(at your option) any later version.
 #
-#       This program is distributed in the hope that it will be useful,
-#       but WITHOUT ANY WARRANTY; without even the implied warranty of
-#       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-#       GNU General Public License for more details.
+#	This program is distributed in the hope that it will be useful,
+#	but WITHOUT ANY WARRANTY; without even the implied warranty of
+#	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#	GNU General Public License for more details.
 #
-#       You should have received a copy of the GNU General Public License
-#       along with this program. If not, see <http://www.gnu.org/licenses/>.
+#	You should have received a copy of the GNU General Public License
+#	along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 #   Depends
 #
@@ -62,16 +62,22 @@ all:
 	@echo "Nothing to do. Run: make help"
 
 help:
-	@egrep "^#.* - " Makefile | sed "s/^# Rule - //" | sort
+	@echo "Select make <target>:"
+	@echo "---------------------"
+	@grep '^# .*-' Makefile | sed 's,# ,,' | sort
 
-# Rule - clean: Delete files that can be generated
+# clean - delete files that can be generated
 clean:
 	rm -f *.x*
 
-# Rule - check: Run syntax checks
+# check - run syntax checks
 lint:  $(SRCCHECK)
 
-# Rule - test: Run tests to check for errors.
+# test - run tests to check files for errors
 test: $(SRCTEST) lint
+
+# install - empty target, does nothing
+install:
+	@echo "There is no install. Use this directory as is for your workflow."
 
 # End of file
