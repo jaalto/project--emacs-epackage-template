@@ -265,6 +265,11 @@ DESCRIPTION
     - create "master" branch off upstream
     - populate epackage/ directory. See command \"Edir\".
 
+    The URL can be in format:
+
+    - Standard http:// or git:// protocol
+    - ew:file.el; file is retrieved from EmacsWiki.
+
 OPTIONS
     -t, --test  Run in test mode. Do now actually execute commands.
 
@@ -319,10 +324,13 @@ STANDARDS
     local wget
 
     case "$url" in
+	ew:*)
+	    wget="wget"
+	    url=$(echo $url | sed "s/^ew://")
+	    url="http://www.emacswiki.org/emacs/download/$url"
+	    ;;
         http:/* )
-            wget "$url" || return $?
-            empty=""
-	    wget=$(basename $url)
+	    wget="wget"
             ;;
         git://* | *.git)
             giturl="$url"
@@ -333,6 +341,12 @@ STANDARDS
             return 1
             ;;
     esac
+
+    if [ "$wget" ]; then
+	${test:+echo} wget "$url" || return $?
+        empty=""
+        wget=$(basename $url)
+    fi
 
     local date
     date=$(date "+%Y-%m-%d")
@@ -347,27 +361,27 @@ STANDARDS
             read
         fi
 
-        ${test+echo} git init
-        ${test+echo} git symbolic-ref HEAD refs/heads/upstream
+        ${test:+echo} git init
+        ${test:+echo} git symbolic-ref HEAD refs/heads/upstream
 
         rm -f .gitignore
-        ${test+echo} touch .ignore
-        ${test+echo} git add .ignore
-        ${test+echo} git commit -m "add .ignore"
+        ${test:+echo} touch .ignore
+        ${test:+echo} git add .ignore
+        ${test:+echo} git commit -m "add .ignore"
 
-        ${test+echo} git remote add upstream $giturl
-        ${test+echo} git fetch upstream
-        ${test+echo} git checkout --track -b upstream-master upstream/master
+        ${test:+echo} git remote add upstream $giturl
+        ${test:+echo} git fetch upstream
+        ${test:+echo} git checkout --track -b upstream-master upstream/master
 
-        ${test+echo} git checkout upstream
-        ${test+echo} git merge upstream-master
+        ${test:+echo} git checkout upstream
+        ${test:+echo} git merge upstream-master
 
-        ${test+echo} git rm .ignore
-        ${test+echo} git commit -m "rm .ignore"
+        ${test:+echo} git rm .ignore
+        ${test:+echo} git commit -m "rm .ignore"
 
-        ${test+echo} git checkout -b master upstream
+        ${test:+echo} git checkout -b master upstream
 
-        ${test+echo} git checkout upstream
+        ${test:+echo} git checkout upstream
 
         Ever | tee "$file"
 
@@ -402,10 +416,10 @@ STANDARDS
 
     elif [ ! "$empty" ]; then
 
-        ${test+echo} git init
-        ${test+echo} git symbolic-ref HEAD refs/heads/upstream
+        ${test:+echo} git init
+        ${test:+echo} git symbolic-ref HEAD refs/heads/upstream
 
-        ${test+echo} git add -A
+        ${test:+echo} git add -A
 
 	local version
 
@@ -433,7 +447,9 @@ STANDARDS
 			  ' \
 			  "$wget" )
 
-	ls -l
+	[ "$test" ] && fdate="YYYY-MM-DD"
+
+	[ "$test" ] || ls -l
 
         echo "# WHAT YOU NEED TO DO NEXT:"
         echo "# Examine dates, version and correct information to commands below."
@@ -449,8 +465,8 @@ STANDARDS
             read
         fi
 
-        ${test+echo} git init
-        ${test+echo} git symbolic-ref HEAD refs/heads/upstream
+        ${test:+echo} git init
+        ${test:+echo} git symbolic-ref HEAD refs/heads/upstream
     fi
 
     unset test
