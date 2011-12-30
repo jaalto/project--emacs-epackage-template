@@ -408,12 +408,15 @@ STANDARDS
 
         # Read file's modfied time in ISO 8601 format
 
-	date=$( perl -e '$mtime     = (stat shift @ARGV)[9];
-		         ($y,$m,$d) = (localtime $mtime)[5,4,3];
-			 $y += 1900;
-			 printf( qq(%d-%02d-%02d), $y, $m, $d)
-			 ' \
-			 "$wget" )
+	local fdate
+	fdate=$date
+
+	fdate=$( perl -e '$mtime     = (stat shift @ARGV)[9];
+		          ($y,$m,$d) = (localtime $mtime)[5,4,3];
+			  $y += 1900;
+			  printf( qq(%d-%02d-%02d), $y, $m, $d)
+			  ' \
+			  "$wget" )
 
 	ls -l
 
@@ -421,7 +424,7 @@ STANDARDS
         echo "# Examine dates, version and correct information to commands below."
 
         echo "git commit -m \"Import upstream $date from $url\""
-        echo "git tag upstream/$date--$version"
+        echo "git tag upstream/$fdate--$version"
         echo "git git checkout -b master"
 
     else
