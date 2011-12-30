@@ -215,17 +215,19 @@ CONTACTING UPSTREAM
 Is upstream still there? Find out his email from files, EmacsWiki or
 Google and send a mail to notify that his software is being packaged.
 Ask what email address he prefers to use for contact. Ask where he
-keeps latest code. Ask if he uses public Version Control. It's very
-important to try to reach upstream and build contact for future
-patches and improvement suggestions.
+keeps latest code. Ask if he uses public Version Control and possibly
+direct him to use Github. You can point him to read the Github
+instructions at the end of this file. It's very important to try to
+reach upstream and build contact for future patches and improvement
+suggestions.
 
-Consider twice packaging software which no longer is actively
-developed or whose maintainer has gone with the winds of time. The
-users will download the package and in many cases send bug reports. Do
-you have the time to deal with those? Especially, if there is no more
-upstream to forward requests to. Packaging dead code serves no-one
-unless you also have the intention to become new semi-usptream in the
-process.
+If you hear nothing, consider twice packaging software which no longer
+is actively developed or whose maintainer has gone with the winds of
+time. The users will download the package and in many cases send bug
+reports. Do you have the time to deal with those? Especially, if there
+is no more upstream to forward requests to. Packaging dead code serves
+no-one unless you also have the intention to become new semi-usptream
+in the process.
 
 FINISHING
 
