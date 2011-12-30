@@ -198,9 +198,10 @@ EXAMING FILES
   Contact upstream and suggest him to move all setup code to a
   separate functions like *\*-install-{default-key-bindings,hooks}*.
 * Is the package well structured and behaving? Run all code quality
-  checks from *epackage.el* with ``M-x``
-  ``epackage-lint-extra-buffer-file`` (calls lisp-mnt, checkdoc etc.)
-  and report problems to upstream. Try also byte compiling.
+  checks. Try also byte compiling. You can use e.g. *epackage.el* and
+  ``M-x`` ``epackage-lint-extra-buffer-file`` which uses standard
+  Emacs features lisp-mnt, checkdoc etc. Report problems to upstream
+  issue tracker.
 
 BUILDING CONTACT TO UPSTREAM
 
