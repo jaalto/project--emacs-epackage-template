@@ -162,10 +162,60 @@ later, follow this exercise to create your first epackage: ::
     git add .
     git commit -m "epackage/: new"
 
-    # ... and continue reading this README to fill in questions
-    # you may have in mind. Open account at github and push. Notify
-    # Sources List maintainer about your new epackage to make it
-    # available for others.
+After the exercise continue reading this README to fill in questions
+you may have in mind.
+
+Packgaing best pracises
+-----------------------
+
+There are lots of things to do when doing packaging. The best
+practises include:
+
+EXAMING files
+
+* Does every variable and function start with a common ``package-*``
+  prefix? If not, label package as **unsafe** in
+  ``epackage/info::Status`` . Explain the reason for the unsafe status
+  the end of ``epackage/info::Description`` field.
+* When was the code last touched? Years ago? In that case consider
+  labeling package **unmaintained** while it also may be labeled
+  **stable** in ``epackage/info::Status``.
+* Does code unconditionally set hooks like ``find-file-hooks``? Not
+  good. Package should not change user's settings on load. You need to
+  fix this by removing offending code and moving it into
+  ``epackage/-*install`` and undo the effect in
+  ``epackage/-*uninstall``. Make all your edits in separate Git
+  **patches* branch; see the pictures at the end of this document.
+  Contact upstream and suggest him to move all setup code to a
+  separate functions like *\*-install-{default-key-bindings,hooks}*.
+* Is the package well structured and behaving? Run all code quality
+  checks from *epackage.el* with ``M-x``
+  ``epackage-lint-extra-buffer-file`` (calls lisp-mnt, checkdoc etc.)
+  and report problems to upstream. Try also byte compiling if it
+  reveals anything.
+
+BUILDING CONTACT TO UPSTREAM
+
+Is upstream still there? Find out his email from file, EmacsWiki or
+Google and send a mail to notify about his software being packaged.
+Ask what email address he prefers to use for contact. Ask where he
+keeps latest code. Ask if he uses public Version Control. It's very
+important to try to reach upstream and build contact for future
+patches and improvement suggestions.
+
+Consider twice packaging software which no longer is actively
+developed or whose maintainer has gone with the winds of time. The
+users will download the package and in many cases send bug reports. Do
+you have the time to deal with those? Especially, if there is no more
+upstream to forward requests to. Packaging dead code serves no-one
+unless you also have the intention to become new semi-usptream in the
+process.
+
+FINISHING
+
+After you've dug into all the previous steps, open account at github
+and push the package. Notify Sources List maintainer about your new
+epackage to make it available for others.
 
 Making an epackage
 ------------------
