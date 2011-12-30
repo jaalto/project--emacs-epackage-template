@@ -339,10 +339,21 @@ STANDARDS
 
         Ever
 
+	git log --max-count=5 --date=short --pretty='format:%h %ci %s' |
+	sed "s/^/#GIT /"
+
+	# We know that upstream commit is at 4th backward
+	# git merge-base upstream/master HEAD | cut -c1-7
+	#
+	# SHA DATE TIME TZ
+	set -- $(git log --skip=3 --max-count=1 --date=short --pretty='format:%h %ci')
+
         echo "# WHAT YOU NEED TO DO NEXT:"
         echo "# Examine dates, version and correct information to commands below."
 
-        echo "git tag upstream/$date--git-$(git rev-parse HEAD | cut -c1-7)"
+	# User mut fill in the VERSION
+
+        echo "git tag upstream/$2--VERSION-git-$1"
 
     elif [ ! "$empty" ]; then
 
