@@ -342,7 +342,7 @@ STANDARDS
         echo "# WHAT YOU NEED TO DO NEXT:"
         echo "# Examine dates, version and correct information to commands below."
 
-        echo upstream/$date--git-$(git rev-parse HEAD | cut -c1-7)
+        echo "git tag upstream/$date--git-$(git rev-parse HEAD | cut -c1-7)"
 
     elif [ ! "$empty" ]; then
 
