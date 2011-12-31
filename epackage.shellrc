@@ -428,8 +428,8 @@ STANDARDS
 	local version
 	unset VERSIONOK
 
-	set -- $(egrep --only-matching --max-count=1 "^;+ +Version: *[^ ]+" "$file")
-	rm -f "$file"
+	set -- $(egrep --only-matching --max-count=1 \
+	         "^;+ +Version: *[^ ]+" "$file")
 
 	if [ "$3" ]; then
 	    version="$3"
@@ -439,16 +439,25 @@ STANDARDS
 	[ "$version" ] || version="VERSION"
 
         # Read file's modfied time in ISO 8601 format
-
 	local fdate
 	fdate=$date
 
-	fdate=$( perl -e '$mtime     = (stat shift @ARGV)[9];
-		          ($y,$m,$d) = (localtime $mtime)[5,4,3];
-			  $y += 1900;
-			  printf( qq(%d-%02d-%02d), $y, $m, $d)
-			  ' \
-			  "$wget" )
+	# Time-stamp: <2010-02-02 19:37:18 UTC logname>
+	set -- $(egrep -i --only-matching --max-count=1 \
+	         "^;+ +Time-Stamp: <....-..-.." "$file")
+
+	if [ "$3" ]; then
+	    fdate=$(echo $3 | sed "s/^.//")
+	else
+	    fdate=$( perl -e '$mtime     = (stat shift @ARGV)[9];
+			      ($y,$m,$d) = (localtime $mtime)[5,4,3];
+			      $y += 1900;
+			      printf( qq(%d-%02d-%02d), $y, $m, $d)
+			      ' \
+			      "$wget" )
+	fi
+
+	rm -f "$file"
 
 	[ "$test" ] && fdate="YYYY-MM-DD"
 
