@@ -181,6 +181,9 @@ practises include:
 
 EXAMING FILES
 
+* When was the code last touched? Years ago? In that case consider
+  labeling package **unmaintained** while it also may be labeled
+  **stable** in *epackage/info::Status*.
 * Exmine ``require`` commands. Does packge need other than
   standard Emacs features? If it does, you must package those
   first. You can continue packaging this one after you have
@@ -205,9 +208,6 @@ EXAMING FILES
   suitable interactive functions and variables that help in genrating
   `autoload`_ definitions'. If not, consider adding and sending path
   to maintainer.
-* When was the code last touched? Years ago? In that case consider
-  labeling package **unmaintained** while it also may be labeled
-  **stable** in *epackage/info::Status*.
 * Does code unconditionally set hooks like ``find-file-hooks``? Not
   good. Package should not change user's settings on load. You need to
   fix this by removing offending code and moving it into
