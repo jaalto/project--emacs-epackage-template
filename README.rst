@@ -51,12 +51,12 @@ concept description of all the files in deteail can be found from the
 manual:
 
 * DELPS at Emacs Wiki: http://www.emacswiki.org/emacs/DELPS
-* Epackage main project hub: http://freshmeat.net/projects/emacs-epackage
-* Epackage extension for Emacs: http://freshmeat.net/project/epackage
+* Epackage main project hub: http://freecode.com/projects/emacs-epackage
+* Epackage extension for Emacs: http://freecode.com/project/epackage
 * Epackage manual: http://www.nongnu.org/emacs-epackage/manual
 * Epackage template files: https://github.com/jaalto/project--emacs-epackage-template
 * Epackage Sources List: https://github.com/jaalto/project--emacs-epackage-sources-list
-* Emacs Tiny Tools: http://freshmeat.net/projects/emacs-tiny-tools
+* Emacs Tiny Tools: http://freecode.com/projects/emacs-tiny-tools
 
 The Epackage Primer
 ===================
@@ -184,7 +184,7 @@ EXAMING FILES
 * When was the code last touched? Years ago? In that case consider
   labeling package **unmaintained** while it also may be labeled
   **stable** in *epackage/info::Status*.
-* Exmine ``require`` commands. Does packge need other than
+* Examine ``require`` commands. Does packge need other than
   standard Emacs features? If it does, you must package those
   first. You can continue packaging this one after you have
   dealt with the dependencies.
@@ -411,7 +411,7 @@ When upstream IS also the packager (Git)
 
 Say you are the upstream. You would like to put your Emacs extensions
 available as epackages. All your code is in Git repositories. The
-thought may aoccur to you that, "Hm, I'll just add ``epackage/``
+thought may accur to you that, "Hm, I'll just add ``epackage/``
 directory, and be done with it".
 
 **Don't** **do** **that**.
