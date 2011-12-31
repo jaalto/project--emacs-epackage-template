@@ -170,7 +170,7 @@ later, follow this exercise to create your first epackage: ::
 After the exercise continue reading this README to fill in questions
 you may have in mind.
 
-Packgaing best pracises
+Packgaing Best Pracises
 -----------------------
 
 There are lots of things to do when doing packaging. The best
@@ -194,6 +194,13 @@ EXAMING FILES
   *tinylisp.el* from
   `Tiny Tools`_ and functions ``M-x`` ``tinylisp-find-function-list``
   and ``tinylisp-find-variable-list`` to check files.
+* Does code contain ``global-set-key`` commands? That's a BIG NO-NO.
+  Don't package any such software. Contact upstream and suggest him to
+  move all setup code to a separate functions like
+  *\*-install-default-key-bindings*.
+* Are there ``;;;###autoload`` stanzas? These must be above suitable
+  interactive functions and variables that help genrating autoload
+  definitions. If not, consider adding and sending path to maintainer.
 * When was the code last touched? Years ago? In that case consider
   labeling package **unmaintained** while it also may be labeled
   **stable** in *epackage/info::Status*.
