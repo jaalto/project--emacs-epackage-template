@@ -4,14 +4,14 @@
 
 ;; <name>.el --- <description> -*-coding: utf-8 -*-
 
-;; Copyright (C)    YYYY-YYYY First Last <address@example.com>
+;; Copyright (C) YYYY-YYYY First Last <address@example.com>
 
-;; Author:          First Last <address@example.com>
-;; Maintainer:      First Last <address@example.com>
-;; Created:	    <YYYY-MM-DD>
-;; Version:	    <pure numeric: N.N, N.N.N>
-;; Keywords:        <M-x finder-list-keywords, separated by commas>
-;; URL:		    http://example.com/elisp
+;; Author:	First Last <address@example.com>
+;; Maintainer:	First Last <address@example.com>
+;; Created:	<YYYY-MM-DD>
+;; Version:	<pure numeric: N.N, N.N.N>
+;; Keywords:	<M-x finder-list-keywords, separated by commas>
+;; URL:		http://example.com/elisp
 
 ;; This file is not part of Emacs
 
