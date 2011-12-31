@@ -52,10 +52,10 @@ manual:
 
 * DELPS at Emacs Wiki: http://www.emacswiki.org/emacs/DELPS
 * Epackage main project hub: http://freecode.com/projects/emacs-epackage
-* Epackage extension for Emacs: http://freecode.com/project/epackage
 * Epackage manual: http://www.nongnu.org/emacs-epackage/manual
 * Epackage template files: https://github.com/jaalto/project--emacs-epackage-template
 * Epackage Sources List: https://github.com/jaalto/project--emacs-epackage-sources-list
+* Suggest what to package: https://gist.github.com/1478886
 * Emacs Tiny Tools: http://freecode.com/projects/emacs-tiny-tools
 
 The Epackage Primer
