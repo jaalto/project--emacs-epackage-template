@@ -242,6 +242,108 @@ STANDARDS
     unset test
 }
 
+Egit_indate ()
+{
+    local help
+
+    help="\
+SYNOPSIS
+    Egit_indate [options] FILE
+
+DESCRIPTION
+    Return internal modified date by examing contents of FILE."
+
+    case "$1" in
+        -h | --help )
+            echo "$help"
+            return 0
+            ;;
+    esac
+
+    if [ ! "$1" ]; then
+	echo "[ERROR]: Missing FILE" >&2
+	return 2
+    fi
+
+    # Time-stamp: <2010-02-02 19:37:18 UTC logname>
+    set -- $(egrep -i --only-matching --max-count=1 \
+	     "^;+ +(Time-Stamp|Last[ -](Modified|Updated)): +<....-..-.." "$file")
+
+    if [ "$3" ]; then
+	echo $3 | sed "s/^.//"		# The leading "<"
+	return 0
+    fi
+
+    return 1
+}
+
+Egit_filedate ()
+{
+    local help
+
+    help="\
+SYNOPSIS
+    Egit_filedate [options] FILE
+
+DESCRIPTION
+    Return ISO 8601 date of FILE."
+
+    case "$1" in
+        -h | --help )
+            echo "$help"
+            return 0
+            ;;
+    esac
+
+    if [ ! "$1" ]; then
+	echo "[ERROR]: Missing FILE" >&2
+	return 2
+    fi
+
+    perl -e '$mtime = (stat shift @ARGV)[9];
+	     ($y, $m, $d) = (localtime $mtime)[5,4,3];
+	     $y += 1900;
+	     printf( qq(%d-%02d-%02d), $y, $m, $d);
+	     ' \
+             "$file"
+}
+
+Egit_version ()
+{
+    local help
+
+    help="\
+SYNOPSIS
+    Egit_version [options] FILE
+
+DESCRIPTION
+    Return version of FILE."
+
+    case "$1" in
+        -h | --help )
+            echo "$help"
+            return 0
+            ;;
+    esac
+
+    if [ ! "$1" ]; then
+	echo "[ERROR]: Missing FILE" >&2
+	return 2
+    fi
+
+    # Search for standard line ";; Version: 3.0"
+
+    set -- $(egrep --only-matching --max-count=1 \
+	     "^;+ +Version: *[^ ]+" "$1" )
+
+    if [ "$3" ]; then
+	echo $3
+	return 0
+    fi
+
+    return 1
+}
+
 Egit ()
 {
     local help
@@ -351,10 +453,13 @@ STANDARDS
     local date
     date=$(date "+%Y-%m-%d")
 
+    local debug
     local file
     file="${TMPDIR:-/tmp}/Egit.${LOGNAME:-${NAME:-foo}}.$$.tmp"
 
     if [ "$giturl" ]; then
+
+	debug="Action: Git"
 
         if [ ! "$empty" ]; then
             echo "[WARN] Directory not empty. Press (C-c) to abort" >&2
@@ -386,16 +491,10 @@ STANDARDS
         Ever | tee "$file"
 
 	local version
-	set -- $(egrep --only-matching --max-count=1 "^;+ +Version: *[^ ]+" "$file")
-	rm -f "$file"
+	version=$(Egit_version "$file")
+	[ "$version" ] || version="VERSION"
 
-	if [ "$3" ]; then
-	    version="$3"
-	else
-	    version="VERSION"
-	fi
-
-	# Search for standard line ";; Version: 3.0"
+	# Show last commits (upstream)
 
 	git log --max-count=5 --date=short --pretty='format:%h %ci %s' |
 	sed "s/^/#GIT /"
@@ -404,17 +503,20 @@ STANDARDS
 	# git merge-base upstream/master HEAD | cut -c1-7
 	#
 	# SHA DATE TIME TZ
-	set -- $(git log --skip=3 --max-count=1 --date=short --pretty='format:%h %ci')
+	set -- $(git log --skip=3 --max-count=1 \
+	         --date=short --pretty='format:%h %ci')
 
 	echo
         echo "# WHAT YOU NEED TO DO NEXT:"
-        echo "# Examine iformation and correct commands below."
+        echo "# Examine information and correct commands below."
 
 	# User must fill in the VERSION
 
         echo "git tag upstream/$2--$version-git-$1"
 
-    elif [ ! "$empty" ]; then
+    elif [ "$wget" ]; then
+
+	debug="Action: URL"
 
         ${test:+echo} git init
         ${test:+echo} git symbolic-ref HEAD refs/heads/upstream
@@ -425,37 +527,19 @@ STANDARDS
 
         Ever | tee "$file"
 
+	local VERSIONOK
 	local version
-	unset VERSIONOK
+	version=$(Egit_version "$file")
 
-	set -- $(egrep --only-matching --max-count=1 \
-	         "^;+ +Version: *[^ ]+" "$file")
-
-	if [ "$3" ]; then
-	    version="$3"
+	if [ "$version" ]; then
 	    VERSIONOK="eval"
+	else
+	    version="VERSION"
 	fi
 
-	[ "$version" ] || version="VERSION"
-
-        # Read file's modfied time in ISO 8601 format
 	local fdate
 	fdate=$date
-
-	# Time-stamp: <2010-02-02 19:37:18 UTC logname>
-	set -- $(egrep -i --only-matching --max-count=1 \
-	         "^;+ +Time-Stamp: <....-..-.." "$file")
-
-	if [ "$3" ]; then
-	    fdate=$(echo $3 | sed "s/^.//")
-	else
-	    fdate=$( perl -e '$mtime     = (stat shift @ARGV)[9];
-			      ($y,$m,$d) = (localtime $mtime)[5,4,3];
-			      $y += 1900;
-			      printf( qq(%d-%02d-%02d), $y, $m, $d)
-			      ' \
-			      "$wget" )
-	fi
+	fdate=$(Egit_indate "$file" || Egit_filedate "$file")
 
 	rm -f "$file"
 
@@ -465,7 +549,7 @@ STANDARDS
 
 	if [ ! "$VERSIONOK" ]; then
             echo "# WHAT YOU NEED TO DO NEXT:"
-            echo "# Examine iformation and correct commands below."
+            echo "# Examine information and correct commands below."
 	fi
 
         ${VERSIONOK:-echo} "git commit -m 'Import upstream $date from $url'"
@@ -481,6 +565,8 @@ STANDARDS
 
     else
 
+	debug="Action: ELSE"
+
         if [ "$empty" ]; then
             echo "[WARN] No files. Create upstream branch (C-c to abort)" >&2
             read
@@ -488,6 +574,24 @@ STANDARDS
 
         ${test:+echo} git init
         ${test:+echo} git symbolic-ref HEAD refs/heads/upstream
+
+	Ever
+
+	for file in $(ls *.el 2> /dev/null)
+	do
+	    echo "# $file"
+	    Egit_version "$file"
+	    Egit_indate "$file" || Egit_filedate "$file"
+	done
+
+	echo
+        echo "# WHAT YOU NEED TO DO NEXT:"
+        echo "# Examine information and correct commands below."
+
+        echo "git commit -m 'Import upstream $date from ...'"
+        echo "git tag upstream/YYYY-MM-DD--N.N"
+        echo git checkout -b master
+
     fi
 
     unset test
