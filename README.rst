@@ -6,6 +6,9 @@
 .. _epackage.el: http://www.emacswiki.org/emacs/DELPS
 .. _Tiny Tools: http://www.emacswiki.org/emacs/TinyTools
 .. _Sources List: https://github.com/jaalto/project--emacs-epackage-sources-list
+.. _autoload: http://www.gnu.org/software/emacs/manual/html_mono/elisp.html#Autoload
+.. _License Database: http://pinboard.in/u:jariaalto/t:license/t:database
+.. _Public Domain: http://pinboard.in/u:jariaalto/t:license/t:public-domain/t:faq
 
 Description
 ===========
@@ -170,7 +173,7 @@ later, follow this exercise to create your first epackage: ::
 After the exercise continue reading this README to fill in questions
 you may have in mind.
 
-Packgaing Best Pracises
+Packaging Best Pracises
 -----------------------
 
 There are lots of things to do when doing packaging. The best
@@ -198,9 +201,10 @@ EXAMING FILES
   Don't package any such software. Contact upstream and suggest him to
   move all setup code to a separate functions like
   *\*-install-default-key-bindings*.
-* Are there ``;;;###autoload`` stanzas? These must be above suitable
-  interactive functions and variables that help genrating autoload
-  definitions. If not, consider adding and sending path to maintainer.
+* Are there ``;;;###autoload`` stanzas? These are placed above
+  suitable interactive functions and variables that help in genrating
+  `autoload`_ definitions'. If not, consider adding and sending path
+  to maintainer.
 * When was the code last touched? Years ago? In that case consider
   labeling package **unmaintained** while it also may be labeled
   **stable** in *epackage/info::Status*.
@@ -217,6 +221,12 @@ EXAMING FILES
   ``M-x`` ``epackage-lint-extra-buffer-file`` which uses standard
   Emacs features lisp-mnt, checkdoc etc. Report problems to upstream
   issue tracker.
+* Does the code feres to one known in `License Database`_? If not,
+  contact upstream and suggest him to change (or add one). The Best
+  license for extensions is GPL, because it's the license of Emacs
+  itself. If someday the extension finds its way to Emacs, the road is
+  clear with GPL. *NOTE:* `Public Domain`_ is not a internationally
+  viable license.
 
 CONTACTING UPSTREAM
 
