@@ -1,8 +1,8 @@
 ** This file presents the standardized Emacs Lisp package according to
-** Official guidelines. See http://pinboard.in/u:jariaalto/t:emacs/t:dev/t:qa
+** best practises. See http://pinboard.in/u:jariaalto/t:emacs/t:dev/t:qa
 ** Remove this info by placing cursor at very top and pressing C-u C-k
 
-;; <name>.el --- <description>  -*-coding: utf-8 -*-
+;; <name>.el --- <description> -*-coding: utf-8 -*-
 
 ;; Copyright (C)    YYYY-YYYY First Last <address@example.com>
 
@@ -30,7 +30,7 @@
 ;;
 ;; Visit <http://www.gnu.org/copyleft/gpl.html> for more information.
 
-;; Depends:
+;;; Depends:
 
 ;; <list of external Emacs Lisp packges, or programs(1)>
 
@@ -54,15 +54,22 @@
 
 ;;; Change Log:
 
-;; <Change history. If you user version control, thi section is empty>
+;; <Change history. If you user version control, this section is empty>
 
 ;;; Code:
 
 <
+
 Write code here. defcustom first, then defconst, defvar,
 defsubst/defmacro and defuns last
 
 Remember to add ###autoload stanzas to important variables and functions
+
+*NEVER* modify user's environment just by loading this file. And
+*NEVER* add any global key bindings unconditionally. For those
+purposes add PACKAGE-install-keybindings, PACKAGE-install-hooks
+etc. setup functions and instruct user to add call to those
+in "Install:" section.
 
 See:
 http://www.gnu.org/software/emacs/manual/html_mono/elisp.html#Library-Headers
