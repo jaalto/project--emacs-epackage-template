@@ -574,6 +574,7 @@ STANDARDS
 
         ${test:+echo} git init
         ${test:+echo} git symbolic-ref HEAD refs/heads/upstream
+        ${test:+echo} git add .
 
 	Ever
 
