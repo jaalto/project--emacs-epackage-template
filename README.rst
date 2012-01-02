@@ -58,6 +58,13 @@ manual:
 * Suggest what to package: https://gist.github.com/1478886
 * Emacs Tiny Tools: http://freecode.com/projects/emacs-tiny-tools
 
+Bookmarks for your browser (always up-to-date):
+
+* All epackage related links:
+  http://pinboard.in/u:jariaalto/t:emacs/t:epackage
+* All Emacs Lisp Software Quality Assurance (QA) related links:
+  http://pinboard.in/u:jariaalto/t:emacs/t:elisp/t:qa
+
 The Epackage Primer
 ===================
 
@@ -533,17 +540,21 @@ Addenum
 How to set up project at Github
 -------------------------------
 
-1. Generate the SSH keys, if you don't have those already
+In Windows, install <http://cygwin.com> environment which contains
+everything from Emacs, Git, SSH and so on.
 
-- See, generating SSH keys for Linux http://help.github.com/linux-key-setup/
+1. Generate the SSH keys, if you don't have those already
+   Refer to generating SSH keys for Linux at
+   http://help.github.com/linux-key-setup
 
 2. Register an account
 
-- [top right corner] select *Signup* https://github.com
+- Use [top right corner] select *Signup* https://github.com
 
-3. Log into account
+3. Log into account.
 
 - [top right] select *login* https://github.com/
+
 - [(own page) at top right] *account settings / SSH public keys*
   followed by **button:Submit (Copy/paste) your SSH keys (*.pub)**
 
@@ -562,7 +573,7 @@ How to set up project at Github
 
        [lower right] Press button "create repository"
 
-5. In shell prompt, type ::
+5. Type on command line: ::
 
     cd ~/dir/myproject                  # Source code
     git init                            # Initialize
