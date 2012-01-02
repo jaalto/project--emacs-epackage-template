@@ -42,7 +42,16 @@
 #       familiarize yourself with the procedure by reading README at the above
 #       site first before using this file's helper functions.
 #
-#       In simplest case, the steps to start creating epackage:
+#       Provides following user commands. The rest are just internal
+#       helpers. Use --help to see manual pages.
+#
+#           Egit
+#           Edir
+#           Elint
+#
+#    Examples
+#
+#       In a simplest case, here are the steps to start creating an epackage.
 #
 #       1. You have epackage.el downloaded and stored in ~/.emacs.d
 #       2. You have the URL to lisp file you want to package (EmacsWiki.org)
