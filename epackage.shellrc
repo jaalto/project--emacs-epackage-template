@@ -115,6 +115,109 @@ DESCRIPTION
     egrep -iv 'mime-version'
 }
 
+
+E_lisp ()
+{
+    local file
+
+    if [ "$EPACKAGE_ROOT" ]; then
+        file="$EPACKAGE_ROOT/epackage.el"
+
+	if [ ! -f "$file" ]; then
+            echo "[ERROR] Invalid $EPACKAGE_ROOT, not such file: $list" >&2
+            return 1
+	fi
+
+    else # Try to guess
+        file=$(find $HOME/.emacs.d -maxdepth 3 \
+	       -type f -name epackage.el 2> /dev/null)
+    fi
+
+    if [ ! "$file" ]; then
+        echo "[ERROR] \$EPACKAGE_ROOT not set to directory of epackage.el" >&2
+        return 1
+    fi
+
+    echo "$file"
+}
+
+Elint ()
+{
+    local help
+    help="\
+SYNOPSIS
+    Elist [options] file.el ...
+
+DESCRIPTION
+    Lint Emacs Lisp files for Quality assurance violations.
+
+    Examine each *.el to find ay deviations from guidelines know
+    to writng Emacs extensions. Startdard Emacs check include
+    lisp-mnt.el, chekdoc.el, elint.el and byte compilation.
+
+OPTIONS
+    -t, --test  Run in test mode. Do now actually execute commands.
+
+ENVIRONMENT
+
+    EPACKAGE_ROOT
+        Directory location of epackage.el file to use. By default Various
+        locations under ~/.emacs.d are tried.
+
+STANDARDS
+
+    Emacs Lisp Software Quality Assurance (QA) related links:
+    http://pinboard.in/u:jariaalto/t:emacs/t:elisp/t:qa"
+
+    unset test
+
+    case "$1" in
+        -h | --help )
+            echo "$help"
+            return 0
+            ;;
+        -t | --test)
+            test="test"
+            shift
+            ;;
+    esac
+
+    local lisp
+    lisp=$(E_lisp)
+
+    [ "$lisp" ] || return 1
+
+    if [ ! "$1" ]; then
+	echo "[ERROR] Missing Emacs Lisp file(s) to lint" >&2
+	return 1
+    fi
+
+    local file
+    file="${TMPDIR:-/tmp}/Egit.${LOGNAME:-${NAME:-foo}}.$$.lint.tmp"
+
+    ${test+echo} ${EPACKAGE_EMACS:-emacs} \
+        -quick \
+	--batch \
+        --debug-init \
+        --load "$lisp" \
+        --funcall epackage-batch-devel-lint-lisp \
+	"$@" > "$file" 2>&1
+
+    [ "$test" ] && return 0
+
+    if ! egrep --after-context=10000 '^\*\*\* Lint' ; then # Error happened
+	unset test
+
+	cat "$file"
+	rm -f "$file"
+
+	return 2
+    fi
+
+    rm -f "$file"
+    unset test
+}
+
 Edir ()
 {
     local help
@@ -183,24 +286,9 @@ STANDARDS
     esac
 
     local lisp
+    lisp=$(E_lisp)
 
-    if [ "$EPACKAGE_ROOT" ]; then
-        lisp="$EPACKAGE_ROOT/epackage.el"
-
-	if [ ! -f "$lisp" ]; then
-            echo "[ERROR] Invalid $EPACKAGE_ROOT, not such file: $list" >&2
-            return 1
-	fi
-
-    else # Try to guess
-        lisp=$(find $HOME/.emacs.d -maxdepth 3 \
-	       -type f -name epackage.el 2> /dev/null)
-    fi
-
-    if [ ! "$lisp" ]; then
-        echo "[ERROR] \$EPACKAGE_ROOT not set to directory of epackage.el" >&2
-        return 1
-    fi
+    [ "$lisp" ] || return 1
 
     local package
     package=$(echo "$1" | sed "s/\.el$//")
