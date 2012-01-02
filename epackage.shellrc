@@ -155,6 +155,8 @@ DESCRIPTION
     to writng Emacs extensions. Startdard Emacs check include
     lisp-mnt.el, chekdoc.el, elint.el and byte compilation.
 
+    Lint testing is delegated to epackage.el
+
 OPTIONS
     -t, --test  Run in test mode. Do now actually execute commands.
 
@@ -164,6 +166,16 @@ BUGS
     function call information by opening *.el.gz files in Emacs
     distribution to cache results before it can check used calls. This
     is *slow*.
+
+    Try to lint as many files as possible at one go. The Elint is
+    loaded only once at start and reused for subsequent files:
+
+        Elint file1.el file2.el ...
+
+    Whereas here, elint is loaded for every file (separate Emacs calls):
+
+        Elint file1.el
+        Elint file2.el
 
 ENVIRONMENT
 
