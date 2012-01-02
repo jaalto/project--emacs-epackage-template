@@ -56,7 +56,6 @@ manual:
 * Epackage template files: https://github.com/jaalto/project--emacs-epackage-template
 * Epackage Sources List: https://github.com/jaalto/project--emacs-epackage-sources-list
 * Suggest what to package: https://gist.github.com/1478886
-* Emacs Tiny Tools: http://freecode.com/projects/emacs-tiny-tools
 
 Bookmarks for your browser (always up-to-date):
 
