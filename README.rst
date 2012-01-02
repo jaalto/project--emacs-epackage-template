@@ -197,7 +197,7 @@ EXAMING FILES
 * Examine ``require`` commands closer. How many are there? Perhaps the
   author dind't consider library requirements carefully. It may be
   possible to arrange code to load faster and consume less memory
-  by arranging utilizing ``autoload`` instead of ``require`` for
+  by utilizing ``autoload`` instead of ``require`` for
   features that are not immediately used.
 * Does every variable and function start with a common ``package-*``
   prefix? If not, label package as **unsafe** in
