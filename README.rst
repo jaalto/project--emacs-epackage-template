@@ -519,6 +519,7 @@ If you need to fix upstream code, make changes in separate *patches*
 branch and merge those to *master*. Send patch to upstream so that you
 don't need to maintain different code base. ::
 
+
                   (merge: upstream, patches)
     master:       o -- o -- o =>
                  /    /     ^
@@ -526,6 +527,12 @@ don't need to maintain different code base. ::
                 1.0  1.1    |
                       \     |
     patches:           o -- o
+
+
+For more reading about Git branching workflows, study:
+
+* `Debian Git upstream management workflow<http://wiki.debian.org/ThomasKoch/GitPackagingWorkflow>`_
+* `A successful Git branching model <http://nvie.com/posts/a-successful-git-branching-model/>`_
 
 Addenum
 =======
