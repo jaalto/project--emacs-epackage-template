@@ -123,14 +123,14 @@ E_lisp ()
     if [ "$EPACKAGE_ROOT" ]; then
         file="$EPACKAGE_ROOT/epackage.el"
 
-	if [ ! -f "$file" ]; then
+        if [ ! -f "$file" ]; then
             echo "[ERROR] Invalid $EPACKAGE_ROOT, not such file: $list" >&2
             return 1
-	fi
+        fi
 
     else # Try to guess
         file=$(find $HOME/.emacs.d -maxdepth 3 \
-	       -type f -name epackage.el 2> /dev/null)
+               -type f -name epackage.el 2> /dev/null)
     fi
 
     if [ ! "$file" ]; then
@@ -157,6 +157,13 @@ DESCRIPTION
 
 OPTIONS
     -t, --test  Run in test mode. Do now actually execute commands.
+
+BUGS
+    Linting will take considerable amount of time. This is mostly due
+    to elint.el, which examines call syntaxes. It has to collect
+    function call information by opening *.el.gz files in Emacs
+    distribution to cache results before it can check used calls. This
+    is *slow*.
 
 ENVIRONMENT
 
@@ -188,8 +195,8 @@ STANDARDS
     [ "$lisp" ] || return 1
 
     if [ ! "$1" ]; then
-	echo "[ERROR] Missing Emacs Lisp file(s) to lint" >&2
-	return 1
+        echo "[ERROR] Missing Emacs Lisp file(s) to lint" >&2
+        return 1
     fi
 
     local file
@@ -197,21 +204,22 @@ STANDARDS
 
     ${test+echo} ${EPACKAGE_EMACS:-emacs} \
         -quick \
-	--batch \
+        --batch \
         --debug-init \
         --load "$lisp" \
         --funcall epackage-batch-devel-lint-lisp \
-	"$@" > "$file" 2>&1
+        "$@" > "$file" 2>&1
 
     [ "$test" ] && return 0
 
-    if ! egrep --after-context=10000 '^\*\*\* Lint' ; then # Error happened
-	unset test
+    if ! egrep --after-context=10000 '^\*\*\* Lint' "$file" ; then
+        # Error happened
+        unset test
 
-	cat "$file"
-	rm -f "$file"
+        cat "$file"
+        rm -f "$file"
 
-	return 2
+        return 2
     fi
 
     rm -f "$file"
@@ -253,11 +261,11 @@ OPTIONS
 EXAMPLES
     Generate templates for regular file:
 
-	Edir toggle.el toggle.el
+        Edir toggle.el toggle.el
 
     Generate templates for a library package:
 
-	Edir lib-date-calc date-calc.el
+        Edir lib-date-calc date-calc.el
 
 ENVIRONMENT
 
@@ -320,7 +328,7 @@ STANDARDS
 
     ${test+echo} ${EPACKAGE_EMACS:-emacs} \
         -quick \
-	--batch \
+        --batch \
         --debug-init \
         --load "$lisp" \
         --funcall epackage-batch-devel-compose-package-dir \
@@ -349,17 +357,17 @@ DESCRIPTION
     esac
 
     if [ ! "$1" ]; then
-	echo "[ERROR]: Missing FILE" >&2
-	return 2
+        echo "[ERROR]: Missing FILE" >&2
+        return 2
     fi
 
     # Time-stamp: <2010-02-02 19:37:18 UTC logname>
     set -- $(egrep -i --only-matching --max-count=1 \
-	     "^;+ +(Time-Stamp|Last[ -](Modified|Updated)): +<....-..-.." "$file")
+             "^;+ +(Time-Stamp|Last[ -](Modified|Updated)): +<....-..-.." "$file")
 
     if [ "$3" ]; then
-	echo $3 | sed "s/^.//"		# The leading "<"
-	return 0
+        echo $3 | sed "s/^.//"          # The leading "<"
+        return 0
     fi
 
     return 1
@@ -384,15 +392,15 @@ DESCRIPTION
     esac
 
     if [ ! "$1" ]; then
-	echo "[ERROR]: Missing FILE" >&2
-	return 2
+        echo "[ERROR]: Missing FILE" >&2
+        return 2
     fi
 
     perl -e '$mtime = (stat shift @ARGV)[9];
-	     ($y, $m, $d) = (localtime $mtime)[5,4,3];
-	     $y += 1900;
-	     printf( qq(%d-%02d-%02d), $y, $m, $d);
-	     ' \
+             ($y, $m, $d) = (localtime $mtime)[5,4,3];
+             $y += 1900;
+             printf( qq(%d-%02d-%02d), $y, $m, $d);
+             ' \
              "$file"
 }
 
@@ -415,18 +423,18 @@ DESCRIPTION
     esac
 
     if [ ! "$1" ]; then
-	echo "[ERROR]: Missing FILE" >&2
-	return 2
+        echo "[ERROR]: Missing FILE" >&2
+        return 2
     fi
 
     # Search for standard line ";; Version: 3.0"
 
     set -- $(egrep --only-matching --max-count=1 \
-	     "^;+ +Version: *[^ ]+" "$1" )
+             "^;+ +Version: *[^ ]+" "$1" )
 
     if [ "$3" ]; then
-	echo $3
-	return 0
+        echo $3
+        return 0
     fi
 
     return 1
@@ -514,13 +522,13 @@ STANDARDS
     local wget
 
     case "$url" in
-	ew:*)
-	    wget="wget"
-	    url=$(echo $url | sed "s/^ew://")
-	    url="http://www.emacswiki.org/emacs/download/$url"
-	    ;;
+        ew:*)
+            wget="wget"
+            url=$(echo $url | sed "s/^ew://")
+            url="http://www.emacswiki.org/emacs/download/$url"
+            ;;
         http:/* )
-	    wget="wget"
+            wget="wget"
             ;;
         git://* | *.git)
             giturl="$url"
@@ -533,7 +541,7 @@ STANDARDS
     esac
 
     if [ "$wget" ]; then
-	${test:+echo} wget "$url" || return $?
+        ${test:+echo} wget "$url" || return $?
         empty=""
         wget=$(basename $url)
     fi
@@ -547,7 +555,7 @@ STANDARDS
 
     if [ "$giturl" ]; then
 
-	debug="Action: Git"
+        debug="Action: Git"
 
         if [ ! "$empty" ]; then
             echo "[WARN] Directory not empty. Press (C-c) to abort" >&2
@@ -578,82 +586,82 @@ STANDARDS
 
         Ever | tee "$file"
 
-	local version
-	version=$(Egit_version "$file")
-	[ "$version" ] || version="VERSION"
+        local version
+        version=$(Egit_version "$file")
+        [ "$version" ] || version="VERSION"
 
-	# Show last commits (upstream)
+        # Show last commits (upstream)
 
-	git log --max-count=5 --date=short --pretty='format:%h %ci %s' |
-	sed "s/^/#GIT /"
+        git log --max-count=5 --date=short --pretty='format:%h %ci %s' |
+        sed "s/^/#GIT /"
 
-	# We know that upstream commit is at 4th backward
-	# git merge-base upstream/master HEAD | cut -c1-7
-	#
-	# SHA DATE TIME TZ
-	set -- $(git log --skip=3 --max-count=1 \
-	         --date=short --pretty='format:%h %ci')
+        # We know that upstream commit is at 4th backward
+        # git merge-base upstream/master HEAD | cut -c1-7
+        #
+        # SHA DATE TIME TZ
+        set -- $(git log --skip=3 --max-count=1 \
+                 --date=short --pretty='format:%h %ci')
 
-	echo
+        echo
         echo "# WHAT YOU NEED TO DO NEXT:"
         echo "# Examine information and correct commands below."
 
-	# User must fill in the VERSION
+        # User must fill in the VERSION
 
         echo "git tag upstream/$2--$version-git-$1"
 
     elif [ "$wget" ]; then
 
-	debug="Action: URL"
+        debug="Action: URL"
 
         ${test:+echo} git init
         ${test:+echo} git symbolic-ref HEAD refs/heads/upstream
 
         ${test:+echo} git add -A
 
-	local version
+        local version
 
         Ever | tee "$file"
 
-	local VERSIONOK
-	local version
-	version=$(Egit_version "$file")
+        local VERSIONOK
+        local version
+        version=$(Egit_version "$file")
 
-	if [ "$version" ]; then
-	    VERSIONOK="eval"
-	else
-	    version="VERSION"
-	fi
+        if [ "$version" ]; then
+            VERSIONOK="eval"
+        else
+            version="VERSION"
+        fi
 
-	local fdate
-	fdate=$date
-	fdate=$(Egit_indate "$file" || Egit_filedate "$file")
+        local fdate
+        fdate=$date
+        fdate=$(Egit_indate "$file" || Egit_filedate "$file")
 
-	rm -f "$file"
+        rm -f "$file"
 
-	[ "$test" ] && fdate="YYYY-MM-DD"
+        [ "$test" ] && fdate="YYYY-MM-DD"
 
-	[ "$test" ] || ls -l
+        [ "$test" ] || ls -l
 
-	if [ ! "$VERSIONOK" ]; then
+        if [ ! "$VERSIONOK" ]; then
             echo "# WHAT YOU NEED TO DO NEXT:"
             echo "# Examine information and correct commands below."
-	fi
+        fi
 
         ${VERSIONOK:-echo} "git commit -m 'Import upstream $date from $url'"
         ${VERSIONOK:-echo} "git tag upstream/$fdate--$version"
 
-	if [ "$VERSIONOK" ]; then
-	    git tag			# Show what we set tag to
-	fi
+        if [ "$VERSIONOK" ]; then
+            git tag                     # Show what we set tag to
+        fi
 
         ${VERSIONOK:-echo} git checkout -b master
 
-	unset VERSIONOK
+        unset VERSIONOK
 
     else
 
-	debug="Action: ELSE"
+        debug="Action: ELSE"
 
         if [ "$empty" ]; then
             echo "[WARN] No files. Create upstream branch (C-c to abort)" >&2
@@ -664,16 +672,16 @@ STANDARDS
         ${test:+echo} git symbolic-ref HEAD refs/heads/upstream
         ${test:+echo} git add .
 
-	Ever
+        Ever
 
-	for file in $(ls *.el 2> /dev/null)
-	do
-	    echo "# $file"
-	    Egit_version "$file"
-	    Egit_indate "$file" || Egit_filedate "$file"
-	done
+        for file in $(ls *.el 2> /dev/null)
+        do
+            echo "# $file"
+            Egit_version "$file"
+            Egit_indate "$file" || Egit_filedate "$file"
+        done
 
-	echo
+        echo
         echo "# WHAT YOU NEED TO DO NEXT:"
         echo "# Examine information and correct commands below."
 
