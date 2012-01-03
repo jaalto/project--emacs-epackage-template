@@ -4,6 +4,7 @@
     Reference: http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html
 
 .. _epackage.el: http://www.emacswiki.org/emacs/DELPS
+.. _Emacs Wiki: http://www.emacswiki.org
 .. _Tiny Tools: http://www.emacswiki.org/emacs/TinyTools
 .. _Sources List: https://github.com/jaalto/project--emacs-epackage-sources-list
 .. _autoload: http://www.gnu.org/software/emacs/manual/html_mono/elisp.html#Autoload
@@ -182,10 +183,27 @@ you may have in mind.
 Packaging Best Pracises
 -----------------------
 
-There are lots of things to do when doing packaging. The best
-practises include:
+FOREWORD
+
+A package archive where people just submit code is not much use in
+long term. Things that live in a package repository bit-rot at an
+alarming rate. The DELPS is based on personal care of packages, just
+like the Debian which has package maintainers. Someone is doing the
+packaging. Making sure package is taken care of, updated, released,
+removed if it no longer works in latest Emacs. That someone is taking
+care of things for the benefit of others who benefit from ability to
+install software easily.
+
+That means, if there is no noboby interested in some file.el, it
+probably won't get packaged. There are lot of old and dead code e.g.
+in `Emacs Wiki`_ which is best left in the place it was found dusting
 
 EXAMING FILES
+
+There are lots of things to do when doing packaging. It is desireable
+to keep close contact to the upstream to get QA issues solved as much
+as possible. Well cared code has better chnace to be included in core
+Emacs someday. The best practises include:
 
 * When was the code last touched? Years ago? In that case consider
   labeling package **unmaintained** while it also may be labeled
