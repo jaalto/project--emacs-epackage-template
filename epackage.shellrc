@@ -644,15 +644,8 @@ STANDARDS
 
         Ever | tee "$file"
 
-        local VERSIONOK
         local version
         version=$(Egit_version "$file")
-
-        if [ "$version" ]; then
-            VERSIONOK="eval"
-        else
-            version="VERSION"
-        fi
 
         local fdate
         fdate=$date
@@ -664,21 +657,12 @@ STANDARDS
 
         [ "$test" ] || ls -l
 
-        if [ ! "$VERSIONOK" ]; then
-            echo "# WHAT YOU NEED TO DO NEXT:"
-            echo "# Examine information and correct commands below."
-        fi
+        echo "# WHAT YOU NEED TO DO NEXT:"
+        echo "# Examine information and correct commands below."
 
-        ${VERSIONOK:-echo} "git commit -m 'Import upstream $date from $url'"
-        ${VERSIONOK:-echo} "git tag upstream/$fdate--$version"
-
-        if [ "$VERSIONOK" ]; then
-            git tag                     # Show what we set tag to
-        fi
-
-        ${VERSIONOK:-echo} git checkout -b master
-
-        unset VERSIONOK
+        echo "git commit -m 'Import upstream $date from $url'"
+        echo "git tag upstream/$fdate--$version"
+	echo "git checkout -b master"
 
     else
 
