@@ -381,7 +381,7 @@ Making an epackage
     git commit -m "epackage/: new"
 
 #. Upload the Git repository somewhere publicly available, e.g. to
-   Github; see Addenum_ ::
+   Github; see `Addenum`_ ::
 
     git remote add github <your URL>    # See section "Addenum"
     git push github upstream master
@@ -580,7 +580,6 @@ For more reading about Git branching workflows, study:
 * `Debian Git upstream management <http://wiki.debian.org/ThomasKoch/GitPackagingWorkflow>`_
 * `A successful Git branching model <http://nvie.com/posts/a-successful-git-branching-model/>`_
 
-.. _Addnum:
 .. _Github:
 
 Addenum
