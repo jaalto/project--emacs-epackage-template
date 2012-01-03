@@ -4,6 +4,7 @@
     Reference: http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html
 
 .. _epackage.el: http://www.emacswiki.org/emacs/DELPS
+.. _DELPS: http://www.emacswiki.org/emacs/DELPS
 .. _Emacs Wiki: http://www.emacswiki.org
 .. _Tiny Tools: http://www.emacswiki.org/emacs/TinyTools
 .. _Sources List: https://github.com/jaalto/project--emacs-epackage-sources-list
@@ -185,14 +186,13 @@ Packaging Best Pracises
 
 FOREWORD
 
-A package archive where people just submit code is not much use in
-long term. Things that live in a package repository bit-rot at an
-alarming rate. The DELPS is based on personal care of packages, just
-like the Debian which has package maintainers. Someone is doing the
-packaging. Making sure package is taken care of, updated, released,
-removed if it no longer works in latest Emacs. That someone is taking
-care of things for the benefit of others who benefit from ability to
-install software easily.
+Things that live in a drop-in package repository bit-rot at an
+alarming rate. In contrast, the `DELPS`_ is based on personal care of
+packages, just like the Debian which has package maintainers. Someone
+is doing the packaging. Making sure package is taken care of, updated,
+released, removed if it no longer works in Emacs. That someone is
+taking care of things for the benefit of others who benefit from
+ability to install software easily.
 
 That means, if there is no noboby interested in some file.el, it
 probably won't get packaged. There are lot of old and dead code e.g.
