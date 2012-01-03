@@ -677,6 +677,7 @@ STANDARDS
         echo "git commit -m 'Import upstream $date from $url'"
         echo "git tag upstream/$fdate--$version"
 	echo "git checkout -b master"
+	echo "Edir $file $file  # Instrument epackage/"
 
     else
 
@@ -706,7 +707,8 @@ STANDARDS
 
         echo "git commit -m 'Import upstream $date from ...'"
         echo "git tag upstream/YYYY-MM-DD--N.N"
-        echo git checkout -b master
+        echo "git checkout -b master"
+	echo "Edir $file $file    # Instrument epackage/"
 
     fi
 
