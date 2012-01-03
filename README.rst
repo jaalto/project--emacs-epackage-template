@@ -213,8 +213,8 @@ alarming rate. In contrast, the `DELPS`_ is based on personal care of
 packages, just like the Debian which has package maintainers. Someone
 is doing the packaging. Making sure package is taken care of, updated,
 released, removed if it no longer works in Emacs. That someone is
-taking care of things for the benefit of others who benefit from
-ability to install software easily.
+taking care of things for the benefit of others who make use of the
+service.
 
 That means, if there is no noboby interested in some file.el, it
 probably won't get packaged. There are lot of old and dead code e.g.
