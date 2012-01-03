@@ -88,7 +88,7 @@ Before the full script, here is outline of the packaging procedure: ::
     #  After committing "upstream", continue in "master" branch
     #  This command will instrument epackage/ directory
 
-    Edit
+    Edir
 
     #  done. Edit epackage/info and delete unneeded files.
     #  Commit and puth to github
