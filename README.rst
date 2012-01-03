@@ -49,7 +49,7 @@ In a nutshell, Epackages have the following format ::
         PACKAGE-xactivate.el    optional: Code to activate extension
 
 *NOTE:* This document is just a quick reference. Refer to
-specification below for more details and ``epackage/`` directory
+specification below for details about the ``epackage/`` directory
 structure and file formats.
 
 * DELPS at Emacs Wiki: http://www.emacswiki.org/emacs/DELPS
