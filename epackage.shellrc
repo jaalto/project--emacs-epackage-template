@@ -562,15 +562,21 @@ STANDARDS
             url=$(echo $url | sed "s/^ew://")
             url="http://www.emacswiki.org/emacs/download/$url"
             ;;
-        http:/* )
+        http:/*.el )
             wget="wget"
             ;;
+
+        http:/ )
+	    echo "[WARN] Unknown URL. If this is svn or hg, download manually." >&2
+	    return
+            ;;
+
         git://* | *.git)
             giturl="$url"
             url=""
             ;;
         *[a-z]*)
-            echo "[ERROR] Not a valid URL: $url" >&2
+            echo "[ERROR] Not a known URL: $url" >&2
             return 1
             ;;
     esac
