@@ -640,10 +640,11 @@ STANDARDS
         echo
         echo "# WHAT YOU NEED TO DO NEXT:"
         echo "# Examine information and correct commands below."
-
-        # User must fill in the VERSION
-
         echo "git tag upstream/$2--$version-git-$1"
+
+	file=$wget
+
+	echo "Edir $file $file  # Instrument epackage/"
 
     elif [ "$wget" ]; then
 
@@ -677,6 +678,9 @@ STANDARDS
         echo "git commit -m 'Import upstream $date from $url'"
         echo "git tag upstream/$fdate--$version"
 	echo "git checkout -b master"
+
+	file=$wget
+
 	echo "Edir $file $file  # Instrument epackage/"
 
     else
