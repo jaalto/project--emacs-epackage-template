@@ -48,13 +48,13 @@ In a nutshell, Epackages have the following format ::
         PACKAGE-install.el      required: Code to make extension available
         PACKAGE-xactivate.el    optional: Code to activate extension
 
-*NOTE:* This document is just a quick reference. The full details of
-concept description of all the files in deteail can be found from the
-manual:
+*NOTE:* This document is just a quick reference. Refer to
+specification below for more details and ``epackage/`` directory
+structure and file formats.
 
 * DELPS at Emacs Wiki: http://www.emacswiki.org/emacs/DELPS
 * Epackage main project hub: http://freecode.com/projects/emacs-epackage
-* Epackage manual: http://www.nongnu.org/emacs-epackage/manual
+* Epackage specification: http://www.nongnu.org/emacs-epackage/manual
 * Epackage template files: https://github.com/jaalto/project--emacs-epackage-template
 * Epackage Sources List: https://github.com/jaalto/project--emacs-epackage-sources-list
 * Suggest what to package: https://gist.github.com/1478886
