@@ -280,7 +280,7 @@ Is upstream still there? Find out his email from files, EmacsWiki or
 Google and send a mail to notify that his software is being packaged.
 Ask what email address he prefers to use for contact. Ask where he
 keeps latest code. Ask if he uses public Version Control and possibly
-direct him to use Github. You can point him to read the Github
+direct him to use Github. You can point him to read the Github_
 instructions at the end of this file. It's very important to try to
 reach upstream and build contact for future patches and improvement
 suggestions.
@@ -294,7 +294,7 @@ no-one unless you are able to serve as the new usptream.
 
 FINISHING
 
-After you've dug into all the previous steps, open account at _`Github`
+After you've dug into all the previous steps, open account at Github_
 and push the package. Notify `Sources List`_ about your new epackage
 to make it available for others.
 
@@ -381,7 +381,7 @@ Making an epackage
     git commit -m "epackage/: new"
 
 #. Upload the Git repository somewhere publicly available, e.g. to
-   Github; see _`Addenum` ::
+   Github; see Addenum_ ::
 
     git remote add github <your URL>    # See section "Addenum"
     git push github upstream master
