@@ -359,13 +359,13 @@ STANDARDS
     unset test
 }
 
-Egit_indate ()
+E_indate ()
 {
     local help
 
     help="\
 SYNOPSIS
-    Egit_indate [options] FILE
+    E_indate [options] file.el
 
 DESCRIPTION
     Return internal modified date by examing contents of FILE."
@@ -377,8 +377,11 @@ DESCRIPTION
             ;;
     esac
 
-    if [ ! "$1" ]; then
-        echo "[ERROR]: Missing FILE" >&2
+    local file
+    file="$1"
+
+    if [ ! "$file" ]; then
+        echo "[ERROR]: Missing argument: FILE.el" >&2
         return 2
     fi
 
@@ -391,16 +394,27 @@ DESCRIPTION
         return 0
     fi
 
+    # Any YYYY-MM-DD
+    set -- $(egrep -i --only-matching  \
+		"[12][09][0-9][0-9]-[01][0-9]-[1-3][0-9]" "$file" |
+	     sort |
+	     tail --lines=1 )
+
+    if [ "$1" ]; then
+        echo $1
+        return 0
+    fi
+
     return 1
 }
 
-Egit_filedate ()
+E_filedate ()
 {
     local help
 
     help="\
 SYNOPSIS
-    Egit_filedate [options] FILE
+    E_filedate [options] FILE
 
 DESCRIPTION
     Return ISO 8601 date of FILE."
@@ -420,18 +434,19 @@ DESCRIPTION
     perl -e '$mtime = (stat shift @ARGV)[9];
              ($y, $m, $d) = (localtime $mtime)[5,4,3];
              $y += 1900;
+             $m++;
              printf( qq(%d-%02d-%02d), $y, $m, $d);
              ' \
              "$file"
 }
 
-Egit_version ()
+E_version ()
 {
     local help
 
     help="\
 SYNOPSIS
-    Egit_version [options] FILE
+    E_version [options] FILE
 
 DESCRIPTION
     Return version of FILE."
@@ -548,15 +563,21 @@ STANDARDS
             url=$(echo $url | sed "s/^ew://")
             url="http://www.emacswiki.org/emacs/download/$url"
             ;;
-        http:/* )
+        http:/*.el )
             wget="wget"
             ;;
+
+        http:/ )
+	    echo "[WARN] Unknown URL. If this is svn or hg, download manually." >&2
+	    return
+            ;;
+
         git://* | *.git)
             giturl="$url"
             url=""
             ;;
         *[a-z]*)
-            echo "[ERROR] Not a valid URL: $url" >&2
+            echo "[ERROR] Not a known URL: $url" >&2
             return 1
             ;;
     esac
@@ -608,7 +629,7 @@ STANDARDS
         Ever | tee "$file"
 
         local version
-        version=$(Egit_version "$file")
+        version=$(E_version "$file")
         [ "$version" ] || version="VERSION"
 
         # Show last commits (upstream)
@@ -626,10 +647,11 @@ STANDARDS
         echo
         echo "# WHAT YOU NEED TO DO NEXT:"
         echo "# Examine information and correct commands below."
-
-        # User must fill in the VERSION
-
         echo "git tag upstream/$2--$version-git-$1"
+
+	file=$wget
+
+	echo "Edir ${file%.el} $file  # Instrument epackage/"
 
     elif [ "$wget" ]; then
 
@@ -644,19 +666,12 @@ STANDARDS
 
         Ever | tee "$file"
 
-        local VERSIONOK
         local version
-        version=$(Egit_version "$file")
-
-        if [ "$version" ]; then
-            VERSIONOK="eval"
-        else
-            version="VERSION"
-        fi
+        version=$(E_version "$file")
 
         local fdate
         fdate=$date
-        fdate=$(Egit_indate "$file" || Egit_filedate "$file")
+        fdate=$(E_indate "$file" || E_filedate "$file")
 
         rm -f "$file"
 
@@ -664,21 +679,16 @@ STANDARDS
 
         [ "$test" ] || ls -l
 
-        if [ ! "$VERSIONOK" ]; then
-            echo "# WHAT YOU NEED TO DO NEXT:"
-            echo "# Examine information and correct commands below."
-        fi
+        echo "# WHAT YOU NEED TO DO NEXT:"
+        echo "# Examine information and correct commands below."
 
-        ${VERSIONOK:-echo} "git commit -m 'Import upstream $date from $url'"
-        ${VERSIONOK:-echo} "git tag upstream/$fdate--$version"
+        echo "git commit -m 'Import upstream $date from $url'"
+        echo "git tag upstream/$fdate--$version"
+	echo "git checkout -b master"
 
-        if [ "$VERSIONOK" ]; then
-            git tag                     # Show what we set tag to
-        fi
+	file=$wget
 
-        ${VERSIONOK:-echo} git checkout -b master
-
-        unset VERSIONOK
+	echo "Edir ${file%.el} $file  # Instrument epackage/"
 
     else
 
@@ -695,20 +705,30 @@ STANDARDS
 
         Ever
 
+	local version
+	local date
+
         for file in $(ls *.el 2> /dev/null)
         do
+	    [ -f "$file" ] || continue
+
             echo "# $file"
-            Egit_version "$file"
-            Egit_indate "$file" || Egit_filedate "$file"
+            date=$(E_indate "$file" || E_filedate "$file")
+            version=$(E_version "$file")
+	    echo $version
         done
+
+	[ "$date" ] || date="YYYY-MM-DD"
+	[ "$version" ] || date="N.N"
 
         echo
         echo "# WHAT YOU NEED TO DO NEXT:"
         echo "# Examine information and correct commands below."
 
         echo "git commit -m 'Import upstream $date from ...'"
-        echo "git tag upstream/YYYY-MM-DD--N.N"
-        echo git checkout -b master
+        echo "git tag upstream/$date--$version"
+        echo "git checkout -b master"
+	echo "Edir ${file%.el} $file    # Instrument epackage/"
 
     fi
 
