@@ -90,9 +90,9 @@ Before the full script, here is outline of the packaging procedure: ::
 
     Edir
 
-    #  done. Edit epackage/info and delete unneeded files.
-    #  Commit and puth to github
-    #  Notify Sources List about new package
+    #  Done. Edit file epackage/info.
+    #  Delete unneeded files. Commit and push to github
+    #  Notify "Sources List" about new package.
 
 If you want to get your hands dirty immediately and read documentation
 later, follow this exercise to create your first epackage: ::
