@@ -74,21 +74,21 @@ Hands on example
 
 Before the full script, here is outline of the packaging procedure:
 
-    ... read additional shell commands
+    #  read additional shell commands
     . /path/to/this-repository/epackage.shellrc
 
-    ... Download source code. If already there, forget the URL.
+    #  Download source code. If already there, forget the URL.
     cd /path/to/place/where-sources-will-be-downloaded
     Egit <URL to *.el location
 
-    ... Follow instructions
-    ... After committing "upstream", continue in "master" branch
-    ... This command will instrument epackage/ directory
+    #  Follow instructions
+    #  After committing "upstream", continue in "master" branch
+    #  This command will instrument epackage/ directory
     Edit
 
-    ... done. Edit epackage/info and delete unneeded files.
-    ... Commit and puth to github
-    ... Notify Sources List about new package
+    #  Done. Edit epackage/info and delete unneeded files.
+    #  Commit and puth to github
+    #  Notify Sources List about new package
 
 If you want to get your hands dirty immediately and read documentation
 later, follow this exercise to create your first epackage: ::
