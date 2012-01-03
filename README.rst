@@ -294,7 +294,7 @@ no-one unless you are able to serve as the new usptream.
 
 FINISHING
 
-After you've dug into all the previous steps, open account at github
+After you've dug into all the previous steps, open account at _`Github`
 and push the package. Notify `Sources List`_ about your new epackage
 to make it available for others.
 
@@ -381,9 +381,9 @@ Making an epackage
     git commit -m "epackage/: new"
 
 #. Upload the Git repository somewhere publicly available, e.g. to
-   <http://github.com> ::
+   Github; see _`Addenum` ::
 
-    git remote add github <your URL>    # See section "Addenum" at the end
+    git remote add github <your URL>    # See section "Addenum"
     git push github upstream master
     git push github --tags
 
@@ -579,6 +579,9 @@ For more reading about Git branching workflows, study:
 
 * `Debian Git upstream management <http://wiki.debian.org/ThomasKoch/GitPackagingWorkflow>`_
 * `A successful Git branching model <http://nvie.com/posts/a-successful-git-branching-model/>`_
+
+.. _Addnum:
+.. _Github:
 
 Addenum
 =======
