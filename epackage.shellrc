@@ -359,13 +359,13 @@ STANDARDS
     unset test
 }
 
-Egit_indate ()
+E_indate ()
 {
     local help
 
     help="\
 SYNOPSIS
-    Egit_indate [options] FILE
+    E_indate [options] file.el
 
 DESCRIPTION
     Return internal modified date by examing contents of FILE."
@@ -377,8 +377,11 @@ DESCRIPTION
             ;;
     esac
 
-    if [ ! "$1" ]; then
-        echo "[ERROR]: Missing FILE" >&2
+    local file
+    file="$1"
+
+    if [ ! "$file" ]; then
+        echo "[ERROR]: Missing argument: FILE.el" >&2
         return 2
     fi
 
@@ -388,6 +391,17 @@ DESCRIPTION
 
     if [ "$3" ]; then
         echo $3 | sed "s/^.//"          # The leading "<"
+        return 0
+    fi
+
+    # Any YYYY-MM-DD
+    set -- $(egrep -i --only-matching  \
+		"[12][09][0-9][0-9]-[01][0-9]-[1-3][0-9]" "$file" |
+	     sort |
+	     tail --lines=1 )
+
+    if [ "$1" ]; then
+        echo $1
         return 0
     fi
 
@@ -425,13 +439,13 @@ DESCRIPTION
              "$file"
 }
 
-Egit_version ()
+E_version ()
 {
     local help
 
     help="\
 SYNOPSIS
-    Egit_version [options] FILE
+    E_version [options] FILE
 
 DESCRIPTION
     Return version of FILE."
@@ -608,7 +622,7 @@ STANDARDS
         Ever | tee "$file"
 
         local version
-        version=$(Egit_version "$file")
+        version=$(E_version "$file")
         [ "$version" ] || version="VERSION"
 
         # Show last commits (upstream)
@@ -645,11 +659,11 @@ STANDARDS
         Ever | tee "$file"
 
         local version
-        version=$(Egit_version "$file")
+        version=$(E_version "$file")
 
         local fdate
         fdate=$date
-        fdate=$(Egit_indate "$file" || Egit_filedate "$file")
+        fdate=$(E_indate "$file" || Egit_filedate "$file")
 
         rm -f "$file"
 
@@ -682,8 +696,8 @@ STANDARDS
         for file in $(ls *.el 2> /dev/null)
         do
             echo "# $file"
-            Egit_version "$file"
-            Egit_indate "$file" || Egit_filedate "$file"
+            E_version "$file"
+            E_indate "$file" || E_filedate "$file"
         done
 
         echo
