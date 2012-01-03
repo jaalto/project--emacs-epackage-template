@@ -408,13 +408,13 @@ DESCRIPTION
     return 1
 }
 
-Egit_filedate ()
+E_filedate ()
 {
     local help
 
     help="\
 SYNOPSIS
-    Egit_filedate [options] FILE
+    E_filedate [options] FILE
 
 DESCRIPTION
     Return ISO 8601 date of FILE."
@@ -434,6 +434,7 @@ DESCRIPTION
     perl -e '$mtime = (stat shift @ARGV)[9];
              ($y, $m, $d) = (localtime $mtime)[5,4,3];
              $y += 1900;
+             $m++;
              printf( qq(%d-%02d-%02d), $y, $m, $d);
              ' \
              "$file"
@@ -670,7 +671,7 @@ STANDARDS
 
         local fdate
         fdate=$date
-        fdate=$(E_indate "$file" || Egit_filedate "$file")
+        fdate=$(E_indate "$file" || E_filedate "$file")
 
         rm -f "$file"
 
@@ -704,19 +705,28 @@ STANDARDS
 
         Ever
 
+	local version
+	local date
+
         for file in $(ls *.el 2> /dev/null)
         do
+	    [ -f "$file" ] || continue
+
             echo "# $file"
-            E_version "$file"
-            E_indate "$file" || E_filedate "$file"
+            date=$(E_indate "$file" || E_filedate "$file")
+            version=$(E_version "$file")
+	    echo $version
         done
+
+	[ "$date" ] || date="YYYY-MM-DD"
+	[ "$version" ] || date="N.N"
 
         echo
         echo "# WHAT YOU NEED TO DO NEXT:"
         echo "# Examine information and correct commands below."
 
         echo "git commit -m 'Import upstream $date from ...'"
-        echo "git tag upstream/YYYY-MM-DD--N.N"
+        echo "git tag upstream/$date--$version"
         echo "git checkout -b master"
 	echo "Edir ${file%.el} $file    # Instrument epackage/"
 
