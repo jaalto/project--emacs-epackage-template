@@ -622,9 +622,8 @@ STANDARDS
         ${test:+echo} git rm .ignore
         ${test:+echo} git commit -m "rm .ignore"
 
-        ${test:+echo} git checkout -b master upstream
-
-        ${test:+echo} git checkout upstream
+	# Create "master" based on "upstream"
+        ${test:+echo} git branch master upstream
 
         Ever | tee "$file"
 
@@ -648,6 +647,7 @@ STANDARDS
         echo "# WHAT YOU NEED TO DO NEXT:"
         echo "# Examine information and correct commands below."
         echo "git tag upstream/$2--$version-git-$1"
+	echo "git checkout master"
 
 	file=$wget
 
