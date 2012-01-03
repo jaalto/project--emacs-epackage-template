@@ -79,7 +79,7 @@ Before the full script, here is outline of the packaging procedure: ::
 
     #  Download source code. If already there, forget the URL.
     cd /path/to/place/where-sources-will-be-downloaded
-    Egit <URL to *.el location
+    Egit http://example.com/file.el
 
     #  Follow instructions
     #  After committing "upstream", continue in "master" branch
