@@ -4,6 +4,8 @@
     Reference: http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html
 
 .. _epackage.el: http://www.emacswiki.org/emacs/DELPS
+.. _DELPS: http://www.emacswiki.org/emacs/DELPS
+.. _Emacs Wiki: http://www.emacswiki.org
 .. _Tiny Tools: http://www.emacswiki.org/emacs/TinyTools
 .. _Sources List: https://github.com/jaalto/project--emacs-epackage-sources-list
 .. _autoload: http://www.gnu.org/software/emacs/manual/html_mono/elisp.html#Autoload
@@ -46,13 +48,13 @@ In a nutshell, Epackages have the following format ::
         PACKAGE-install.el      required: Code to make extension available
         PACKAGE-xactivate.el    optional: Code to activate extension
 
-*NOTE:* This document is just a quick reference. The full details of
-concept description of all the files in deteail can be found from the
-manual:
+*NOTE:* This document is just a quick reference. Refer to
+specification below for details about the ``epackage/`` directory
+structure and file formats.
 
 * DELPS at Emacs Wiki: http://www.emacswiki.org/emacs/DELPS
 * Epackage main project hub: http://freecode.com/projects/emacs-epackage
-* Epackage manual: http://www.nongnu.org/emacs-epackage/manual
+* Epackage specification: http://www.nongnu.org/emacs-epackage/manual
 * Epackage template files: https://github.com/jaalto/project--emacs-epackage-template
 * Epackage Sources List: https://github.com/jaalto/project--emacs-epackage-sources-list
 * Suggest what to package: https://gist.github.com/1478886
@@ -69,6 +71,28 @@ The Epackage Primer
 
 Hands on example
 ----------------
+
+Before the full script, here is outline of the packaging procedure: ::
+
+    #  read additional shell commands
+
+    . /path/to/this-repository/epackage.shellrc
+
+    #  Download source code. If already there, forget the URL.
+
+    cd /path/to/place/where-sources-will-be-downloaded
+
+    Egit http://example.com/file.el
+
+    #  Follow instructions
+    #  After committing "upstream", continue in "master" branch
+    #  This command will instrument epackage/ directory
+
+    Edir
+
+    #  Done. Edit file epackage/info.
+    #  Delete unneeded files. Commit and push to github
+    #  Notify "Sources List" about new package.
 
 If you want to get your hands dirty immediately and read documentation
 later, follow this exercise to create your first epackage: ::
@@ -182,10 +206,26 @@ you may have in mind.
 Packaging Best Pracises
 -----------------------
 
-There are lots of things to do when doing packaging. The best
-practises include:
+FOREWORD
+
+Things that live in a drop-in package repository bit-rot at an
+alarming rate. In contrast, the `DELPS`_ is based on personal care of
+packages, just like the Debian which has package maintainers. Someone
+is doing the packaging. Making sure package is taken care of, updated,
+released, removed if it no longer works in Emacs. That someone is
+taking care of things for the benefit of others who make use of the
+service.
+
+That means, if there is no noboby interested in some file.el, it
+probably won't get packaged. There are lot of old and dead code e.g.
+in `Emacs Wiki`_ which is best left in the place it was found dusting
 
 EXAMING FILES
+
+There are lots of things to do when doing packaging. It is desireable
+to keep close contact to the upstream to get QA issues solved as much
+as possible. Well cared code has better chnace to be included in core
+Emacs someday. The best practises include:
 
 * When was the code last touched? Years ago? In that case consider
   labeling package **unmaintained** while it also may be labeled
@@ -224,7 +264,7 @@ EXAMING FILES
   separate functions like *\*-install-{default-key-bindings,hooks}*.
 * Is the package well structured and behaving? Run all code quality
   checks. Try also byte compiling. You can use e.g. `epackage.el`_ and
-  ``M-x`` ``epackage-lint-extra-buffer-file`` which uses standard
+  ``M-x`` ``epackage-lint-file`` which uses standard
   Emacs features lisp-mnt, checkdoc etc. Report problems to upstream
   issue tracker.
 * Does the code refer to a known license in `License Database`_? If not,
@@ -240,10 +280,23 @@ Is upstream still there? Find out his email from files, EmacsWiki or
 Google and send a mail to notify that his software is being packaged.
 Ask what email address he prefers to use for contact. Ask where he
 keeps latest code. Ask if he uses public Version Control and possibly
-direct him to use Github. You can point him to read the Github
+direct him to use Github. You can point him to read the Github_
 instructions at the end of this file. It's very important to try to
 reach upstream and build contact for future patches and improvement
 suggestions.
+
+When you have made contact to the upstream, record it to this to field
+``epackage/info::X-Development``. If there hasn't been updates for a
+year, you ping to see if he still exists and maintains the code. An
+example ::
+
+    Commentary: ...
+    X-Development:
+     YYYY-MM-DD upstream email confirmad.
+    Description: test package with various functions
+     Main command [C-u] M-x test-package runs various tests on
+     the current lisp code. With a prefix argument, shows also
+     notes and minor details.
 
 If you hear nothing, consider twice packaging software which no longer
 is actively developed or whose maintainer has gone with the winds of
@@ -254,7 +307,7 @@ no-one unless you are able to serve as the new usptream.
 
 FINISHING
 
-After you've dug into all the previous steps, open account at github
+After you've dug into all the previous steps, open account at Github_
 and push the package. Notify `Sources List`_ about your new epackage
 to make it available for others.
 
@@ -341,9 +394,9 @@ Making an epackage
     git commit -m "epackage/: new"
 
 #. Upload the Git repository somewhere publicly available, e.g. to
-   <http://github.com> ::
+   Github; see Addenum_ ::
 
-    git remote add github <your URL>    # See section "Addenum" at the end
+    git remote add github <your URL>    # See section "Addenum"
     git push github upstream master
     git push github --tags
 
@@ -539,6 +592,9 @@ For more reading about Git branching workflows, study:
 
 * `Debian Git upstream management <http://wiki.debian.org/ThomasKoch/GitPackagingWorkflow>`_
 * `A successful Git branching model <http://nvie.com/posts/a-successful-git-branching-model/>`_
+
+.. _addenum:
+.. _github:
 
 Addenum
 =======
