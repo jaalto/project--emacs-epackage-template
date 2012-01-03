@@ -285,6 +285,19 @@ instructions at the end of this file. It's very important to try to
 reach upstream and build contact for future patches and improvement
 suggestions.
 
+When you have made contact to the upstream, record it to this to field
+``epackage/info::X-Development``. If there hasn't been updates for a
+year, you ping to see if he still exists and maintains the code. An
+example ::
+
+    Commentary: ...
+    X-Development:
+     YYYY-MM-DD upstream email confirmad.
+    Description: test package with various functions
+     Main command [C-u] M-x test-package runs various tests on
+     the current lisp code. With a prefix argument, shows also
+     notes and minor details.
+
 If you hear nothing, consider twice packaging software which no longer
 is actively developed or whose maintainer has gone with the winds of
 time. The users will download the package and in many cases send bug
