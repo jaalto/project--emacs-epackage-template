@@ -580,7 +580,7 @@ For more reading about Git branching workflows, study:
 * `Debian Git upstream management <http://wiki.debian.org/ThomasKoch/GitPackagingWorkflow>`_
 * `A successful Git branching model <http://nvie.com/posts/a-successful-git-branching-model/>`_
 
-.. _Github:
+.. _github:
 
 Addenum
 =======
