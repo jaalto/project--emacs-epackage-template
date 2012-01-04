@@ -98,13 +98,17 @@ Ever ()
     local help
     help="\
 SYNOPSIS
-    Ever
+    Ever [file.el ...]
 
 DESCRIPTION
     Epackage version information
 
-    Grep lines looking like REQUIRE, DATE, EMAIL, URL, VERSION from all
-    Emacs Lisp files recursively from current directory."
+    Grep lines looking like REQUIRE, DATE, EMAIL, URL, VERSION from
+    Emacs Lisp files.
+
+    If no files are given, search all files recursively from current dir."
+
+    unset argv
 
     case "$1" in
         -h | --help )
@@ -113,17 +117,21 @@ DESCRIPTION
             ;;
     esac
 
+    [ "$1" ] && argv=/dev/null
+
     # Package-Requires is ELPA header.
     # See http://marmalade-repo.org/doc-files/package.5.html
 
-    find -type f -name "*.el" |
+    ${argv+echo "$@"} ${argv:-find . -type f -name \*.el} |
     xargs \
-    egrep -i '\<v[0-9]+\.|\<version\>|[a-z0-9]@[a-z]|http:/|git:/|\(require |\<20[0-1][0-9]|Package-Requires' |
+    egrep -i '\<v[0-9]+\.|\<version\>|[a-z0-9]@[a-z]|http:/|git:/|\(require |\<20[0-1][0-9]|Package-Requires'  |
     egrep -iv 'emacs-(major-|minor-)?version|%s|(lat|eith)er version|version( of|\))|\(version' |
     egrep -iv '[;\"] *\(require|[\[\"]http|http-version|version of|www.gnu.org' |
     egrep -iv 'mime-version|client-version|older +version|^ *[\\("]' |
     egrep -iv '\((defun|defmacro|defsubst|define|let|pop|display|message|error|autoload)' |
     egrep -iv '\([^ ]+version| --version'
+
+    unset argv
 }
 
 
