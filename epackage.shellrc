@@ -607,6 +607,9 @@ STANDARDS
         ${test:+echo} git init
         ${test:+echo} git symbolic-ref HEAD refs/heads/upstream
 
+	# We have to import at least one file in order to start a branch.
+	# We can't just merge to NOTHING. The ".ignore" is is used for this.
+
         rm -f .gitignore
         ${test:+echo} touch .ignore
         ${test:+echo} git add .ignore
@@ -684,7 +687,7 @@ STANDARDS
 
         echo "git commit -m 'Import upstream $date from $url'"
         echo "git tag upstream/$fdate--$version"
-	echo "git checkout -b master"
+	echo "git checkout master"
 
 	file=$wget
 
