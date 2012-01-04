@@ -552,7 +552,7 @@ DESCRIPTION
              $m++;
              printf( qq(%d-%02d-%02d), $y, $m, $d);
              ' \
-             "$file"
+             "$1"
 }
 
 E_version ()
