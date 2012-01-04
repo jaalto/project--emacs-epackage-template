@@ -84,9 +84,9 @@ Before the full script, here is outline of the packaging procedure: ::
 
     Egit http://example.com/file.el
 
-    #  Follow instructions
-    #  After committing "upstream", continue in "master" branch
-    #  This command will instrument epackage/ directory
+    #  Follow instructions show above.
+    #  After committing and tagging "upstream", continue in "master"
+    #  branch This command will instrument epackage/ directory
 
     Edir
 
