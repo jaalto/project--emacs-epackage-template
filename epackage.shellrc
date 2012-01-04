@@ -150,12 +150,114 @@ E_lisp ()
     echo "$file"
 }
 
+Ecomp ()
+{
+    local help
+    help="\
+SYNOPSIS
+    Ecomp [options] file.el ...
+
+DESCRIPTION
+    Byte compile Emacs Lisp files
+
+    The current directory and all subdirectories (excluding VCS dirs)
+    are made available during byte compilation so that possible
+    'require' statements calls are met.
+
+OPTIONS
+
+    -d, --dir  Directory to add to Emacs load-path. Can be given
+               multiple times
+
+    -t, --test  Run in test mode. Do now actually execute commands.
+
+ENVIRONMENT
+
+    EPACKAGE_EMACS
+        Emacs binary to use. Defaults to 'emacs'.
+
+STANDARDS
+
+    GNU Emacs Lisp Reference Manual, sectoion 16, Byte Compilation
+    http://www.gnu.org/software/emacs/manual/html_mono/elisp.html#Byte-Compilation"
+
+    unset test
+
+    local list
+    local opt
+
+    while :
+    do
+        case "$1" in
+            -h | --help )
+                echo "$help"
+                return 0
+                ;;
+            -d | --dir )
+                shift
+                list="$list $1"
+                shift
+                ;;
+            -t | --test)
+                test="test"
+                shift
+                ;;
+            -l | --load )
+                opt="$opt $1 $2"
+                shift 2
+                ;;
+            -*) opt="$opt $1"           # Preserve Emacs options
+                shift
+                ;;
+            *) break
+                ;;
+        esac
+    done
+
+    if [ ! "$1" ]; then
+        echo "[ERROR] Missing Emacs Lisp file(s) to byte compile" >&2
+        return 1
+    fi
+
+    local root=$(dirname "$1")
+
+    local file
+    file="${TMPDIR:-/tmp}/Egit.${LOGNAME:-${NAME:-foo}}.$$.path.tmp"
+
+    rm -f "$file"
+
+    local dir
+    for dir in $list $( find $root \
+                        -type d \
+                        -a ! -path "*.git*" \
+                        -a ! -path "*.hg" \
+                        -a ! -path "*.bzr" \
+                        -a ! -path "*.svn" \
+                        -a ! -path "*.mtn" \
+                        -a ! -path "*CVS" )
+    do
+        echo "(add-to-list 'load-path \"$dir\")" >> "$file"
+    done
+
+    [ "$dir" ] && opt="--load $file"
+
+    ${test+echo} ${EPACKAGE_EMACS:-emacs} \
+        --quick \
+        --batch \
+        --debug-init \
+        $opt \
+        --funcall batch-byte-compile \
+        "$@"
+
+    rm -f "$file"
+}
+
 Elint ()
 {
     local help
     help="\
 SYNOPSIS
-    Elist [options] file.el ...
+    Elint [options] file.el ...
 
 DESCRIPTION
     Lint Emacs Lisp files for Quality assurance violations.
@@ -187,6 +289,9 @@ BUGS
         Elint file2.el
 
 ENVIRONMENT
+
+    EPACKAGE_EMACS
+        Emacs binary to use. Defaults to 'emacs'.
 
     EPACKAGE_ROOT
         Directory location of epackage.el file to use. By default Various
@@ -224,7 +329,7 @@ STANDARDS
     file="${TMPDIR:-/tmp}/Egit.${LOGNAME:-${NAME:-foo}}.$$.lint.tmp"
 
     ${test+echo} ${EPACKAGE_EMACS:-emacs} \
-        -quick \
+        --quick \
         --batch \
         --debug-init \
         --load "$lisp" \

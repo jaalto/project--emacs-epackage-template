@@ -90,6 +90,11 @@ Before the full script, here is outline of the packaging procedure: ::
 
     Edir
 
+    # Run QA tests and report findings to upstream
+
+    Elint *.el
+    Ecomp *.el
+
     #  Done. Edit file epackage/info.
     #  Delete unneeded files. Commit and push to github
     #  Notify "Sources List" about new package.
@@ -199,6 +204,11 @@ later, follow this exercise to create your first epackage: ::
 
     git add .
     git commit -m "epackage/: new"
+
+    # Run QA tests and report findings to upstream
+
+    Elint *.el
+    Ecomp *.el
 
 After the exercise continue reading this README to fill in questions
 you may have in mind.
