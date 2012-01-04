@@ -257,7 +257,7 @@ STANDARDS
         --debug-init \
         $opt \
         --funcall batch-byte-compile \
-        "$@"
+        "$@" 2>&1
 
     rm -f "$file"
 }
