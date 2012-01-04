@@ -760,6 +760,8 @@ STANDARDS
 	local name
 	name=$(basename $giturl)
 	name=${name%.git}
+	name=${name%-emacs}
+	name=${name#emacs-}
 
 	echo "Edir $name *.el # Instrument epackage/"
 
