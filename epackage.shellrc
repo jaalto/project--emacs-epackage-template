@@ -759,7 +759,7 @@ STANDARDS
 
 	file=$(basename $giturl)
 
-	echo "Edir ${file%.el} $file  # Instrument epackage/"
+	echo "Edir ${file%.git} $file  # Instrument epackage/"
 
     elif [ "$wget" ]; then
 
