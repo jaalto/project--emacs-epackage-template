@@ -118,10 +118,10 @@ DESCRIPTION
 
     find -type f -name "*.el" |
     xargs \
-    egrep -i '\<v[0-9]+\.|version|[a-z0-9]@[a-z]|http:/|git:/|\(require |\<20[0-1][0-9]|Package-Requires' |
+    egrep -i '\<v[0-9]+\.|\<version\>|[a-z0-9]@[a-z]|http:/|git:/|\(require |\<20[0-1][0-9]|Package-Requires' |
     egrep -iv 'emacs-(major-|minor-)?version|%s|(lat|eith)er version|version( of|\))|\(version' |
     egrep -iv '; *\(require|\"\(require|[\[\"]http|http-version|version of|www.gnu.org' |
-    egrep -iv 'mime-version'
+    egrep -iv 'mime-version|client-version|older +version|^ *[\\("]'
 }
 
 
