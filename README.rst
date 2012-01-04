@@ -256,14 +256,14 @@ Emacs someday. The best practises include:
   *tinylisp.el* from
   `Tiny Tools`_ and functions ``M-x`` ``tinylisp-find-function-list``
   and ``tinylisp-find-variable-list`` to check files.
-* Does code contain ``global-set-key`` commands? That's a BIG NO-NO.
-  Don't package any such software. Contact upstream and suggest him to
-  move all setup code to a separate functions like
-  *\*-install-default-key-bindings*.
 * Are there ``;;;###autoload`` stanzas? These are placed above
   suitable interactive functions and variables that help in genrating
   `autoload`_ definitions'. If not, consider adding and sending path
   to maintainer.
+* Does code contain ``global-set-key`` commands? That's a BIG NO-NO.
+  Don't package any such software. Contact upstream and suggest him to
+  move all setup code to a separate functions like
+  *\*-install-default-key-bindings*.
 * Does code unconditionally set hooks like ``find-file-hooks``? Not
   good. Package should not change user's settings on load. You need to
   fix this by removing offending code and moving it into
