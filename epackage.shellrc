@@ -754,7 +754,7 @@ STANDARDS
         echo
         echo "# WHAT YOU NEED TO DO NEXT:"
         echo "# Examine information and correct commands below."
-        echo "git tag upstream/$2--$version-git-$1"
+        echo "git tag upstream/$2--$version-git-$1 $1"
 	echo "git checkout master"
 
 	local name
