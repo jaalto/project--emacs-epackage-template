@@ -757,9 +757,11 @@ STANDARDS
         echo "git tag upstream/$2--$version-git-$1"
 	echo "git checkout master"
 
-	file=$(basename $giturl)
+	local name
+	name=$(basename $giturl)
+	name=${name%.git}
 
-	echo "Edir ${file%.git} $file  # Instrument epackage/"
+	echo "Edir $name *.el # Instrument epackage/"
 
     elif [ "$wget" ]; then
 
