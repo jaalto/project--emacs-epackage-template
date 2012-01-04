@@ -829,7 +829,7 @@ STANDARDS
         done
 
 	[ "$date" ] || date="YYYY-MM-DD"
-	[ "$version" ] || date="N.N"
+	[ "$version" ] || version="N.N"
 
         echo
         echo "# WHAT YOU NEED TO DO NEXT:"
