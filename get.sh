@@ -21,43 +21,41 @@
 #
 #   Depends
 #
-#	Required
-#	- POSIX Shell
+#       Required
+#       - POSIX Shell
 #
-#	Depending on used transport (Vcs-Type field in file "info"):
-#	- wget, git, hg, bzr, cvs, svn
+#       Depending on used transport (Vcs-Type field in file "info"):
+#       - wget, git, hg, bzr, cvs, svn
 
 set -e
 
-EPKGDIR=$( cd $(dirname $0); pwd )		# The epackage/ absolute path
-VCSDIR="upstream"				# The VCS download directory
+VCSDIR="upstream"                               # The VCS download directory
 UAGENT="Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.1.3) Gecko/20090913 Firefox/3.5.3";
 
 Help ()
 {
     echo "\
 SYNOPSIS
-    $0 [--help | --test]
+    $0 [--help | --test] info
 
 DESCRIPTION
 
-    epackage directory: $EPKGDIR
+    Examine Epackage 'info' file and download upstream.
 
-    A POSIX shell script to download Emacs epackages. Typically
-    located under name epackage/get.sh. Reads information from
+    A shell script to download Emacs epackages. Reads information from
     epackage/info file. If the Field 'Vcs-Type' is \"http\", download
     single file to \"epackage/..\" directory. If type is anything
     else, download repository pointed by field 'Vcs-Url' into
-    subdirectory \"epackage/$VCSDIR\" and copy all file recursively
-    under it to \"epackage/..\".
+    subdirectory \"epackage/$VCSDIR\" and copy all files recursively
+    to \"epackage/..\".
 
 OPTIONS
 
     -h, --help
-	Display this help text.
+        Display this help text.
 
     -t, --test
-	Run in test mode. Do not actually do anything.
+        Run in test mode. Do not actually do anything.
 
 AUTHOR
 
@@ -87,19 +85,26 @@ Warn ()
     echo "$*" >&2
 }
 
+
+Die ()
+{
+    Warn "$*"
+    exit 1
+}
+
 Run ()
 {
     case "$*" in
-	*\|*)
-	    if [ "$TEST" ]; then
-		echo "$*"
-	    else
-		eval "$@"
-	    fi
-	    ;;
-	*)
-	    ${TEST:+echo} "$@"
-	    ;;
+        *\|*)
+            if [ "$TEST" ]; then
+                echo "$*"
+            else
+                eval "$@"
+            fi
+            ;;
+        *)
+            ${TEST:+echo} "$@"
+            ;;
     esac
 }
 
@@ -108,16 +113,16 @@ UpdateLispFiles ()
     dir="$1"
 
     if [ "$VCSNAME" = "http" ]; then
-	return 0			# Skip
+        return 0                        # Skip
     fi
 
     cd "$VCSDIR"
 
     Run tar -cf - \
       $(find . -type d \( -name .$VCSNAME -o -name .git \) -prune  \
-	-a ! -name .$VCSNAME \
-	-a ! -name .git \
-	-o \( -type f -a ! -name .${vcs}ignore -a ! -name "*.elc" \)
+        -a ! -name .$VCSNAME \
+        -a ! -name .git \
+        -o \( -type f -a ! -name .${vcs}ignore -a ! -name "*.elc" \)
        ) |
     Run tar --directory "$EPKGDIR/.." -xvf -
 }
@@ -133,21 +138,21 @@ Revno ()
     # All other VCS's will display revision during "pull/update"
 
     case "$VCSNAME" in
-	git)
-	    GitLog
-	    ;;
-	*)
-	    ;;
+        git)
+            GitLog
+            ;;
+        *)
+            ;;
     esac
 }
 
 Vcs ()
 {
     if [ ! -d "$VCSDIR" ]; then
-	Run "$VCSNAME" clone "$URL" "$VCSDIR"
-	( cd "$VCSDIR" && Revno )
+        Run "$VCSNAME" clone "$URL" "$VCSDIR"
+        ( cd "$VCSDIR" && Revno )
     else
-	( Run cd "$VCSDIR" && Run "$VCSNAME" pull && Revno )
+        ( Run cd "$VCSDIR" && Run "$VCSNAME" pull && Revno )
     fi
 }
 
@@ -156,10 +161,10 @@ Svn ()
     url="$1"
 
     if [ ! -d "$VCSDIR" ]; then
-	Run "$VCSNAME" co "$URL" "$VCSDIR"
-	( cd "$VCSDIR" && Revno )
+        Run "$VCSNAME" co "$URL" "$VCSDIR"
+        ( cd "$VCSDIR" && Revno )
     else
-	( Run cd "$VCSDIR" && Run "$VCSNAME" update && Revno )
+        ( Run cd "$VCSDIR" && Run "$VCSNAME" update && Revno )
     fi
 }
 
@@ -168,68 +173,78 @@ Cvs ()
     url="$1"
 
     if [ -d "$VCSDIR" ]; then
-	echo "# For asked password, possibly press RETURN..."
-	Run cvs -d "$url" login
-	Run cvs -d "$url" co -d "$VCSDIR" $ARGS
+        echo "# For asked password, possibly press RETURN..."
+        Run cvs -d "$url" login
+        Run cvs -d "$url" co -d "$VCSDIR" $ARGS
 
     else
-	# -f = Do not read ~/.cvsrc
-	# -d = Create missing directories
-	# -I = Do not use ~/.cvsignore (show all files)
+        # -f = Do not read ~/.cvsrc
+        # -d = Create missing directories
+        # -I = Do not use ~/.cvsignore (show all files)
 
-	( Run cd "$VCSDIR" && Run cvs -f update -d -I\! )
+        ( Run cd "$VCSDIR" && Run cvs -f update -d -I\! )
     fi
 }
 
 Main ()
 {
+    if [ ! "$1" ]; then
+        Die "ERROR: Missing FILE (typically epackage/info)"
+    fi
+
+    if [ ! -f "$1" ]; then
+        Die "ERROR: file does not exists: $1"
+    fi
+
+    EPKGDIR=$(cd $(dirname $1); pwd)
+
     Initialize
 
-    for arg in "$@"			# Command line options
+    for arg in "$@"                     # Command line options
     do
-	case "$arg" in
-	    -h | --help)
-		shift
-		Help
-		;;
-	    -t | --test)
-		shift
-		TEST="test"
-		;;
-	esac
+        case "$arg" in
+            -h | --help)
+                shift
+                Help
+                ;;
+            -t | --test)
+                shift
+                TEST="test"
+                ;;
+        esac
     done
 
     if [ "$VCSNAME" = "git" ]; then
-	Warn "[WARN] For Git, you should use: \
+        Warn "[WARN] For Git, you should use: \
 'git remote add upstream $URL' and work through it directly."
     fi
 
     case "$VCSNAME" in
-	http)
-	    Run cd "$EPKGDIR/.."
-	    Run wget --user-agent="$UAGENT" \
-		 --no-check-certificate \
-		 --timestamping \
-		"$URL" \
-		"$ARGS"
-	    return $?
-	    ;;
+        http)
+            Run cd "$EPKGDIR/.."
+            Run wget --user-agent="$UAGENT" \
+                 --no-check-certificate \
+                 --timestamping \
+                "$URL" \
+                "$ARGS"
+            return $?
+            ;;
 
-	[a-z]*)
-	    Run cd "$EPKGDIR"
+        [a-z]*)
+            Run cd "$EPKGDIR"
 
-	    if [ "$VCSNAME" = "cvs" ]; then
-		Cvs "$URL"
-	    elif [ "$VCSNAME" = "svn" ]; then
-		Svn "$URL"
-	    else
-		Vcs "$VCSNAME" "$URL"
-	    fi
-	    ;;
+            if [ "$VCSNAME" = "cvs" ]; then
+                Cvs "$URL"
+            elif [ "$VCSNAME" = "svn" ]; then
+                Svn "$URL"
+            else
+                Vcs "$VCSNAME" "$URL"
+            fi
+            ;;
 
-	*)  Warn "[WARN] Unknown 'Vcs-Type: $VCSNAME' 'Vcs-Url: $URL'"
-	    return 1
-	    ;;
+        *)  Warn "[WARN] Unknown 'Vcs-Type: $VCSNAME' 'Vcs-Url: $URL'"
+            return 1
+            ;;
     esac
 
     UpdateLispFiles "$VCSNAME" "$VCSDIR"
