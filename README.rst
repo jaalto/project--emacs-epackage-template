@@ -62,9 +62,9 @@ structure and file formats.
 Bookmarks for your browser (always up-to-date):
 
 * All epackage related links:
-  http://pinboard.in/u:jariaalto/t:emacs/t:epackage
+  http://pinboard.in/u:jariaalto/t:emacs/t:epackage?sort=title
 * All Emacs Lisp Software Quality Assurance (QA) related links:
-  http://pinboard.in/u:jariaalto/t:emacs/t:elisp/t:qa
+  http://pinboard.in/u:jariaalto/t:emacs/t:elisp/t:qa?sort=title
 
 The Epackage Primer
 ===================
@@ -256,6 +256,10 @@ Emacs someday. The best practises include:
   *tinylisp.el* from
   `Tiny Tools`_ and functions ``M-x`` ``tinylisp-find-function-list``
   and ``tinylisp-find-variable-list`` to check files.
+* Are there ``defgroup`` and ``defcustom``definitions according to
+  ``14 Writing Customization Definitions
+  <(epackage-batch-devel-compose-package-dir): Check directory.>``
+  in GNU Emacs Lisp Reference Manual.
 * Are there ``;;;###autoload`` stanzas? These are placed above
   suitable interactive functions and variables that help in genrating
   `autoload`_ definitions'. If not, consider adding and sending path

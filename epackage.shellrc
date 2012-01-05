@@ -801,10 +801,11 @@ STANDARDS
 
         [ "$test" ] || ls -l
 
+        git commit -m 'Import upstream $date from $url'
+
         echo "# WHAT YOU NEED TO DO NEXT:"
         echo "# Examine information and correct commands below."
 
-        echo "git commit -m 'Import upstream $date from $url'"
         echo "git tag upstream/$fdate--$version"
 	echo "git checkout -b master"
 
