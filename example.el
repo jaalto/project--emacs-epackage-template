@@ -2,16 +2,16 @@
 ** best practises. See http://pinboard.in/u:jariaalto/t:emacs/t:dev/t:qa
 ** Remove this info by placing cursor at very top and pressing C-u C-k
 
-;; <name>.el --- <description> -*-coding: utf-8 -*-
+;; example.el --- <description> -*-coding: utf-8 -*-
 
 ;; Copyright (C) YYYY-YYYY First Last <address@example.com>
 
-;; Author:	First Last <address@example.com>
-;; Maintainer:	First Last <address@example.com>
-;; Created:	<YYYY-MM-DD>
-;; Version:	<pure numeric: N.N, N.N.N>
-;; Keywords:	<M-x finder-list-keywords, separated by commas>
-;; URL:		http://example.com/elisp
+;; Author:      First Last <address@example.com>
+;; Maintainer:  First Last <address@example.com>
+;; Created:     <YYYY-MM-DD>
+;; Version:     <pure numeric: N.N, N.N.N>
+;; Keywords:    <M-x finder-list-keywords, separated by commas>
+;; URL:         http://example.com/elisp
 
 ;; This file is not part of Emacs
 
@@ -58,24 +58,34 @@
 
 ;;; Code:
 
-<
+;; Write code here. defcustom first, then defconst, defvar,
+;; defsubst/defmacro and defuns last
+;;
+;; Remember to add ###autoload stanzas to important variables and functions
+;;
+;; *ALWAYS* use a PACKAGE-* prefix for variables, functions. This
+;; keeps the name space safe.
+;;
+;; *NEVER* modify user's environment just by loading this file.
+;;
+;; *NEVER* add any global key bindings unconditionally. For those
+;; purposes add PACKAGE-install-keybindings, PACKAGE-install-hooks
+;; setup functions and instruct in "Install:" user call to those.
+;;
+;; See:
+;; http://www.gnu.org/software/emacs/manual/html_mono/elisp.html#Library-Headers
+;; http://www.gnu.org/software/emacs/manual/html_mono/elisp.html#Autoload
+;; http://www.gnu.org/software/emacs/manual/html_mono/elisp.html#Customization
 
-Write code here. defcustom first, then defconst, defvar,
-defsubst/defmacro and defuns last
+(defgroup example nil
+  "<Write a short description of package here; a summary>"
+  :group 'extensions)
 
-Remember to add ###autoload stanzas to important variables and functions
+(defcustom example-flag nil
+  "*If non-nil, enable..."
+  :type 'boolean
+  :group 'example)
 
-*NEVER* modify user's environment just by loading this file. And
-*NEVER* add any global key bindings unconditionally. For those
-purposes add PACKAGE-install-keybindings, PACKAGE-install-hooks
-etc. setup functions and instruct user to add call to those
-in "Install:" section.
-
-See:
-http://www.gnu.org/software/emacs/manual/html_mono/elisp.html#Library-Headers
-http://www.gnu.org/software/emacs/manual/html_mono/elisp.html#Autoload
-
->
 
 ;;;###autoload
 (defun example-install ()
