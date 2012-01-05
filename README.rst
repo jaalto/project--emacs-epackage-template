@@ -483,50 +483,9 @@ When upstream IS also the packager (Git)
 ----------------------------------------
 
 Say you are the upstream. You would like to put your Emacs extensions
-available as epackages. All your code is in Git repositories. The
-thought may accur to you that, "Hm, I'll just add ``epackage/``
-directory, and be done with it".
-
-**Don't** **do** **that**.
-
-We're dealing with Git repositories which have very different needs.
-The *Epackages* have a specific structure and your own development Git
-repositories have their own. These two cannot be mixed; they simply
-are not, and cannot be made compatible. You see, all the branches are
-different: ::
-
-    YOUR GIT REPOSITORY (may vary from project to project)
-    master      - You stable development
-    devel       - Your unstable development
-    fix-this    - Whatever else...
-    fix-that
-    and-branch-here
-
-    EPACKAGE GIT REPOSITORY
-    master      - epackaged software, install, autoloads etc.
-    upstream    - Your::master branch contents here
-    patches     - (You don't have this for your own software)
-                  (But it's a RESERVED branch name for epackages)
-    <there should ne nothing else in official epackage Git repository>
-
-There is also a packaging philosophy of treating code "pristine" in a
-sense that it does not contain any extra information. This makes it
-possible to use it for any purpose easily. If sources contains
-separate pieces for X, Y, and Z, the code starts to deviate from being
-"pristine". There are now lot of files that have nothing to do with
-how the software is used by the standard user. Consider also that
-package manager Z does not use or need any of the other pieces X or Y
-that may be in there. These pieces are in their way to everyone trying
-to make sense what they are used for. The lessons in Linux Debian
-package management have well shown that the idea of "pristine" sources
-is the best approach.
-
-Sorry to cut your plans to using your existing Git development
-repository for epackaging work too. You need to maintain a separate
-Git repository for each individual Emacs Lisp extension. Fortunately,
-Git-to-Git import from "pristine" sources is daily bread for Git
-program. Just follow the instructions in previous section "When
-upstream uses Git repository too".
+available as epackages.  All your code is in Git repositories.  The answer
+is easy: create ``epackage/`` directory with necessary *info* and other
+install files and you're set.
 
 Keeping epackage up to date
 ---------------------------
