@@ -175,7 +175,6 @@ DESCRIPTION
     'require' statements calls are met.
 
 OPTIONS
-
     -d, --dir  Directory to add to Emacs load-path. Can be given
                multiple times
 
@@ -298,6 +297,12 @@ BUGS
         Elint file1.el
         Elint file2.el
 
+OPTIONS
+    -d, --dir  Directory to add to Emacs load-path. Can be given
+               multiple times
+
+    -t, --test  Run in test mode. Do now actually execute commands.
+
 ENVIRONMENT
 
     EPACKAGE_EMACS
@@ -314,16 +319,36 @@ STANDARDS
 
     unset test
 
-    case "$1" in
-        -h | --help )
-            echo "$help"
-            return 0
-            ;;
-        -t | --test)
-            test="test"
-            shift
-            ;;
-    esac
+    local list
+    local opt
+
+    while :
+    do
+        case "$1" in
+            -h | --help )
+                echo "$help"
+                return 0
+                ;;
+            -d | --dir )
+                shift
+                list="$list $1"
+                shift
+                ;;
+            -t | --test)
+                test="test"
+                shift
+                ;;
+            -l | --load )
+                opt="$opt $1 $2"
+                shift 2
+                ;;
+            -*) opt="$opt $1"           # Preserve Emacs options
+                shift
+                ;;
+            *) break
+                ;;
+        esac
+    done
 
     local lisp
     lisp=$(E_lisp)
@@ -335,13 +360,26 @@ STANDARDS
         return 1
     fi
 
+    path="${TMPDIR:-/tmp}/Egit.${LOGNAME:-${NAME:-foo}}.$$.path.tmp"
+    : > "$path"
+
+    local dir
+    for dir in $list
+    do
+        echo "(add-to-list 'load-path \"$dir\")" >> "$path"
+    done
+
+
     local file
     file="${TMPDIR:-/tmp}/Egit.${LOGNAME:-${NAME:-foo}}.$$.lint.tmp"
+
 
     ${test+echo} ${EPACKAGE_EMACS:-emacs} \
         --quick \
         --batch \
         --debug-init \
+	--load "$path" \
+	$opt \
         --load "$lisp" \
         --funcall epackage-batch-devel-lint-lisp \
         "$@" > "$file" 2>&1
@@ -358,7 +396,7 @@ STANDARDS
         return 2
     fi
 
-    rm -f "$file"
+    rm -f "$file" "$path"
     unset test
 }
 
