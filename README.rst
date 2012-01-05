@@ -27,11 +27,11 @@ repositories is called Epackage *maintainer*. The person who is the
 author of the original Emacs extension developer is called *upstream*.
 These two can be the same or separate persons.
 
-Template files available here for Epackage maintainers include:
+Utilities and template files available here for Epackage maintainers include:
 
-* ``get-http.sh``     - Simple download script (obsolete)
+* ``info``            - The Epackage information file template
 * ``get.sh``          - Generic download script that reads "info" file
-* ``info``            - The Epackage information file
+* ``epackage.shellrc`` - Command line utilities to make Epackages
 
 In a nutshell, Epackages have the following format ::
 
