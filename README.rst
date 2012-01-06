@@ -271,7 +271,7 @@ Emacs someday. The best practises include:
   to maintainer.
 * Does the code contain ``global-set-key`` commands? That's a BIG NO-NO.
   Don't package any such software. Contact upstream and suggest him to
-  move all setup code to a separate functions like
+  move all setup code to a separate function like
   *\*-install-default-key-bindings*.
 * Does code unconditionally set hooks like ``find-file-hooks``? Not
   good. Package should not change user's settings on load. You need to
