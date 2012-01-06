@@ -277,7 +277,7 @@ Emacs someday. The best practises include:
   good. Package should not change user's settings on load. You need to
   fix this by removing offending code and moving it into
   ``epackage/-*install`` and undo the effect in
-  ``epackage/-*uninstall``. Make all your edits in separate Git
+  ``epackage/-*uninstall``. Make all your edits in a separate Git
   **patches** branch; see the pictures at the end of this document.
   Contact upstream and suggest him to move all setup code to a
   separate functions like *\*-install-{default-key-bindings,hooks}*.
