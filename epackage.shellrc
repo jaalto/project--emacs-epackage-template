@@ -253,7 +253,7 @@ STANDARDS
     #  Make emacs faster
     echo "\
 (setq vc-handled-backends  nil)
-(setq font-lock-verbose    nil
+(setq font-lock-verbose    nil)
 (setq global-font-lock-mode nil)
 (setq byte-compile-verbose nil)" \
     > "$file"
