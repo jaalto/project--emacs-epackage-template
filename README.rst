@@ -499,8 +499,8 @@ setup is easy:
 See section "Hands on example" for shell commads how to create initial
 files in ``epackage/``.
 
-Keeping epackage up to date
----------------------------
+Keeping up to date with the upstream
+------------------------------------
 
 Periodically follow new releases of upstream code. Once upstream
 releases new code, make an update.
@@ -511,8 +511,7 @@ releases new code, make an update.
 
 2. Download new upstream release ::
 
-    cd epackage/
-    sh get.sh
+    get.sh epackage/info	# utility from this template directory
 
 3. Switch to *upstream* branch ::
 
@@ -521,7 +520,10 @@ releases new code, make an update.
 4. Examine version and release date of upstream code. Commit and tag ::
 
     git add -A  # Import all changes since.
-    git commit -m "import upstream 1.13 (2010-06-10) from example.com"
+    git commit -m "import upstream 2010-06-10 from http://example.com/path/file.el"
+
+    # Examine what are current dates and version
+    egrep -i 'version|date|modifiedä *.el
     git tag upstream/2010-06-10--1.13
 
 5. Switch back to *master* and merge latest upstream ::
@@ -532,6 +534,7 @@ releases new code, make an update.
 6. If needed, update `epackage/` directory information ::
 
     ... edit epackage/* files
+    Edef			# Regenrate epackage/*loaddef.el
     ... commit
     ... test that all works
 
