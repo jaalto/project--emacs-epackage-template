@@ -287,8 +287,8 @@ Emacs someday. The best practises include:
   Emacs features lisp-mnt, checkdoc etc. Report problems to upstream
   issue tracker.
 * Does the code refer to a known license in `License Database`_? If not,
-  contact upstream and suggest him to change (or add one). The Best
-  license for extensions is GPL, because that is the license of Emacs.
+  contact upstream and suggest him to change (or add one). The recommended
+  license to use is GPL, because that is the license of Emacs.
   If someday the extension finds its way to Emacs, the road is
   clear with GPL. *NOTE:* `Public Domain`_ is not a internationally
   viable license.
