@@ -260,9 +260,10 @@ Emacs someday. The best practises include:
   the end of *epackage/info::Description* field. Use e.g. quick
   ``egrep -ri '^\(def' .`` to see if multiple name spaces are used in
   the code.
-* Are there ``defgroup`` and ``defcustom``definitions according to
-  ``14 Writing Customization Definitions
-  <(epackage-batch-devel-compose-package-dir): Check directory.>``
+* Are there ``defgroup`` and
+  ``defcustom``definitions according to
+  `14 Writing Customization Definitions
+  <http://www.gnu.org/software/emacs/manual/html_mono/elisp.html#Customization>`_
   in GNU Emacs Lisp Reference Manual.
 * Are there ``;;;###autoload`` stanzas? These are placed above
   suitable interactive functions and variables that help in genrating
