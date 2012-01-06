@@ -47,7 +47,7 @@
 #
 #           Egit
 #           Edir
-#           Eauto
+#           Edef
 #           Elint
 #	    Ever
 #	    Eclone
@@ -248,9 +248,15 @@ STANDARDS
     local root=$(dirname "$1")
 
     local file
-    file="${TMPDIR:-/tmp}/Egit.${LOGNAME:-${NAME:-foo}}.$$.path.tmp"
+    file="${TMPDIR:-/tmp}/Egit.${LOGNAME:-${NAME:-foo}}.$$.elisp.tmp"
 
-    rm -f "$file"
+    #  Make emacs faster
+    echo "\
+(setq vc-handled-backends  nil)
+(setq font-lock-verbose    nil
+(setq global-font-lock-mode nil)
+(setq byte-compile-verbose nil)" \
+    > "$file"
 
     local dir
     for dir in $list $( find $root \
