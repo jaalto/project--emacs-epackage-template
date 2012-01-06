@@ -278,7 +278,7 @@ Emacs someday. The best practises include:
   fix this by removing offending code and moving it into
   ``epackage/-*install`` and undo the effect in
   ``epackage/-*uninstall``. Make all your edits in a separate Git
-  **patches** branch; see the _`pictures` at the end of this document.
+  **patches** branch; see the pictures_ at the end of this document.
   Contact upstream and suggest him to move all setup code to a
   separate functions like *\*-install-{default-key-bindings,hooks}*.
 * Is the package well structured and behaving? Run all code quality
