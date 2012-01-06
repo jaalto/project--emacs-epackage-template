@@ -48,6 +48,8 @@
 #           Egit
 #           Edir
 #           Elint
+#	    Ever
+#	    Eclone
 #
 #    Examples
 #
@@ -100,6 +102,9 @@ Ever ()
 SYNOPSIS
     Ever [file.el ...]
 
+OPTIONS
+    -h, --help  Show help
+
 DESCRIPTION
     Epackage version information
 
@@ -137,6 +142,16 @@ DESCRIPTION
 
 E_lisp ()
 {
+    # THIS IS INTERNAL. Not meant to be user callable.
+
+    local help
+    help="\
+SYNOPSIS
+    E_lisp
+
+DESCRIPTION
+    Return package.el Emacs Lisp file location"
+
     local file
 
     if [ "$EPACKAGE_ROOT" ]; then
@@ -175,18 +190,19 @@ DESCRIPTION
     'require' statements calls are met.
 
 OPTIONS
-    -d, --dir  Directory to add to Emacs load-path. Can be given
-               multiple times
-
+    -h, --help  Show help
+    -d, --dir   Directory to add to Emacs load-path. Can be given
+                multiple times
+    -l, --load  See emacs(1)
     -t, --test  Run in test mode. Do now actually execute commands.
+    *-, --*     Passed to emacs(1). Supports only single options and not
+                options with arguments.
 
 ENVIRONMENT
-
     EPACKAGE_EMACS
         Emacs binary to use. Defaults to 'emacs'.
 
 STANDARDS
-
     GNU Emacs Lisp Reference Manual, sectoion 16, Byte Compilation
     http://www.gnu.org/software/emacs/manual/html_mono/elisp.html#Byte-Compilation"
 
@@ -298,13 +314,15 @@ BUGS
         Elint file2.el
 
 OPTIONS
-    -d, --dir  Directory to add to Emacs load-path. Can be given
-               multiple times
-
+    -h, --help  Show help
+    -d, --dir   Directory to add to Emacs load-path. Can be given
+                multiple times
+    -l, --load  See emacs(1)
     -t, --test  Run in test mode. Do now actually execute commands.
+    *-, --*     Passed to emacs(1). Supports only single options and not
+                options with arguments.
 
 ENVIRONMENT
-
     EPACKAGE_EMACS
         Emacs binary to use. Defaults to 'emacs'.
 
@@ -313,7 +331,6 @@ ENVIRONMENT
         locations under ~/.emacs.d are tried.
 
 STANDARDS
-
     Emacs Lisp Software Quality Assurance (QA) related links:
     http://pinboard.in/u:jariaalto/t:emacs/t:elisp/t:qa"
 
@@ -430,6 +447,7 @@ DESCRIPTION
       complete file names.
 
 OPTIONS
+    -h, --help  Show help
     -t, --test  Run in test mode. Do now actually execute commands.
 
 EXAMPLES
@@ -521,7 +539,10 @@ SYNOPSIS
     E_indate [options] file.el
 
 DESCRIPTION
-    Return internal modified date by examing contents of FILE."
+    Return internal modified date by examing contents of FILE.
+
+OPTIONS
+    -h, --help  Show help"
 
     case "$1" in
         -h | --help )
@@ -570,7 +591,10 @@ SYNOPSIS
     E_filedate [options] FILE
 
 DESCRIPTION
-    Return ISO 8601 date of FILE."
+    Return ISO 8601 date of FILE.
+
+OPTIONS
+    -h, --help  Show help"
 
     case "$1" in
         -h | --help )
@@ -602,7 +626,10 @@ SYNOPSIS
     E_version [options] FILE
 
 DESCRIPTION
-    Return version of FILE."
+    Return version of FILE.
+
+OPTIONS
+    -h, --help  Show help"
 
     case "$1" in
         -h | --help )
@@ -648,6 +675,10 @@ DESCRIPTION
     if epackeg/info::Vcs-Url points to a *.git repository, define
     'git remote upstream ...' and run 'git fetch upstream'.
 
+OPTIONS
+    -h, --help  Show help
+    -t, --test  Run in test mode. Do now actually execute commands.
+
 EXAMPLES
     Clone typical packager repository under 'package':
 
@@ -658,10 +689,16 @@ EXAMPLES
 
 	Eclone git://github.com/jaalto/emacs-epkg--lib-hexrgb.git"
 
+    unset test
+
     case "$1" in
         -h | --help )
             echo "$help"
             return 0
+            ;;
+        -t | --test)
+            test="test"
+            shift
             ;;
     esac
 
@@ -706,6 +743,8 @@ EXAMPLES
 		echo "[NOTE] Upstream does not use git, but: $url"
 	esac
     )
+
+    unset test
 }
 
 Egit ()
@@ -737,6 +776,7 @@ DESCRIPTION
     - ew:file.el; file is retrieved from EmacsWiki.
 
 OPTIONS
+    -h, --help  Show help
     -t, --test  Run in test mode. Do now actually execute commands.
 
 EXAMPLES
