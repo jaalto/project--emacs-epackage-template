@@ -273,7 +273,16 @@ STANDARDS
 
     [ "$dir" ] && opt="--load $file"
 
-    ${test+echo} ${EPACKAGE_EMACS:-emacs} \
+    local emacs
+    emacs=emacs
+
+    if [ /usr/bin/emacs-nox ]; then  # Optimize by using non-X
+	emacs=/usr/bin/emacs-nox
+    elif [ /usr/bin/emacs ]; then
+	emacs=/usr/bin/emacs
+    fi
+
+    ${test+echo} ${EPACKAGE_EMACS:-$emacs} \
         --quick \
         --batch \
         --debug-init \
@@ -397,8 +406,16 @@ STANDARDS
     local file
     file="${TMPDIR:-/tmp}/Egit.${LOGNAME:-${NAME:-foo}}.$$.lint.tmp"
 
+    local emacs
+    emacs=emacs
 
-    ${test+echo} ${EPACKAGE_EMACS:-emacs} \
+    if [ /usr/bin/emacs-nox ]; then  # Optimize by using non-X
+	emacs=/usr/bin/emacs-nox
+    elif [ /usr/bin/emacs ]; then
+	emacs=/usr/bin/emacs
+    fi
+
+    ${test+echo} ${EPACKAGE_EMACS:-$emacs} \
         --quick \
         --batch \
         --debug-init \
@@ -502,7 +519,16 @@ STANDARDS
 
     touch $edir/$pkg-epkg-0loaddefs.el	# Must exist
 
-    ${test+echo} ${EPACKAGE_EMACS:-emacs} \
+    local emacs
+    emacs=emacs
+
+    if [ /usr/bin/emacs-nox ]; then  # Optimize by using non-X
+	emacs=/usr/bin/emacs-nox
+    elif [ /usr/bin/emacs ]; then
+	emacs=/usr/bin/emacs
+    fi
+
+    ${test+echo} ${EPACKAGE_EMACS:-$emacs} \
         -quick \
         --batch \
         --debug-init \
@@ -614,7 +640,16 @@ STANDARDS
             ;;
     esac
 
-    ${test+echo} ${EPACKAGE_EMACS:-emacs} \
+    local emacs
+    emacs=emacs
+
+    if [ /usr/bin/emacs-nox ]; then  # Optimize by using non-X
+	emacs=/usr/bin/emacs-nox
+    elif [ /usr/bin/emacs ]; then
+	emacs=/usr/bin/emacs
+    fi
+
+    ${test+echo} ${EPACKAGE_EMACS:-$emacs} \
         -quick \
         --batch \
         --debug-init \
