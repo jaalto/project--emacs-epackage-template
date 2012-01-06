@@ -47,6 +47,7 @@
 #
 #           Egit
 #           Edir
+#           Eauto
 #           Elint
 #	    Ever
 #	    Eclone
@@ -414,6 +415,95 @@ STANDARDS
     fi
 
     rm -f "$file" "$path"
+    unset test
+}
+
+Edef ()
+{
+    local help
+    help="\
+SYNOPSIS
+    Edef [dir]
+
+DESCRIPTION
+    Update loaddefs file in DIR/epackage/*-epkg-0loaddefs.el by
+    reading all Emacs Lisp files recursively. DIR defaults to
+    current directory.
+
+OPTIONS
+    -h, --help  Show help
+    -t, --test  Run in test mode. Do now actually execute commands.
+
+EXAMPLES
+    Regenerate loaddefs e.g. after upgrading to latest upstream code:
+
+        cd /path/to/epackage-root-dir
+        Edef
+
+ENVIRONMENT
+
+    EPACKAGE_EMACS
+        Path to emacs binary to use. Defaults to \"emacs\".
+
+    EPACKAGE_ROOT
+        Directory location of epackage.el file to use. By default Various
+        locations under ~/.emacs.d are tried.
+
+STANDARDS
+   The Epackage primer
+   <https://github.com/jaalto/project--emacs-epackage-template>."
+
+    unset test
+
+    case "$1" in
+        -h | --help )
+            echo "$help"
+            return 0
+            ;;
+        -t | --test)
+            test="test"
+            shift
+            ;;
+    esac
+
+    local lisp
+    lisp=$(E_lisp)
+
+    [ "$lisp" ] || return 1
+
+    local dir
+    dir=$1
+
+    if [ ! "$dir" ]; then
+	dir=$(pwd)
+    fi
+
+    if [ ! -d "$dir" ]; then
+        echo "[ERROR] No such directory: $dir" >&2
+        return 1
+    fi
+
+    local edir
+    edir=$dir/epackage
+
+    local pkg
+    pkg=$(awk '/^[Pp]ackage:/ {print $2 ; exit}' $edir/info)
+
+    if [ ! "$pkg" ]; then
+        echo "[ERROR] Can't read package name from $edir/info" >&2
+        return 1
+    fi
+
+    touch $edir/$pkg-epkg-0loaddefs.el	# Must exist
+
+    ${test+echo} ${EPACKAGE_EMACS:-emacs} \
+        -quick \
+        --batch \
+        --debug-init \
+	--load "$lisp" \
+        --funcall epackage-batch-autoload-generate-loaddefs-dir \
+        "$dir"
+
     unset test
 }
 
