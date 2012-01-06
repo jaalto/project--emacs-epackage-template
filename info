@@ -5,6 +5,7 @@ License-Text: <only for type Custom; full text or URL to page in http://spdx.org
 Depends: emacs (>= 22)
 Status: core-emacs[-NN.N] unmaintained broken unsafe stable unstable experimental
 Compat:
+Archive: ELPA/GNU | ELPA/Marmalade
 Maintainer:
 Bugs:
 Upstream:
