@@ -273,7 +273,7 @@ Emacs someday. The best practises include:
   Don't package any such software. Contact upstream and suggest him to
   move all setup code to a separate function like
   *\*-install-default-key-bindings*.
-* Does code unconditionally set hooks like ``find-file-hooks``? Not
+* Does the code unconditionally set hooks like ``find-file-hooks``? Not
   good. Package should not change user's settings on load. You need to
   fix this by removing offending code and moving it into
   ``epackage/-*install`` and undo the effect in
