@@ -907,6 +907,8 @@ DESCRIPTION
     - ew:file.el; file is retrieved from EmacsWiki.
 
 OPTIONS
+
+    -g, --git   Confirm that the URL is git direcory
     -h, --help  Show help
     -t, --test  Run in test mode. Do now actually execute commands.
 
@@ -919,6 +921,11 @@ EXAMPLES
 
         Egit git://github.com/USER/PROJECT.git
 
+    Upstream sources URL does not have *.git extension, confirm that
+    this is still Gir URL:
+
+        Egit -g http://example.com/git/path
+
     The sources are in the currect directory; unpacked. Import them:
 
         Egit
@@ -929,10 +936,16 @@ STANDARDS
 
     unset test
 
+    local git
+
     case "$1" in
         -h | --help )
             echo "$help"
             return 0
+            ;;
+        -g | --git)
+            git="git"
+            shift
             ;;
         -t | --test)
             test="test"
@@ -970,9 +983,14 @@ STANDARDS
             wget="wget"
             ;;
 
-        http:/ )
-	    echo "[WARN] Unknown URL. If this is svn or hg, download manually." >&2
-	    return
+        http:/* | https:/* )
+	    if [ "$git" ]; then
+		giturl="$url"
+		url=""
+	    else
+		echo "[ERROR] Unknown URL. See -g. If this is svn or hg, download manually." >&2
+		return 1
+	    fi
             ;;
 
         git://* | *.git)
@@ -1091,6 +1109,7 @@ STANDARDS
 
 	local name
 	name=$(basename $giturl)
+	name=${name%/}			# Delete trailing slash
 	name=${name%.git}
 	name=${name%-emacs}
 	name=${name#emacs-}
