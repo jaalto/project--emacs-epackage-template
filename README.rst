@@ -99,6 +99,11 @@ Before the full script, here is outline of the packaging procedure: ::
     #  Delete unneeded files. Commit and push to github
     #  Notify "Sources List" about new package.
 
+    # ... For maintenance an upstream upgrade ...
+
+    Ever
+    Edef
+
 If you want to get your hands dirty immediately and read documentation
 later, follow this exercise to create your first epackage: ::
 
