@@ -306,7 +306,7 @@ suggestions.
 
 When you have made contact to the upstream, record it to this to field
 ``epackage/info::X-Development``. If there hasn't been updates for a
-year, you ping to see if he still exists and maintains the code. An
+year, you can ping to see if he still exists and maintains the code. An
 example ::
 
     Commentary: ...
