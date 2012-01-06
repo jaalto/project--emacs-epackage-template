@@ -266,7 +266,7 @@ Emacs someday. The best practises include:
   <http://www.gnu.org/software/emacs/manual/html_mono/elisp.html#Customization>`_
   in GNU Emacs Lisp Reference Manual.
 * Are there ``;;;###autoload`` stanzas? These are placed above
-  suitable interactive functions and variables that help in genrating
+  suitable interactive functions and variables that help in generating
   `autoload`_ definitions'. If not, consider adding and sending path
   to maintainer.
 * Does code contain ``global-set-key`` commands? That's a BIG NO-NO.
