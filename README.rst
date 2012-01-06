@@ -511,7 +511,7 @@ releases new code, make an update.
 
 2. Download new upstream release ::
 
-    get.sh epackage/info	# utility from this template directory
+    /path/to/get.sh epackage/info	# utility from this template directory
 
 3. Switch to *upstream* branch ::
 
