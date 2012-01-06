@@ -269,7 +269,7 @@ Emacs someday. The best practises include:
   suitable interactive functions and variables that help in generating
   `autoload`_ definitions'. If not, consider adding and sending path
   to maintainer.
-* Does code contain ``global-set-key`` commands? That's a BIG NO-NO.
+* Does the code contain ``global-set-key`` commands? That's a BIG NO-NO.
   Don't package any such software. Contact upstream and suggest him to
   move all setup code to a separate functions like
   *\*-install-default-key-bindings*.
