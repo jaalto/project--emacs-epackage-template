@@ -221,7 +221,7 @@ STANDARDS
                 ;;
             -d | --dir )
                 shift
-                list="$list $1"
+                list="$list $(cd $1 && pwd)"
                 shift
                 ;;
             -t | --test)
@@ -364,7 +364,7 @@ STANDARDS
                 ;;
             -d | --dir )
                 shift
-                list="$list $1"
+                list="$list $(cd $1 && pwd)"
                 shift
                 ;;
             -t | --test)
