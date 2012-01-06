@@ -685,9 +685,9 @@ EXAMPLES
         Eclone git://example.com/package.git
 
     Clone project directory from github. The saved directory is
-    'lib-hexrgb' after removing everything to the left of two dashes:
+    'el-get' after removing everything to the left of two dashes:
 
-	Eclone git://github.com/jaalto/emacs-epkg--lib-hexrgb.git"
+	Eclone git://github.com/jaalto/emacs-epkg--el-get.git"
 
     unset test
 
@@ -736,7 +736,7 @@ EXAMPLES
 	    *.git )
 		git remote add upstream $url
 		git fetch upstream
-		git checkout --track upstream-master upstream/master
+		git checkout --track -b upstream-master upstream/master
 		git checkout master
 		;;
 	    *)
