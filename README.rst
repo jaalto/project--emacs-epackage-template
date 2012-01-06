@@ -261,7 +261,7 @@ Emacs someday. The best practises include:
   ``egrep -ri '^\(def' .`` to see if multiple name spaces are used in
   the code.
 * Are there ``defgroup`` and
-  ``defcustom``definitions according to
+  ``defcustom`` definitions according to
   `14 Writing Customization Definitions
   <http://www.gnu.org/software/emacs/manual/html_mono/elisp.html#Customization>`_
   in GNU Emacs Lisp Reference Manual.
