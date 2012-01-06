@@ -84,7 +84,7 @@ Before the full script, here is outline of the packaging procedure: ::
 
     Egit http://example.com/file.el
 
-    #  Follow instructions displayed by the above command after it finishes
+    #  Follow instructions displayed by the above command after it finishes.
     #  After committing and tagging "upstream", continue in "master"
     #  branch This command will instrument epackage/ directory
 
@@ -257,10 +257,9 @@ Emacs someday. The best practises include:
 * Does every variable and function start with a common ``package-*``
   prefix? If not, label package as **unsafe** in
   *epackage/info::Status* . Explain the reason for the unsafe status
-  the end of *epackage/info::Description* field. You can use e.g.
-  *tinylisp.el* from
-  `Tiny Tools`_ and functions ``M-x`` ``tinylisp-find-function-list``
-  and ``tinylisp-find-variable-list`` to check files.
+  the end of *epackage/info::Description* field. Use e.g. quick
+  ``egrep -ri '^\(def' .`` to see if multiple name spaces are used in
+  the code.
 * Are there ``defgroup`` and ``defcustom``definitions according to
   ``14 Writing Customization Definitions
   <(epackage-batch-devel-compose-package-dir): Check directory.>``
