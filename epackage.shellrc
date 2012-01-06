@@ -629,6 +629,85 @@ DESCRIPTION
     return 1
 }
 
+Eclone ()
+{
+    local help
+
+    help="\
+SYNOPSIS
+    Eclone GITURL
+
+DESCRIPTION
+    Clone epackage from URL. Chek out all relevant branches.
+
+    If destination directory contains two dashes (--), the name
+    used is from the right hand side. This makes it possible to
+    use sensible names for git repositories (like in Github) for
+    multiple purposes.
+
+    if epackeg/info::Vcs-Url points to a *.git repository, define
+    'git remote upstream ...' and run 'git fetch upstream'.
+
+EXAMPLES
+    Clone typical packager repository under 'package':
+
+        Eclone git://example.com/package.git
+
+    Clone project directory from github. The saved directory is
+    'lib-hexrgb' after removing everything to the left of two dashes:
+
+	Eclone git://github.com/jaalto/emacs-epkg--lib-hexrgb.git"
+
+    case "$1" in
+        -h | --help )
+            echo "$help"
+            return 0
+            ;;
+    esac
+
+
+    [ "$1" ] || return 1
+
+    local url
+    url="$1"
+
+    case "$url" in
+	*.git )
+	    ;;
+	    *)
+	    echo "[WARN] URL may not be *.git directory: $url" >&2
+	    ;;
+    esac
+
+    local name
+    name=$(basename $url)
+    name=${name#*--}
+
+    ${test+echo} git clone $url $name ||
+    return $?
+
+    (
+	${test:+echo} cd $name
+        ${test:+echo} git checkout --track -b upstream origin/upstream
+	${test+echo} git checkout master
+
+	[ "$test" ] && return 0
+
+	url=$(awk '/Vcs-Url/ { print $2 }' epackage/info)
+
+	case "$url" in
+	    *.git )
+		git remote add upstream $url
+		git fetch upstream
+		git checkout --track upstream-master upstream/master
+		git checkout master
+		;;
+	    *)
+		echo "[NOTE] Upstream does not use git, but: $url"
+	esac
+    )
+}
+
 Egit ()
 {
     local help
@@ -747,11 +826,16 @@ STANDARDS
 	    return 1
 	fi
 
-	case "$url" in
+	case "$wget" in
 	    *.el )
 		;;
-	    * )
-		echo "[WARN] URL does not end to *.el: $url" >&2
+	    .*[a-z] )			# .tar.gz
+		echo "[WARN] Not *.el in URL: $url" >&2
+		;;
+	    *)
+		url="$url.el"
+		wget="$wget.el"
+		echo "[WARN] Added missing *.el to URL: $url" >&2
 		;;
 	esac
 
