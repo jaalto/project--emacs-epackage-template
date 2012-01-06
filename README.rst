@@ -488,9 +488,16 @@ When upstream IS also the packager (Git)
 ----------------------------------------
 
 Say you are the upstream. You would like to put your Emacs extensions
-available as epackages.  All your code is in Git repositories.  The answer
-is easy: create ``epackage/`` directory with necessary *info* and other
-install files and you're set.
+available as epackages. All your code is in Git repositories. The
+setup is easy:
+
+* Create ``epackage/`` directory with necessary *info* and other
+  install files.
+* Create file ``epackage/format`` and add word "upstream" to it's
+  own line.
+
+See section "Hands on example" for shell commads how to create initial
+files in ``epackage/``.
 
 Keeping epackage up to date
 ---------------------------
