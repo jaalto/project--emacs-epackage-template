@@ -322,7 +322,7 @@ is actively developed or whose maintainer has gone with the winds of
 time. The users will download the package and in many cases send bug
 reports. Do you have the time to deal with those? Especially, if there
 is no more upstream to forward requests to. Packaging dead code serves
-no-one unless you are able to serve as the new usptream.
+no one unless you are able to serve as the new usptream.
 
 FINISHING
 
