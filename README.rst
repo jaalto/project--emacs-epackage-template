@@ -355,10 +355,13 @@ Making an epackage
     $ git commit -m "import upstream YYYY-MM-MM from http://example.com/path/file.el"
 
 5. Mark the commit with a tag that has format
-   ``upstream/<UPSTREAM-DATE>[--<UPSTREAM-VERSION>]``. In case
+   ``upstream/<UPSTREAM-DATE>[--<UPSTREAM-VERSION>][-<DVCSINFO>]``. In case
    information about the release date is not available, use year only
-   format YYYY-01-01. Leave out the ``--<UPSTREAM-VERSION>]`` if there is
-   no information about release version. An exmaple ::
+   format YYYY-01-01. Leave out the ``--<UPSTREAM-VERSION>]`` if there
+   is no information about release version. If the package is from a
+   version control directory, it might be a good idea to add
+   *-svn-12234* or *-git-abcd1234* (7 chars for Git) DVCSINFO
+   suffix. An example ::
 
     $ egrep 'version|[0-9][0-9][0-9][0-9]' *.el
 
