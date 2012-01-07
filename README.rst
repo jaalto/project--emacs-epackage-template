@@ -134,7 +134,7 @@ later, follow this exercise to create your first epackage: ::
     # Follow the instructions at end of output....
 
         Initialized empty Git repository in /home/jaalto/vc/epackage/xxx/.git/
-        ;; Copyright (C) 2006-2007 by Ryan Davis
+        ;; Copyright (C) 2006-2012 by Ryan Davis
         ;; Author: Ryan Davis <ryand-ruby@zenspider.com>
         ;; Version 1.3.1
         ;; Created: 2006-03-22
