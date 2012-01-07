@@ -500,7 +500,8 @@ setup is easy:
   own line.
 
 See section "Hands on example" for shell commads how to create initial
-files in ``epackage/``.
+files in ``epackage/``. Notify `Sources List`_ maintaner about your
+repository. See step 12 in section "Making an epackage".
 
 Keeping up to date with the upstream
 ------------------------------------
