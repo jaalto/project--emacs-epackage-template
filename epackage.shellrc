@@ -1128,7 +1128,7 @@ STANDARDS
 
         [ "$test" ] || ls -l
 
-        git commit -m 'Import upstream $date from $url'
+        git commit -m "Import upstream $date from $url"
 
         echo "# WHAT YOU NEED TO DO NEXT:"
         echo "# Examine information and correct commands below."
