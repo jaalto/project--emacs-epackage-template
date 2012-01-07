@@ -175,24 +175,24 @@ later, follow this exercise to create your first epackage: ::
     Edir [-h] toggle toggle.el
 
         Loading vc-git...
-        Wrote toggle-epkg-autoloads.el
-        Wrote toggle-epkg-install.el
+        Wrote toggle-epackage-autoloads.el
+        Wrote toggle-epackage-install.el
         Generating autoloads for toggle.el...
         Generating autoloads for toggle.el...done
-        Wrote toggle-epkg-compile.el
-        Wrote toggle-epkg-examples.el
-        Wrote toggle-epkg-uninstall.el
+        Wrote toggle-epackage-compile.el
+        Wrote toggle-epackage-examples.el
+        Wrote toggle-epackage-uninstall.el
 
     # (4) templates are ready, go and edit
 
     cd epackage/
     ls -1
 
-        toggle-epkg-autoloads.el
-        toggle-epkg-compile.el
-        toggle-epkg-examples.el
-        toggle-epkg-install.el
-        toggle-epkg-uninstall.el
+        toggle-epackage-autoloads.el
+        toggle-epackage-compile.el
+        toggle-epackage-examples.el
+        toggle-epackage-install.el
+        toggle-epackage-uninstall.el
 
     # Rqeruired files: info, *-autoloads.el, -*install.el
     # - No need for compile, this is a single file package
