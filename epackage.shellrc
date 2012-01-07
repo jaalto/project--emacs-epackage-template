@@ -282,7 +282,7 @@ STANDARDS
 	emacs=/usr/bin/emacs
     fi
 
-    ${test+echo} ${EPACKAGE_EMACS:-$emacs} \
+    ${test:+echo} ${EPACKAGE_EMACS:-$emacs} \
         --quick \
         --batch \
         --debug-init \
@@ -415,7 +415,7 @@ STANDARDS
 	emacs=/usr/bin/emacs
     fi
 
-    ${test+echo} ${EPACKAGE_EMACS:-$emacs} \
+    ${test:+echo} ${EPACKAGE_EMACS:-$emacs} \
         --quick \
         --batch \
         --debug-init \
@@ -528,7 +528,7 @@ STANDARDS
 	emacs=/usr/bin/emacs
     fi
 
-    ${test+echo} ${EPACKAGE_EMACS:-$emacs} \
+    ${test:+echo} ${EPACKAGE_EMACS:-$emacs} \
         -quick \
         --batch \
         --debug-init \
@@ -635,7 +635,7 @@ STANDARDS
 	emacs=/usr/bin/emacs
     fi
 
-    ${test+echo} ${EPACKAGE_EMACS:-$emacs} \
+    ${test:+echo} ${EPACKAGE_EMACS:-$emacs} \
         -quick \
         --batch \
         --debug-init \
@@ -837,13 +837,13 @@ EXAMPLES
     name=$(basename $url)
     name=${name#*--}
 
-    ${test+echo} git clone $url $name ||
+    ${test:+echo} git clone $url $name ||
     return $?
 
     (
 	${test:+echo} cd $name
         ${test:+echo} git checkout --track -b upstream origin/upstream
-	${test+echo} git checkout master
+	${test:+echo} git checkout master
 
 	[ "$test" ] && return 0
 
