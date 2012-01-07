@@ -191,13 +191,13 @@ DESCRIPTION
     'require' statements calls are met.
 
 OPTIONS
-    -h, --help  Show help
     -d, --dir   Directory to add to Emacs load-path. Can be given
                 multiple times
     -l, --load  See emacs(1)
     -t, --test  Run in test mode. Do now actually execute commands.
     *-, --*     Passed to emacs(1). Supports only single options and not
                 options with arguments.
+    -h, --help  Show help
 
 ENVIRONMENT
     EPACKAGE_EMACS
@@ -330,13 +330,13 @@ BUGS
         Elint file2.el
 
 OPTIONS
-    -h, --help  Show help
     -d, --dir   Directory to add to Emacs load-path. Can be given
                 multiple times
     -l, --load  See emacs(1)
     -t, --test  Run in test mode. Do now actually execute commands.
     *-, --*     Passed to emacs(1). Supports only single options and not
                 options with arguments.
+    -h, --help  Show help
 
 ENVIRONMENT
     EPACKAGE_EMACS
@@ -454,8 +454,8 @@ DESCRIPTION
     current directory.
 
 OPTIONS
-    -h, --help  Show help
     -t, --test  Run in test mode. Do now actually execute commands.
+    -h, --help  Show help
 
 EXAMPLES
     Regenerate loaddefs e.g. after upgrading to latest upstream code:
@@ -562,8 +562,8 @@ DESCRIPTION
 
 
 OPTIONS
-    -h, --help  Show help
     -t, --test  Run in test mode. Do now actually execute commands.
+    -h, --help  Show help
 
 EXAMPLES
     Generate templates for regular file:
@@ -793,8 +793,8 @@ DESCRIPTION
     'git remote upstream ...' and run 'git fetch upstream'.
 
 OPTIONS
-    -h, --help  Show help
     -t, --test  Run in test mode. Do now actually execute commands.
+    -h, --help  Show help
 
 EXAMPLES
     Clone typical packager repository under 'package':
@@ -804,7 +804,7 @@ EXAMPLES
     Clone project directory from github. The saved directory is
     'project' after removing everything to the left of two dashes:
 
-	Eclone git://example.com/dir/emacs--project.git
+	Eclone git://example.com/dir/emacs--project.git"
 
     unset test
 
@@ -880,12 +880,12 @@ DESCRIPTION
     upstream code is already in current directory.
 
     This command only prepares for the initial import to Git
-    \"upstream\" branch. From there the steps needed are:
+    'upstream' branch. From there the steps needed are:
 
     - commit (to upstream branch)
     - tag the upstream branch
-    - create "master" branch off upstream
-    - populate epackage/ directory. See command \"Edir\".
+    - create 'master' branch off upstream
+    - populate epackage/ directory. See command 'Edir'.
 
     The URL can be in format:
 
@@ -895,8 +895,8 @@ DESCRIPTION
 OPTIONS
 
     -g, --git   Confirm that the URL is git direcory
-    -h, --help  Show help
     -t, --test  Run in test mode. Do now actually execute commands.
+    -h, --help  Show help
 
 EXAMPLES
     You have a direct URL to the Emacs Lisp file. Import it:
