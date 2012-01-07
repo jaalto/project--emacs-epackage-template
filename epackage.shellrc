@@ -449,7 +449,7 @@ SYNOPSIS
     Edef [dir]
 
 DESCRIPTION
-    Update loaddefs file in DIR/epackage/*-epkg-0loaddefs.el by
+    Update loaddefs file in DIR/epackage/*-epackage-0loaddefs.el by
     reading all Emacs Lisp files recursively. DIR defaults to
     current directory.
 
@@ -517,7 +517,7 @@ STANDARDS
         return 1
     fi
 
-    touch $edir/$pkg-epkg-0loaddefs.el	# Must exist
+    touch $edir/$pkg-epackage-0loaddefs.el	# Must exist
 
     local emacs
     emacs=emacs
@@ -802,9 +802,9 @@ EXAMPLES
         Eclone git://example.com/package.git
 
     Clone project directory from github. The saved directory is
-    'el-get' after removing everything to the left of two dashes:
+    'project' after removing everything to the left of two dashes:
 
-	Eclone git://github.com/jaalto/emacs-epkg--el-get.git"
+	Eclone git://example.com/dir/emacs--project.git
 
     unset test
 
