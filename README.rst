@@ -503,6 +503,32 @@ See section "Hands on example" for shell commads how to create initial
 files in ``epackage/``. Notify `Sources List`_ maintaner about your
 repository. See step 12 in section "Making an epackage".
 
+When upstream IS also the packager (Non-Git)
+--------------------------------------------
+
+Say you are the upstream. You would like to put your Emacs extensions
+available as epackages. **You use some other version contral than Git
+to manage your code**. No problem, continue to use that you have. But
+you must layer Git on top of it. It means that you ínitialize Git
+repository on top of your current version control system. These two
+won't conflict, but you need to switch to Git, when you make you code
+available.
+
+An example:
+
+    ... Say you use Mercurial; "Hg" for short.
+    cd /your/hg/project
+    ... commit any chnages
+    hg status
+    ... initialize git
+    git init
+    echo ".hg" > .gitignore
+    git add .
+    git commit -m "import"
+    ...
+
+That's it. Continue as explained in previous cases how to use Git.
+
 Keeping up to date with the upstream
 ------------------------------------
 
