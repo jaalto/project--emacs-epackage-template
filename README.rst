@@ -360,7 +360,7 @@ Making an epackage
    format YYYY-01-01. Leave out the ``--<UPSTREAM-VERSION>]`` if there
    is no information about release version. If the package is from a
    version control directory, it might be a good idea to add
-   *-svn-12234* or *-git-abcd1234* (7 chars for Git) DVCSINFO
+   *-svn-12234* or *-git-abc1234* (7 chars for Git) DVCSINFO
    suffix. An example ::
 
     $ egrep 'version|[0-9][0-9][0-9][0-9]' *.el
