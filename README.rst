@@ -351,12 +351,6 @@ Making an epackage
 4. Determine version information and import code to Git repository.
    Use clear commit message ::
 
-    $ egrep 'version|[0-9][0-9][0-9][0-9]' *.el
-
-    Copyright (C) 2010 John Doe <jdoe@example.net>
-    Last-Updated: 2010-05-10
-    (defvar some-mode-version "1.0")
-
     $ git add *.el
     $ git commit -m "import upstream YYYY-MM-SS from http://example.com/path/file.el"
 
@@ -365,6 +359,12 @@ Making an epackage
    information about the release date is not available, use year only
    format YYYY-01-01. Leave out the ``--<UPSTREAM-VERSION>]`` if there is
    no information about release version. An exmaple ::
+
+    $ egrep 'version|[0-9][0-9][0-9][0-9]' *.el
+
+    Copyright (C) 2010 John Doe <jdoe@example.net>
+    Last-Updated: 2010-05-10
+    (defvar some-mode-version "1.0")
 
     git tag upstream/2010-05-10--1.0
 
