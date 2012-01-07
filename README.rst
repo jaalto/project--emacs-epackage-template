@@ -292,6 +292,15 @@ Emacs someday. The best practises include:
   If someday the extension finds its way to Emacs, the road is
   clear with GPL. *NOTE:* `Public Domain`_ is not a internationally
   viable license.
+* Does the code ship Emacs Lisp file (*.el) that do not belong to the
+  project? Sometimes develepers tend to include files from other
+  projects with their packages. This is bad because then Emacs
+  *load-path* would contains duplicate copies of the files. There
+  would be no guarantee that the latest version from the original
+  author were used. Just ``git rm`` any such files. If there is no
+  packages for those removed files, you need to package them
+  separately from their original sites and make current package depend
+  on them.
 
 CONTACTING UPSTREAM
 
