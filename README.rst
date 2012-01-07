@@ -358,7 +358,7 @@ Making an epackage
     (defvar some-mode-version "1.0")
 
     $ git add *.el
-    $ git commit -m "import upstream 1.0 (2010-05-10) from example.com"
+    $ git commit -m "import upstream YYYY-MM-SS from http://example.com/path/file.el"
 
 5. Mark the commit with a tag that has format
    ``upstream/<UPSTREAM-DATE>[--<UPSTREAM-VERSION>]``. In case
