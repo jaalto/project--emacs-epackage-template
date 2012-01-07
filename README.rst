@@ -309,7 +309,7 @@ When you have made contact to the upstream, record it to this to field
 year, you can ping to see if he still exists and maintains the code. An
 example ::
 
-    Commentary: ...
+    ...
     X-Development:
      YYYY-MM-DD upstream email confirmad.
     Description: test package with various functions
