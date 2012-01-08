@@ -535,7 +535,7 @@ available as epackages. **You use some other version control system
 other than Git to manage your code**. No problem. Continue to use what
 you have. Only layer Git on top of it. This means that you ínitialize
 Git on top of your current sources. The Git and your exixting VCS
-won't conflict. You switch to Git, when you commit your chnages and
+won't conflict. You switch to Git, when you commit your changes and
 make them available as an epackage.
 
 An example. Say you use Mercurial, or "Hg" for short ::
