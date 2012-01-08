@@ -508,6 +508,22 @@ setup is easy:
 * Create file ``epackage/format`` and add word "upstream" to it's
   own line.
 
+Basicly ::
+
+    cd /to/your/project/
+
+    # Install tools
+    . /path/to/this-repository/epackage.shellrc
+
+    # Install epackage/ directory
+    Edir <package name> .
+
+    # Mark this repository as "upstream"
+    echo upstream > epackage/format
+
+    # ... Now edit and remove files as needed in eackage/ dorectory
+    # ... commit, push to Github, contact Sources List mainteiner
+
 See section "Hands on example" for shell commads how to create initial
 files in ``epackage/``. Notify `Sources List`_ maintaner about your
 repository. See step 12 in section "Making an epackage".
@@ -516,27 +532,45 @@ When upstream IS also the packager (Non-Git)
 --------------------------------------------
 
 Say you are the upstream. You would like to put your Emacs extensions
-available as epackages. **You use some other version contral than Git
-to manage your code**. No problem, continue to use that you have. But
-you must layer Git on top of it. It means that you ínitialize Git
-repository on top of your current version control system. These two
-won't conflict, but you need to switch to Git, when you make you code
-available.
+available as epackages. **You use some other version control system
+other than Git to manage your code**. No problem. Continue to use what
+you have. Only layer Git on top of it. This means that you ínitialize
+Git on top of your current sources. The Git and your exixting VCS
+won't conflict. You switch to Git, when you commit your chnages and
+make them available as an epackage.
 
-An example:
+An example. Say you use Mercurial, or "Hg" for short ::
 
-    ... Say you use Mercurial; "Hg" for short.
     cd /your/hg/project
-    ... commit any chnages
+
+    # commit any changes
     hg status
-    ... initialize git
+
+    # initialize Git on top of Hg
     git init
     echo ".hg" > .gitignore
-    git add .
-    git commit -m "import"
-    ...
 
-That's it. Continue as explained in previous cases how to use Git.
+    # Initial import, done only once
+    git add .
+    git commit -m "Initial import"
+
+    # Install tools
+    . /path/to/this-repository/epackage.shellrc
+
+    # Examine dates, version and Tag this to Git
+    hg log --limit 1
+    git tag epackage/YYYY-MM-DD--hg-abcdef12345
+
+    # Install epackage/ directory
+    Edir <package name> .
+
+    # Mark this repository as "upstream"
+    echo upstream > epackage/format
+
+    # ... Now edit and remove files as needed in eackage/ dorectory
+    # ... commit, push to Github, contact Sources List mainteiner
+
+That's it. See the above instructions for more information.
 
 Keeping up to date with the upstream
 ------------------------------------
