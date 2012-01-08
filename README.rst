@@ -522,11 +522,10 @@ Basicly ::
     echo upstream > epackage/format
 
     # ... Now edit and remove files as needed in epackage/ dorectory
-    # ... commit, push to Github, contact Sources List mainteiner
+    # ... commit, push to Github
 
-See section "Hands on example" for shell commads how to create initial
-files in ``epackage/``. Notify `Sources List`_ maintaner about your
-repository. See step 12 in section "Making an epackage".
+Notify `Sources List`_ maintaner about your repository.
+More information can be found elsewhere in this document.
 
 When upstream IS also the packager (Non-Git)
 --------------------------------------------
@@ -568,9 +567,10 @@ An example. Say you use Mercurial, or "Hg" for short ::
     echo upstream > epackage/format
 
     # ... Now edit and remove files as needed in epackage/ dorectory
-    # ... commit, push to Github, contact Sources List mainteiner
+    # ... commit, push to Github
 
-That's it. See the above instructions for more information.
+That's it. Notify `Sources List`_ maintaner about your repository.
+More information can be found elsewhere in this document.
 
 Keeping up to date with the upstream
 ------------------------------------
