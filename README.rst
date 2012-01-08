@@ -521,7 +521,7 @@ Basicly ::
     # Mark this repository as "upstream"
     echo upstream > epackage/format
 
-    # ... Now edit and remove files as needed in eackage/ dorectory
+    # ... Now edit and remove files as needed in epackage/ dorectory
     # ... commit, push to Github, contact Sources List mainteiner
 
 See section "Hands on example" for shell commads how to create initial
@@ -567,7 +567,7 @@ An example. Say you use Mercurial, or "Hg" for short ::
     # Mark this repository as "upstream"
     echo upstream > epackage/format
 
-    # ... Now edit and remove files as needed in eackage/ dorectory
+    # ... Now edit and remove files as needed in epackage/ dorectory
     # ... commit, push to Github, contact Sources List mainteiner
 
 That's it. See the above instructions for more information.
