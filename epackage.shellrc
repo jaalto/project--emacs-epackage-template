@@ -864,6 +864,19 @@ EXAMPLES
     unset test
 }
 
+E_gitignore ()
+{
+    local help="Write gitignore file"
+    echo "\
+.svn
+.hg
+.bzr
+.mtn
+.darcs
+CVS
+" > .gitignore
+}
+
 Egit ()
 {
     local help
@@ -1036,6 +1049,7 @@ STANDARDS
     local file
     file="${TMPDIR:-/tmp}/Egit.${LOGNAME:-${NAME:-foo}}.$$.tmp"
 
+
     if [ "$giturl" ]; then
 
         debug="Action: Git"
@@ -1109,7 +1123,10 @@ STANDARDS
         ${test:+echo} git init
         ${test:+echo} git symbolic-ref HEAD refs/heads/upstream
 
+	E_gitignore
+
         ${test:+echo} git add -A
+        ${test:+echo} git git rm --cached .gitignore
 
         local version
 
@@ -1140,6 +1157,8 @@ STANDARDS
 
 	echo "Edir ${file%.el} ."
 
+	rm -f .gitignore
+
     else
 
         debug="Action: ELSE"
@@ -1151,7 +1170,11 @@ STANDARDS
 
         ${test:+echo} git init
         ${test:+echo} git symbolic-ref HEAD refs/heads/upstream
+
+	E_gitignore
+
         ${test:+echo} git add .
+        ${test:+echo} git git rm --cached .gitignore
 
         Ever
 
@@ -1180,6 +1203,7 @@ STANDARDS
         echo "git checkout -b master"
 	echo "Edir ${file%.el} ."
 
+	rm -f .gitignore
     fi
 
     unset test
