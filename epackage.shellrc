@@ -1114,11 +1114,11 @@ STANDARDS
         git log --max-count=5 --date=short --pretty='format:%h %ci %s' |
         sed "s/^/#GIT /"
 
-        # We know that upstream commit is at 4th backward
+        # We know that upstream commit is at 2nd commit backward
         # git merge-base upstream/master HEAD | cut -c1-7
-        #
+
         # SHA DATE TIME TZ
-        set -- $(git log --skip=3 --max-count=1 \
+        set -- $(git log --skip=1 --max-count=1 \
                  --date=short --pretty='format:%h %ci')
 
         echo
