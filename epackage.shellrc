@@ -1091,13 +1091,7 @@ STANDARDS
         ${test:+echo} git init
         ${test:+echo} git symbolic-ref HEAD refs/heads/upstream
 
-	# We have to import at least one file in order to start a branch.
-	# We can't just merge to NOTHING. The ".ignore" is is used for this.
-
-        rm -f .gitignore
-        ${test:+echo} touch .ignore
-        ${test:+echo} git add .ignore
-        ${test:+echo} git commit -m "add .ignore"
+        ${test:+echo} git commit --allow-empty -m "Empty upstream branch"
 
         ${test:+echo} git remote add upstream $giturl
         ${test:+echo} git fetch upstream
@@ -1105,9 +1099,6 @@ STANDARDS
 
         ${test:+echo} git checkout upstream
         ${test:+echo} git merge upstream-master
-
-        ${test:+echo} git rm .ignore
-        ${test:+echo} git commit -m "rm .ignore"
 
 	# Create "master" based on "upstream"
         ${test:+echo} git branch master upstream
