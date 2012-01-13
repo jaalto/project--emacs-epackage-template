@@ -473,8 +473,8 @@ ENVIRONMENT
         locations under ~/.emacs.d are tried.
 
 STANDARDS
-   The Epackage primer
-   <https://github.com/jaalto/project--emacs-epackage-template>."
+    The Epackage primer
+    <https://github.com/jaalto/project--emacs-epackage-template>."
 
     unset test
 
@@ -584,8 +584,8 @@ ENVIRONMENT
         locations under ~/.emacs.d are tried.
 
 STANDARDS
-   The Epackage primer
-   <https://github.com/jaalto/project--emacs-epackage-template>."
+    The Epackage primer
+    <https://github.com/jaalto/project--emacs-epackage-template>."
 
     unset test
 
