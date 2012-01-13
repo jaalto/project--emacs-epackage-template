@@ -51,11 +51,11 @@ DESCRIPTION
 
 OPTIONS
 
-    -h, --help
-        Display this help text.
-
     -t, --test
         Run in test mode. Do not actually do anything.
+
+    -h, --help
+        Display this help text.
 
 AUTHOR
 
@@ -72,12 +72,30 @@ Initialize ()
 {
     # Define global variables
 
-    PKG=$(awk '/^[Pp]ackage:/  {print $2}' "$EPKGDIR/info" )
-    VCSNAME=$(awk '/^[V]cs-[Tt]ype:/  {print $2}' "$EPKGDIR/info" )
-    URL=$(awk '/^[Vc]cs-[Uu]rl:/  {print $2}' "$EPKGDIR/info" )
+    infofile=$EPKGDIR/info
+
+    PKG=$(awk '/^[Pp]ackage:/  {print $2}' "$infofile" )
+
+    VCSNAME=$(awk '/^[V]cs-[Tt]ype:/  {print $2}' "$infofile" )
+
+    URL=$(awk '/^[Vc]cs-[Uu]rl:/  {print $2}' "$infofile" )
 
     ARGS=$(awk '/^[Vv]cs-[Aa]rgs:/ {sub("Vcs-Args:",""); print }' \
-           "$EPKGDIR/info" )
+           "$infofile" )
+
+    if [ ! "$PKG" ]; then
+	Die "ERROR: Can't read Package: field from $infofile"
+    fi
+
+    if [ ! "$VCSNAME" ]; then
+	Die "ERROR: Can't read Vcs-Type: field from $infofile"
+    fi
+
+    if [ ! "$URL" ]; then
+	Die "ERROR: Can't read Vcs-Url: field from $infofile"
+    fi
+
+    unset infofile
 }
 
 Warn ()

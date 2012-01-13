@@ -864,6 +864,48 @@ EXAMPLES
     unset test
 }
 
+E_gitignore ()
+{
+    local help
+    help="Write gitignore file"
+
+    echo "\
+.svn
+.hg
+.bzr
+.mtn
+.darcs
+CVS
+" > .gitignore
+}
+
+
+E_vcs ()
+{
+    local help
+    help="Return VCS info: <type> revision date"
+
+    if [ -d .svn ]; then
+	svn log --limit 1 |
+	awk '/^r[0-9]/ { gsub("[|r]", ""); print "svn " $1 " " $3 ; exit }'
+	return 0
+
+    elif [ -d .hg ]; then
+	hg log --limit 1 | awk '{ print "hg " $2 " " $3; exit }'
+	return 0
+
+    elif [ -d .bzr ]; then
+	bzr log --limit 1 --show-ids |
+	awk '
+	    /^revision-id:/ { rev = $2 }
+	    /^timestamp:/   { print "bzr " rev " " $3 ; exit }
+        '
+	return 0
+    fi
+
+    return 1
+}
+
 Egit ()
 {
     local help
@@ -952,7 +994,7 @@ STANDARDS
 
     local files
 
-    if find . -type f | grep  '.' ; then
+    if find . -type f | egrep -v "\.(svn|hg|bzr|darcs)|CVS" | grep  '.' ; then
         empty=""
     fi
 
@@ -1036,6 +1078,7 @@ STANDARDS
     local file
     file="${TMPDIR:-/tmp}/Egit.${LOGNAME:-${NAME:-foo}}.$$.tmp"
 
+
     if [ "$giturl" ]; then
 
         debug="Action: Git"
@@ -1048,13 +1091,7 @@ STANDARDS
         ${test:+echo} git init
         ${test:+echo} git symbolic-ref HEAD refs/heads/upstream
 
-	# We have to import at least one file in order to start a branch.
-	# We can't just merge to NOTHING. The ".ignore" is is used for this.
-
-        rm -f .gitignore
-        ${test:+echo} touch .ignore
-        ${test:+echo} git add .ignore
-        ${test:+echo} git commit -m "add .ignore"
+        ${test:+echo} git commit --allow-empty -m "Empty upstream branch"
 
         ${test:+echo} git remote add upstream $giturl
         ${test:+echo} git fetch upstream
@@ -1062,9 +1099,6 @@ STANDARDS
 
         ${test:+echo} git checkout upstream
         ${test:+echo} git merge upstream-master
-
-        ${test:+echo} git rm .ignore
-        ${test:+echo} git commit -m "rm .ignore"
 
 	# Create "master" based on "upstream"
         ${test:+echo} git branch master upstream
@@ -1080,11 +1114,11 @@ STANDARDS
         git log --max-count=5 --date=short --pretty='format:%h %ci %s' |
         sed "s/^/#GIT /"
 
-        # We know that upstream commit is at 4th backward
+        # We know that upstream commit is at 2nd commit backward
         # git merge-base upstream/master HEAD | cut -c1-7
-        #
+
         # SHA DATE TIME TZ
-        set -- $(git log --skip=3 --max-count=1 \
+        set -- $(git log --skip=1 --max-count=1 \
                  --date=short --pretty='format:%h %ci')
 
         echo
@@ -1109,7 +1143,10 @@ STANDARDS
         ${test:+echo} git init
         ${test:+echo} git symbolic-ref HEAD refs/heads/upstream
 
+	E_gitignore
+
         ${test:+echo} git add -A
+        ${test:+echo} git rm --cached .gitignore
 
         local version
 
@@ -1140,6 +1177,8 @@ STANDARDS
 
 	echo "Edir ${file%.el} ."
 
+	rm -f .gitignore
+
     else
 
         debug="Action: ELSE"
@@ -1151,7 +1190,11 @@ STANDARDS
 
         ${test:+echo} git init
         ${test:+echo} git symbolic-ref HEAD refs/heads/upstream
+
+	E_gitignore
+
         ${test:+echo} git add .
+        ${test:+echo} git rm --cached .gitignore
 
         Ever
 
@@ -1171,15 +1214,26 @@ STANDARDS
 	[ "$date" ] || date="YYYY-MM-DD"
 	[ "$version" ] || version="N.N"
 
+	local revision
+
+	set -- $(E_vcs)
+
+	if [ "$1" ]; then
+	    echo "VCS: $1 $2 $3"
+	    revision="-$1-$2"
+	    date=$3
+	fi
+
         echo
         echo "# WHAT YOU NEED TO DO NEXT:"
         echo "# Examine information and correct commands below."
 
         echo "git commit -m 'Import upstream $date from ...'"
-        echo "git tag upstream/$date--$version"
+        echo "git tag upstream/$date--$version$revision"
         echo "git checkout -b master"
 	echo "Edir ${file%.el} ."
 
+	rm -f .gitignore
     fi
 
     unset test
