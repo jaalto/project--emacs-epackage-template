@@ -314,10 +314,10 @@ instructions at the end of this file. It's very important to try to
 reach upstream and build contact for future patches and improvement
 suggestions.
 
-When you have made contact to the upstream, record it to this to field
+When you have made contact, record it to field
 ``epackage/info::X-Development``. If there hasn't been updates for a
-year, you can ping to see if he still exists and maintains the code. An
-example ::
+year, you can ping to see if he still exists and maintains the code.
+An example ::
 
     ...
     X-Development:
