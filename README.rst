@@ -292,15 +292,16 @@ Emacs someday. The best practises include:
   If someday the extension finds its way to Emacs, the road is
   clear with GPL. *NOTE:* `Public Domain`_ is not a internationally
   viable license.
-* Does the code ship Emacs Lisp file (*.el) that do not belong to the
-  project? Sometimes develepers tend to include files from other
-  projects with their packages. This is bad because then Emacs
-  *load-path* would contains duplicate copies of the files. There
+* Does the code cinlude Emacs Lisp files (\*.el) that do not belong to the
+  project? Sometimes develepers may have included files from other
+  projects with their packages. This is a problem because then Emacs
+  ``load-path`` would contains duplicate copies of the files. There
   would be no guarantee that the latest version from the original
-  author were used. Just ``git rm`` any such files. If there is no
-  packages for those removed files, you need to package them
-  separately from their original sites and make current package depend
-  on them.
+  author, or standard Emacs, were used. In Git **patches** branch,
+  just ``git rm`` any such files ad merge your deletion to **master**
+  branch. If there is not yet a package for a remove files you need to
+  package it separately from the original site and make current
+  package depend on it.
 
 CONTACTING UPSTREAM
 

@@ -880,6 +880,14 @@ CVS
 }
 
 
+E_mode ()
+{
+    local help
+    help="Check if file is minor, major mode"
+
+    egrep -n '\(define-[a-z-]+-mode ' "$@" /dev/null
+}
+
 E_vcs ()
 {
     local help
@@ -1105,6 +1113,11 @@ STANDARDS
 
         Ever | tee "$file"
 
+	E_mode $(find . -type f -name "*.el" -a ! -path "*epackage*")
+
+        local version
+        version=$(E_version "$file")
+
         local version
         version=$(E_version "$file")
         [ "$version" ] || version="VERSION"
@@ -1152,6 +1165,13 @@ STANDARDS
 
         Ever | tee "$file"
 
+	local mode
+
+	if E_mode $(find . -type f -name "*.el" -a ! -path "*epackage*")
+	then
+	    mode="-mode"
+	fi
+
         local version
         version=$(E_version "$file")
 
@@ -1175,7 +1195,7 @@ STANDARDS
 
 	file=$wget
 
-	echo "Edir ${file%.el} ."
+	echo "Edir ${file%.el}$mode ."
 
 	rm -f .gitignore
 
@@ -1211,6 +1231,13 @@ STANDARDS
 	    echo $version
         done
 
+	local mode
+
+	if E_mode $(find . -type f -name "*.el" -a ! -path "*epackage*")
+	then
+	    mode="-mode"
+	fi
+
 	[ "$date" ] || date="YYYY-MM-DD"
 	[ "$version" ] || version="N.N"
 
@@ -1231,7 +1258,7 @@ STANDARDS
         echo "git commit -m 'Import upstream $date from ...'"
         echo "git tag upstream/$date--$version$revision"
         echo "git checkout -b master"
-	echo "Edir ${file%.el} ."
+	echo "Edir ${file%.el}$mode ."
 
 	rm -f .gitignore
     fi
