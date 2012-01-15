@@ -305,7 +305,7 @@ Emacs someday. The best practises include:
 
 CONTACTING UPSTREAM
 
-Is upstream still there? Find out his email from files, EmacsWiki or
+Is upstream still there? Find out his email from files, `Emacs Wiki`_ or
 Google and send a mail to notify that his software is being packaged.
 Ask what email address he prefers to use for contact. Ask where he
 keeps latest code. Ask if he uses public Version Control and possibly
