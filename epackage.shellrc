@@ -1102,6 +1102,11 @@ STANDARDS
         ${test:+echo} git commit --allow-empty -m "Empty upstream branch"
 
         ${test:+echo} git remote add upstream $giturl
+
+	case "$giturl" in
+	    http*) echo "Cloning through HTTP (may be slow)..." ;;
+	esac
+
         ${test:+echo} git fetch upstream
         ${test:+echo} git checkout --track -b upstream-master upstream/master
 
