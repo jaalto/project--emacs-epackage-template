@@ -57,7 +57,6 @@ structure and file formats.
 * Epackage specification: http://www.nongnu.org/emacs-epackage/manual
 * Epackage template files: https://github.com/jaalto/project--emacs-epackage-template
 * Epackage Sources List: https://github.com/jaalto/project--emacs-epackage-sources-list
-* Suggest what to package: https://gist.github.com/1478886
 
 Bookmarks for your browser (always up-to-date):
 
