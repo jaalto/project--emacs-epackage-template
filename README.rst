@@ -282,9 +282,11 @@ Emacs someday. The best practises include:
   `autoload`_ definitions'. If not, consider adding and sending path
   to maintainer.
 * Does the code contain ``global-set-key`` commands? That's a BIG NO-NO.
-  Don't package any such software. Contact upstream and suggest him to
+  Don't package any such software wihout first patching the code to not install
+  keybindings without user explicitly requesting it.
+  Contact upstream and suggest him to
   move all setup code to a separate function like
-  *\*-install-default-key-bindings*.
+  *PACKAGE-install-default-key-bindings*.
 * Does the code unconditionally set hooks like ``find-file-hooks``? Not
   good. Package should not change user's settings on load. You need to
   fix this by removing offending code and moving it into
