@@ -307,15 +307,14 @@ Emacs someday. The best practises include:
   clear with GPL. *NOTE:* `Public Domain`_ is not a internationally
   viable license.
 * Does the code inlude Emacs Lisp files (\*.el) that do not belong to the
-  project? Sometimes develepers may have included files from other
-  projects with their packages. This is a problem because then Emacs
-  ``load-path`` would contains duplicate copies of the files. There
-  would be no guarantee that the latest version from the original
-  author, or standard Emacs, were used. In Git **patches** branch,
-  just ``git rm`` any such files ad merge your deletion to **master**
-  branch. If there is not yet a package for a remove files you need to
-  package it separately from the original site and make current
-  package depend on it.
+  project? Sometimes files are included from other projects with the
+  package. This is a problem because then Emacs ``load-path`` would
+  contains duplicate copies of the files. There would be no guarantee
+  that the latest version from the original author, or standard Emacs,
+  were used. In Git **patches** branch, just ``git rm`` any such files
+  and merge your deletion to **master** branch. If there is not yet a
+  package for those removed files, you need to package them separately from
+  the original package and make the current package depend on them.
 
 CONTACTING UPSTREAM
 
