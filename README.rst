@@ -3,6 +3,8 @@
     quick: http://docutils.sourceforge.net/docs/user/rst/quickref.html
     Reference: http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html
 
+
+.. _Debian: http://www.debian.org
 .. _Emacs: http://www.gnu.org/s/emacs
 .. _epackage.el: http://www.emacswiki.org/emacs/DELPS
 .. _DELPS: http://www.emacswiki.org/emacs/DELPS
@@ -16,8 +18,9 @@
 Description
 ===========
 
-Epackages are software packages for `Emacs`_ the provide easy
-installation. Similar to Windows MSI or Linux *.rpm or *.deb.
+Epackages are preformatted software packages for `Emacs`_ that provide
+easy way to install more features to Emacs. Similar to concept of
+Windows MSI or Linux *.rpm (Redhat) and *.deb (`Debian`_) packages.
 
 This directory contains template files for the Emacs packaging system
 called "Distributed Emacs Lisp Package System (`DELPS`_), or in short
