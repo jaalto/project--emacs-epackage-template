@@ -84,13 +84,15 @@ Before the full script, here is outline of the packaging procedure: ::
 
     . /path/to/this-repository/epackage.shellrc
 
-    #  Download source code. If already there, forget the URL.
+    #  Egit can download code from various sources.
+    #  If you already have source code in current directory, just call "Egit"
+    #  without parameters.
 
     cd /path/to/place/where-sources-will-be-downloaded
 
     Egit http://example.com/file.el
 
-    #  Follow instructions displayed by the above command after it finishes.
+    #  Follow then displayed instructions by the above command after it finishes.
     #  After committing and tagging "upstream", continue in "master"
     #  branch This command will instrument epackage/ directory
 
@@ -105,7 +107,10 @@ Before the full script, here is outline of the packaging procedure: ::
     #  Delete unneeded files. Commit and push to github
     #  Notify "Sources List" about new package.
 
-    # ... For maintenance an upstream upgrade ...
+    ... edit epackage/ directory contents
+    git push <your Github account>
+
+    # ... Later, if upstream releases new code, run these
 
     Ever
     Edef
