@@ -3,6 +3,7 @@
     quick: http://docutils.sourceforge.net/docs/user/rst/quickref.html
     Reference: http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html
 
+.. _Emacs: http://www.gnu.org/s/emacs
 .. _epackage.el: http://www.emacswiki.org/emacs/DELPS
 .. _DELPS: http://www.emacswiki.org/emacs/DELPS
 .. _Emacs Wiki: http://www.emacswiki.org
@@ -15,8 +16,11 @@
 Description
 ===========
 
+Epackages are software packages for `Emacs`_ the provide easy
+installation. Similar to Windows MSI or Linux *.rpm or *.deb.
+
 This directory contains template files for the Emacs packaging system
-called "Distributed Emacs Lisp Package System (DELPS), or in short
+called "Distributed Emacs Lisp Package System (`DELPS`_), or in short
 "Epackage". The package format use Git Distributed Version Control
 System (DVCS) containers for the original source code plus a separate
 ``epackage/`` subdirectory. These Git repositories can reside anywhere
