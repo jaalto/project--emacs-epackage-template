@@ -251,7 +251,7 @@ EXAMING FILES
 
 There are lots of things to do when doing packaging. It is desireable
 to keep close contact to the upstream to get QA issues solved as much
-as possible. Well cared code has better chnace to be included in core
+as possible. Well cared code has better chance to be included in core
 Emacs someday. The best practises include:
 
 * When was the code last touched? Years ago? In that case consider
