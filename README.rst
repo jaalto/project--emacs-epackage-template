@@ -306,7 +306,7 @@ Emacs someday. The best practises include:
   If someday the extension finds its way to Emacs, the road is
   clear with GPL. *NOTE:* `Public Domain`_ is not a internationally
   viable license.
-* Does the code cinlude Emacs Lisp files (\*.el) that do not belong to the
+* Does the code inlude Emacs Lisp files (\*.el) that do not belong to the
   project? Sometimes develepers may have included files from other
   projects with their packages. This is a problem because then Emacs
   ``load-path`` would contains duplicate copies of the files. There
