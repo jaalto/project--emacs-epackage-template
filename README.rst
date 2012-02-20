@@ -115,8 +115,9 @@ Before the full script, here is outline of the packaging procedure: ::
     Ever
     Edef
 
-If you want to get your hands dirty immediately and read documentation
-later, follow this exercise to create your first epackage: ::
+If you want to get your hands dirty immediately and read the
+documentation later, here is real example. Follow this exercise to
+create your first epackage: ::
 
     # The helper shellrc needs epackage.el installed
 
