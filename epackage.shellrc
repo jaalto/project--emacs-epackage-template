@@ -59,7 +59,7 @@ helpers. Use --help for each command for more detailed information.
 
     Egit [URL]		     Import current src, from URL, or emacswiki:FILE.el
 
-    Ever [file.el ...]	     Display version information from all, or given files
+    Ever [file.el ...]	     Display version and deps information from all, or given files
     Edir <PACKAGE NAME> FILE From FILE determine and create epackage/ template files
     Edef [dir]		     Update loaddefs in epackage/ directory
     Elint file.el ...	     Lint files to find QA violations
@@ -143,7 +143,7 @@ OPTIONS
     -h, --help  Show help
 
 DESCRIPTION
-    Epackage version information
+    Epackage exaine version and depends information
 
     Grep lines looking like REQUIRE, DATE, EMAIL, URL, VERSION from
     Emacs Lisp files.
@@ -164,14 +164,16 @@ DESCRIPTION
     # Package-Requires is ELPA header.
     # See http://marmalade-repo.org/doc-files/package.5.html
 
-    ${argv+echo "$@"} ${argv:-find . -type f -name \*.el} |
+    ${argv+echo "$@"} ${argv:-find . -type f -name \*.el -a ! -path "*/epackage/*"} |
     xargs \
     egrep -i '\<v[0-9]+\.|\<version\>|[a-z0-9]@[a-z]|http:/|git:/|\<20[0-1][0-9]|\(require |Package-Requires'  |
-    egrep -iv 'emacs-(major-|minor-)?version|%s|(lat|eith)er version|version( of|\))|\(version' |
+    egrep -iv 'emacs-(major-|minor-)?version|%s' |
+    egrep -iv '(lat|eith)er version|version( of|\))|\(version' |
     egrep -iv '^[;\"]+ *\(require|[\[\"]http|http-version|version of|www.gnu.org' |
     egrep -iv 'mime-version|client-version|older +version' |
     egrep -iv '\((defun|defmacro|defsubst|define|let|pop|display|message|error|autoload)' |
-    egrep -iv '\([^ ]+version| --version'
+    egrep -iv '\([^ ]+version| --version|\(setq ' |
+    awk "/[ :\'\"-]version[ :\'\"-]/ && ! /[0-9]/ { next } { print }"
 
     unset argv
 }
