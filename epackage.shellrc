@@ -35,66 +35,102 @@
 #
 #   Decription
 #
-#       Shell command line functions for Distributed Emacs Lisp Package
-#       Management <http://www.emacswiki.org/emacs/DELPS>. Updates to this
-#       file are available at
-#       <https://github.com/jaalto/project--emacs-epackage-template>. Please
-#       familiarize yourself with the procedure by reading README at the above
-#       site first before using this file's helper functions.
+#	Run command "Ehelp" to list all commands briefly.
 #
-#       Provides following user commands. The rest are just internal
-#       helpers. Use --help to see manual pages.
-#
-#           Egit
-#           Edir
-#           Edef
-#           Elint
-#	    Ever
-#	    Eclone
-#
-#    Examples
-#
-#       In a simplest case, here are the steps to start creating an epackage.
-#
-#       1. You have epackage.el downloaded and stored in ~/.emacs.d
-#       2. You have the URL to lisp file you want to package (EmacsWiki.org)
-#       3. Make empty directory, name does not matter. Cd into it.
-#       4. Import code to Git repository from URL
-#
-#           Egit <URL>
-#
-#           Follow the displayed instructions to commit and tag.
-#           If you don't see obvious version number, you must open the *.el
-#           in $EDITOR and examine what might be the last modified date
-#           and version number.
-#
-#           After this step, you have imported raw upstream code is in
-#           Git "upstream" branch.
-#
-#       5.  Create "master" branch (as instructed by "Egit" output above):
-#
-#           git git checkout -b master
-#
-#       6.  Generate template files:
-#
-#           Edir <PACKAGE-NAME> <FILE>.el
-#
-#       7.  Edit the generated files in epackage/ dir and commit.
-#
-#           cd epackage/
-#           .. edit files
-#           .. remove files if not relevant (*-compile.el etc.).
-#           git add .
-#           git commit -m "epackage/: new"
-#
-#       8.  Create repository at Github, and push
-#
-#           git remote add github <your repository URL>
-#           git push github upstream master
-#           git push github --tags
-#
-#       9   Last, contact Sources List maintainer to have your epackage
-#           URL included.
+
+Ehelp ()
+{
+
+    local header
+    header="\
+Shell command line functions for Distributed Emacs Lisp Package
+Management <http://www.emacswiki.org/emacs/DELPS>. Updates
+to these commands are available at
+<https://github.com/jaalto/project--emacs-epackage-template>. Please
+familiarize yourself with the procedure by reading README at the above
+site first before using this helper functions."
+
+
+    local short
+    short="\
+
+Provides following user commands. The rest are just internal
+helpers. Use --help for each command for more detailed information.
+
+    Egit [URL]		     Import current src, from URL, or emacswiki:FILE.el
+
+    Ever [file.el ...]	     Display version information from all, or given files
+    Edir <PACKAGE NAME> FILE From FILE determine and create epackage/ template files
+    Edef [dir]		     Update loaddefs in epackage/ directory
+    Elint file.el ...	     Lint files to find QA violations
+    Ecomp file.el ...	     Byte compile Emacs Lisp files (QA check)
+    Eclone GITURL	     Clone an existing epackage and set up branches (dev only)
+
+Call Ehelp --help for longer help."
+
+
+    local long
+    long="
+
+In a simplest case, here are the steps to start creating an epackage.
+
+1. You have epackage.el downloaded and stored in ~/.emacs.d
+2. You have the URL to lisp file you want to package (EmacsWiki.org)
+3. Make empty directory, name does not matter. Cd into it.
+4. Import code to Git repository from URL
+
+    Egit <URL>
+
+    Follow the displayed instructions to commit and tag.
+    If you don't see obvious version number, you must open the *.el
+    in \$EDITOR and examine what might be the last modified date
+    and version number.
+
+    After this step, you have imported raw upstream code is in
+    Git \"upstream\" branch.
+
+5.  Create \"master\" branch (See \"Egit\" output above):
+
+    git git checkout -b master
+
+6.  Generate template files from master file:
+
+    Edir <PACKAGE-NAME> <FILE>.el
+
+7.  Edit the generated files in epackage/ dir and commit.
+
+    cd epackage/
+    .. edit files
+    .. remove files that may not be relevant (*-compile.el etc.).
+    git add .
+    git commit -m \"epackage/: new\"
+
+8.  Create repository at Github, and push
+
+    git remote add github <your repository URL>
+    git push github upstream master
+    git push github --tags
+
+9   Last, contact Epackage Sources List maintainer to have your epackage
+    URL included. See
+    <https://github.com/jaalto/project--emacs-epackage-sources-list>."
+
+    echo "$header"
+
+    while :
+    do
+        case "$1" in
+            --help)
+                echo "$short"
+                echo "$long"
+                break
+                ;;
+            *)  echo "$short"
+		break
+                ;;
+        esac
+    done
+}
 
 Ever ()
 {
@@ -143,7 +179,8 @@ DESCRIPTION
 
 E_lisp ()
 {
-    # THIS IS INTERNAL. Not meant to be user callable.
+    local dummy
+    dummy="THIS IS INTERNAL. Not meant to be user callable."
 
     local help
     help="\
@@ -224,7 +261,7 @@ STANDARDS
                 list="$list $(cd $1 && pwd)"
                 shift
                 ;;
-            -t | --test)
+            -t | --test )
                 test="test"
                 shift
                 ;;
@@ -367,7 +404,7 @@ STANDARDS
                 list="$list $(cd $1 && pwd)"
                 shift
                 ;;
-            -t | --test)
+            -t | --test )
                 test="test"
                 shift
                 ;;
@@ -446,7 +483,7 @@ Edef ()
     local help
     help="\
 SYNOPSIS
-    Edef [dir]
+    Edef [DIR]
 
 DESCRIPTION
     Update loaddefs file in DIR/epackage/*-epackage-0loaddefs.el by
@@ -483,7 +520,7 @@ STANDARDS
             echo "$help"
             return 0
             ;;
-        -t | --test)
+        -t | --test )
             test="test"
             shift
             ;;
@@ -594,7 +631,7 @@ STANDARDS
             echo "$help"
             return 0
             ;;
-        -t | --test)
+        -t | --test )
             test="test"
             shift
             ;;
@@ -649,8 +686,10 @@ STANDARDS
 
 E_indate ()
 {
-    local help
+    local dummy
+    dummy="THIS IS INTERNAL. Not meant to be user callable."
 
+    local help
     help="\
 SYNOPSIS
     E_indate [options] file.el
@@ -701,8 +740,10 @@ OPTIONS
 
 E_filedate ()
 {
-    local help
+    local dummy
+    dummy="THIS IS INTERNAL. Not meant to be user callable."
 
+    local help
     help="\
 SYNOPSIS
     E_filedate [options] FILE
@@ -736,8 +777,10 @@ OPTIONS
 
 E_version ()
 {
-    local help
+    local dummy
+    dummy="THIS IS INTERNAL. Not meant to be user callable."
 
+    local help
     help="\
 SYNOPSIS
     E_version [options] FILE
@@ -782,7 +825,7 @@ SYNOPSIS
     Eclone GITURL
 
 DESCRIPTION
-    Clone epackage from URL. Chek out all relevant branches.
+    Clone epackage from URL. Check out all relevant branches.
 
     If destination directory contains two dashes (--), the name
     used is from the right hand side. This makes it possible to
@@ -813,7 +856,7 @@ EXAMPLES
             echo "$help"
             return 0
             ;;
-        -t | --test)
+        -t | --test )
             test="test"
             shift
             ;;
@@ -866,6 +909,9 @@ EXAMPLES
 
 E_gitignore ()
 {
+    local dummy
+    dummy="THIS IS INTERNAL. Not meant to be user callable."
+
     local help
     help="Write gitignore file"
 
@@ -882,6 +928,9 @@ CVS
 
 E_mode ()
 {
+    local dummy
+    dummy="THIS IS INTERNAL. Not meant to be user callable."
+
     local help
     help="Check if file is minor, major mode"
 
@@ -890,6 +939,9 @@ E_mode ()
 
 E_vcs ()
 {
+    local dummy
+    dummy="THIS IS INTERNAL. Not meant to be user callable."
+
     local help
     help="Return VCS info: <type> revision date"
 
@@ -940,7 +992,8 @@ DESCRIPTION
     The URL can be in format:
 
     - Standard http:// or git:// protocol
-    - ew:file.el; file is retrieved from EmacsWiki.
+    - ew:file.el; file is retrieved from EmacsWiki. Synonym prefixes
+      are 'ewiki:FILE.el' and 'emacswiki:FILE.el'
 
 OPTIONS
 
@@ -979,11 +1032,11 @@ STANDARDS
             echo "$help"
             return 0
             ;;
-        -g | --git)
+        -g | --git )
             git="git"
             shift
             ;;
-        -t | --test)
+        -t | --test )
             test="test"
             shift
             ;;
@@ -1010,9 +1063,13 @@ STANDARDS
     local wget
 
     case "$url" in
-        ew:*)
+        ew:* | ewiki:* | emacswiki:* )
             wget="wget"
-            url=$(echo $url | sed "s/^ew://")
+            url=$(echo $url |
+		sed -e "s/^ew:" \
+		    -e "s/^ewiki:" \
+		    -e "s/^emacswiki:" \
+	    )
             url="http://www.emacswiki.org/emacs/download/$url"
             ;;
         http:/*.el )
@@ -1029,11 +1086,11 @@ STANDARDS
 	    fi
             ;;
 
-        git://* | *.git)
+        git://* | *.git )
             giturl="$url"
             url=""
             ;;
-        *[a-z]*)
+        *[a-z]* )
             echo "[ERROR] Not a known URL: $url" >&2
             return 1
             ;;
