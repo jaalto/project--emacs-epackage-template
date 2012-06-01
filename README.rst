@@ -194,7 +194,7 @@ later, follow this exercise to create your first epackage: ::
         toggle-epackage-install.el
         toggle-epackage-uninstall.el
 
-    # Rqeruired files: info, *-autoloads.el, -*install.el
+    # Required files: info, *-autoloads.el, -*install.el
     # - No need for compile, this is a single file package
     # - No examples this time for this simple package
     # - Nothing to uninstall
