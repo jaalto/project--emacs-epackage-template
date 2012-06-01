@@ -545,7 +545,7 @@ When upstream IS also the packager (Non-Git)
 --------------------------------------------
 
 Say you are the upstream. You would like to put your Emacs extensions
-available as epackages. **You use some other version control system
+available as epackages. **You use version control system
 other than Git to manage your code**. No problem. Continue to use what
 you have. Only layer Git on top of it. This means that you ínitialize
 Git on top of your current sources. The Git and your exixting VCS
