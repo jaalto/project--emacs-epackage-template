@@ -329,8 +329,8 @@ suggestions.
 
 When you have made contact, record it to field
 ``epackage/info::X-Development``. If there hasn't been updates for a
-year, you can ping to see if he still exists and maintains the code.
-An example ::
+year, you can ping to see if the email still exists and he is
+maintains the code. An example ::
 
     ...
     X-Development:
