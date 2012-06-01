@@ -250,7 +250,7 @@ in `Emacs Wiki`_ which is best left in the place it was found dusting.
 EXAMING FILES
 
 There are lots of things to do when doing packaging. It is desireable
-to keep close contact to the upstream to get QA issues solved as much
+to keep close contact with the upstream to get QA issues solved as much
 as possible. Well cared code has better chance to be included in core
 Emacs someday. The best practises include:
 
