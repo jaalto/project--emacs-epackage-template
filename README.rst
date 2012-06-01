@@ -245,7 +245,7 @@ service.
 
 That means, if there is no nobody interested in some file.el, it
 probably won't get packaged. There are lot of old and dead code e.g.
-in `Emacs Wiki`_ which is best left in the place it was found dusting
+in `Emacs Wiki`_ which is best left in the place it was found dusting.
 
 EXAMING FILES
 
