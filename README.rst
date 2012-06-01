@@ -3,6 +3,9 @@
     quick: http://docutils.sourceforge.net/docs/user/rst/quickref.html
     Reference: http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html
 
+
+.. _Debian: http://www.debian.org
+.. _Emacs: http://www.gnu.org/s/emacs
 .. _epackage.el: http://www.emacswiki.org/emacs/DELPS
 .. _DELPS: http://www.emacswiki.org/emacs/DELPS
 .. _Emacs Wiki: http://www.emacswiki.org
@@ -15,8 +18,12 @@
 Description
 ===========
 
+Epackages are preformatted software packages for `Emacs`_ that provide
+easy way to install more features to Emacs. Similar to concept of
+Windows MSI or Linux *.rpm (Redhat) and *.deb (`Debian`_) packages.
+
 This directory contains template files for the Emacs packaging system
-called "Distributed Emacs Lisp Package System (DELPS), or in short
+called "Distributed Emacs Lisp Package System (`DELPS`_), or in short
 "Epackage". The package format use Git Distributed Version Control
 System (DVCS) containers for the original source code plus a separate
 ``epackage/`` subdirectory. These Git repositories can reside anywhere
@@ -57,7 +64,6 @@ structure and file formats.
 * Epackage specification: http://www.nongnu.org/emacs-epackage/manual
 * Epackage template files: https://github.com/jaalto/project--emacs-epackage-template
 * Epackage Sources List: https://github.com/jaalto/project--emacs-epackage-sources-list
-* Suggest what to package: https://gist.github.com/1478886
 
 Bookmarks for your browser (always up-to-date):
 
@@ -78,13 +84,15 @@ Before the full script, here is outline of the packaging procedure: ::
 
     . /path/to/this-repository/epackage.shellrc
 
-    #  Download source code. If already there, forget the URL.
+    #  Egit can download code from various sources.
+    #  If you already have source code in current directory, just call "Egit"
+    #  without parameters.
 
     cd /path/to/place/where-sources-will-be-downloaded
 
     Egit http://example.com/file.el
 
-    #  Follow instructions displayed by the above command after it finishes.
+    #  Follow then displayed instructions by the above command after it finishes.
     #  After committing and tagging "upstream", continue in "master"
     #  branch This command will instrument epackage/ directory
 
@@ -99,13 +107,17 @@ Before the full script, here is outline of the packaging procedure: ::
     #  Delete unneeded files. Commit and push to github
     #  Notify "Sources List" about new package.
 
-    # ... For maintenance an upstream upgrade ...
+    ... edit epackage/ directory contents
+    git push <your Github account>
+
+    # ... Later, if upstream releases new code, run these
 
     Ever
     Edef
 
-If you want to get your hands dirty immediately and read documentation
-later, follow this exercise to create your first epackage: ::
+If you want to get your hands dirty immediately and read the
+documentation later, here is real example. Follow this exercise to
+create your first epackage: ::
 
     # The helper shellrc needs epackage.el installed
 
@@ -239,7 +251,7 @@ EXAMING FILES
 
 There are lots of things to do when doing packaging. It is desireable
 to keep close contact to the upstream to get QA issues solved as much
-as possible. Well cared code has better chnace to be included in core
+as possible. Well cared code has better chance to be included in core
 Emacs someday. The best practises include:
 
 * When was the code last touched? Years ago? In that case consider
@@ -270,9 +282,11 @@ Emacs someday. The best practises include:
   `autoload`_ definitions'. If not, consider adding and sending path
   to maintainer.
 * Does the code contain ``global-set-key`` commands? That's a BIG NO-NO.
-  Don't package any such software. Contact upstream and suggest him to
+  Don't package any such software wihout first patching the code to not install
+  keybindings without user explicitly requesting it.
+  Contact upstream and suggest him to
   move all setup code to a separate function like
-  *\*-install-default-key-bindings*.
+  *PACKAGE-install-default-key-bindings*.
 * Does the code unconditionally set hooks like ``find-file-hooks``? Not
   good. Package should not change user's settings on load. You need to
   fix this by removing offending code and moving it into
@@ -292,19 +306,19 @@ Emacs someday. The best practises include:
   If someday the extension finds its way to Emacs, the road is
   clear with GPL. *NOTE:* `Public Domain`_ is not a internationally
   viable license.
-* Does the code ship Emacs Lisp file (*.el) that do not belong to the
-  project? Sometimes develepers tend to include files from other
-  projects with their packages. This is bad because then Emacs
-  *load-path* would contains duplicate copies of the files. There
-  would be no guarantee that the latest version from the original
-  author were used. Just ``git rm`` any such files. If there is no
-  packages for those removed files, you need to package them
-  separately from their original sites and make current package depend
-  on them.
+* Does the code inlude Emacs Lisp files (\*.el) that do not belong to the
+  project? Sometimes files are included from other projects with the
+  package. This is a problem because then Emacs ``load-path`` would
+  contains duplicate copies of the files. There would be no guarantee
+  that the latest version from the original author, or standard Emacs,
+  were used. In Git **patches** branch, just ``git rm`` any such files
+  and merge your deletion to **master** branch. If there is not yet a
+  package for those removed files, you need to package them separately from
+  the original package and make the current package depend on them.
 
 CONTACTING UPSTREAM
 
-Is upstream still there? Find out his email from files, EmacsWiki or
+Is upstream still there? Find out his email from files, `Emacs Wiki`_ or
 Google and send a mail to notify that his software is being packaged.
 Ask what email address he prefers to use for contact. Ask where he
 keeps latest code. Ask if he uses public Version Control and possibly
@@ -313,10 +327,10 @@ instructions at the end of this file. It's very important to try to
 reach upstream and build contact for future patches and improvement
 suggestions.
 
-When you have made contact to the upstream, record it to this to field
+When you have made contact, record it to field
 ``epackage/info::X-Development``. If there hasn't been updates for a
-year, you can ping to see if he still exists and maintains the code. An
-example ::
+year, you can ping to see if he still exists and maintains the code.
+An example ::
 
     ...
     X-Development:
