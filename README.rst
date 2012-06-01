@@ -535,7 +535,7 @@ Basicly ::
     # Mark this repository as "upstream"
     echo upstream > epackage/format
 
-    # ... Now edit and remove files as needed in epackage/ dorectory
+    # ... Now edit and remove files as needed in epackage/ directory
     # ... commit, push to Github
 
 Notify `Sources List`_ maintaner about your repository.
