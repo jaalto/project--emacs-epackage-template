@@ -301,10 +301,10 @@ Emacs someday. The best practises include:
   Emacs features lisp-mnt, checkdoc etc. Report problems to upstream
   issue tracker.
 * Does the code refer to a known license in `License Database`_? If not,
-  contact upstream and suggest him to change (or add one). The recommended
-  license to use is GPL, because that is the license of Emacs.
-  If someday the extension finds its way to Emacs, the road is
-  clear with GPL. *NOTE:* `Public Domain`_ is not a internationally
+  contact upstream and suggest him to change (or add missing one). The
+  recommended license is GPL, because that is the license of
+  Emacs. If someday the extension finds its way to Emacs, the road is
+  clear with GPL. *NOTE:* `Public Domain`_ is not an internationally
   viable license.
 * Does the code inlude Emacs Lisp files (\*.el) that do not belong to the
   project? Sometimes files are included from other projects with the
