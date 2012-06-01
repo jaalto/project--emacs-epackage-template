@@ -243,7 +243,7 @@ released, removed if it no longer works in Emacs. That someone is
 taking care of things for the benefit of others who make use of the
 service.
 
-That means, if there is no noboby interested in some file.el, it
+That means, if there is no nobody interested in some file.el, it
 probably won't get packaged. There are lot of old and dead code e.g.
 in `Emacs Wiki`_ which is best left in the place it was found dusting
 
