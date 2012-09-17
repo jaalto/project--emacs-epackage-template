@@ -206,7 +206,7 @@ create your first epackage: ::
         toggle-epackage-install.el
         toggle-epackage-uninstall.el
 
-    # Rqeruired files: info, *-autoloads.el, -*install.el
+    # Required files: info, *-autoloads.el, -*install.el
     # - No need for compile, this is a single file package
     # - No examples this time for this simple package
     # - Nothing to uninstall
@@ -243,14 +243,14 @@ released, removed if it no longer works in Emacs. That someone is
 taking care of things for the benefit of others who make use of the
 service.
 
-That means, if there is no noboby interested in some file.el, it
+That means, if there is no nobody interested in some file.el, it
 probably won't get packaged. There are lot of old and dead code e.g.
-in `Emacs Wiki`_ which is best left in the place it was found dusting
+in `Emacs Wiki`_ which is best left in the place it was found dusting.
 
 EXAMING FILES
 
 There are lots of things to do when doing packaging. It is desireable
-to keep close contact to the upstream to get QA issues solved as much
+to keep close contact with the upstream to get QA issues solved as much
 as possible. Well cared code has better chance to be included in core
 Emacs someday. The best practises include:
 
@@ -276,7 +276,7 @@ Emacs someday. The best practises include:
   ``defcustom`` definitions according to
   `14 Writing Customization Definitions
   <http://www.gnu.org/software/emacs/manual/html_mono/elisp.html#Customization>`_
-  in GNU Emacs Lisp Reference Manual.
+  in GNU Emacs Lisp Reference Manual?
 * Are there ``;;;###autoload`` stanzas? These are placed above
   suitable interactive functions and variables that help in generating
   `autoload`_ definitions'. If not, consider adding and sending path
@@ -301,10 +301,10 @@ Emacs someday. The best practises include:
   Emacs features lisp-mnt, checkdoc etc. Report problems to upstream
   issue tracker.
 * Does the code refer to a known license in `License Database`_? If not,
-  contact upstream and suggest him to change (or add one). The recommended
-  license to use is GPL, because that is the license of Emacs.
-  If someday the extension finds its way to Emacs, the road is
-  clear with GPL. *NOTE:* `Public Domain`_ is not a internationally
+  contact upstream and suggest him to change (or add missing one). The
+  recommended license is GPL, because that is the license of
+  Emacs. If someday the extension finds its way to Emacs, the road is
+  clear with GPL. *NOTE:* `Public Domain`_ is not an internationally
   viable license.
 * Does the code inlude Emacs Lisp files (\*.el) that do not belong to the
   project? Sometimes files are included from other projects with the
@@ -329,8 +329,8 @@ suggestions.
 
 When you have made contact, record it to field
 ``epackage/info::X-Development``. If there hasn't been updates for a
-year, you can ping to see if he still exists and maintains the code.
-An example ::
+year, you can ping to see if the email still exists and he is
+maintains the code. An example ::
 
     ...
     X-Development:
@@ -535,7 +535,7 @@ Basicly ::
     # Mark this repository as "upstream"
     echo upstream > epackage/format
 
-    # ... Now edit and remove files as needed in epackage/ dorectory
+    # ... Now edit and remove files as needed in epackage/ directory
     # ... commit, push to Github
 
 Notify `Sources List`_ maintaner about your repository.
@@ -545,7 +545,7 @@ When upstream IS also the packager (Non-Git)
 --------------------------------------------
 
 Say you are the upstream. You would like to put your Emacs extensions
-available as epackages. **You use some other version control system
+available as epackages. **You use version control system
 other than Git to manage your code**. No problem. Continue to use what
 you have. Only layer Git on top of it. This means that you ínitialize
 Git on top of your current sources. The Git and your exixting VCS
