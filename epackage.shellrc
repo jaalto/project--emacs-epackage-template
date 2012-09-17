@@ -43,13 +43,12 @@ Ehelp ()
 
     local header
     header="\
-Shell command line functions for Distributed Emacs Lisp Package
+Command line utilities for Distributed Emacs Lisp Package
 Management <http://www.emacswiki.org/emacs/DELPS>. Updates
 to these commands are available at
 <https://github.com/jaalto/project--emacs-epackage-template>. Please
 familiarize yourself with the procedure by reading README at the above
-site first before using this helper functions."
-
+site first before using these helper functions."
 
     local short
     short="\
@@ -66,7 +65,7 @@ helpers. Use --help for each command for more detailed information.
     Ecomp file.el ...	     Byte compile Emacs Lisp files (QA check)
     Eclone GITURL	     Clone an existing epackage and set up branches (dev only)
 
-Call Ehelp --help for longer help."
+For more information, see: Ehelp --help"
 
 
     local long
