@@ -43,13 +43,12 @@ Ehelp ()
 
     local header
     header="\
-Shell command line functions for Distributed Emacs Lisp Package
+Command line utilities for Distributed Emacs Lisp Package
 Management <http://www.emacswiki.org/emacs/DELPS>. Updates
 to these commands are available at
 <https://github.com/jaalto/project--emacs-epackage-template>. Please
 familiarize yourself with the procedure by reading README at the above
-site first before using this helper functions."
-
+site first before using these helper functions."
 
     local short
     short="\
@@ -66,38 +65,39 @@ helpers. Use --help for each command for more detailed information.
     Ecomp file.el ...	     Byte compile Emacs Lisp files (QA check)
     Eclone GITURL	     Clone an existing epackage and set up branches (dev only)
 
-Call Ehelp --help for longer help."
+For more information, see: Ehelp --help"
 
 
     local long
     long="
 
-In a simplest case, here are the steps to start creating an epackage.
+In the simplest case, here are the steps to start creating an epackage.
 
 1. You have epackage.el downloaded and stored in ~/.emacs.d
-2. You have the URL to lisp file you want to package (EmacsWiki.org)
-3. Make empty directory, name does not matter. Cd into it.
-4. Import code to Git repository from URL
+2. You have the URL to a lisp file you want to package (EmacsWiki.org)
+3. Make an empty directory, name does not matter. Cd into it.
+4. Import code to epackage Git repository from the URL with:
 
     Egit <URL>
 
     Follow the displayed instructions to commit and tag.
-    If you don't see obvious version number, you must open the *.el
+
+    NOTE: If you don't see any obvious version number, you must open the *.el
     in \$EDITOR and examine what might be the last modified date
     and version number.
 
     After this step, you have imported raw upstream code is in
-    Git \"upstream\" branch.
+    Git \"upstream\" branch, commited and tagged acordingly.
 
-5.  Create \"master\" branch (See \"Egit\" output above):
+5.  Create \"master\" branch (see previous \"Egit\" command output):
 
     git git checkout -b master
 
-6.  Generate template files from master file:
+6.  Generate template files from a master lisp file of this package:
 
     Edir <PACKAGE-NAME> <FILE>.el
 
-7.  Edit the generated files in epackage/ dir and commit.
+7.  Edit the generated files in epackage/ directory and commit:
 
     cd epackage/
     .. edit files
@@ -105,7 +105,7 @@ In a simplest case, here are the steps to start creating an epackage.
     git add .
     git commit -m \"epackage/: new\"
 
-8.  Create repository at Github, and push
+8.  Create a repository at Github, and push your new epackage:
 
     git remote add github <your repository URL>
     git push github upstream master
