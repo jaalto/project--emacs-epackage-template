@@ -575,7 +575,7 @@ STANDARDS
     emacs=$(E_emacs)
 
     ${test:+echo} ${EPACKAGE_EMACS:-$emacs} \
-        -quick \
+        --quick \
         --batch \
         --debug-init \
 	--load "$lisp" \
@@ -590,7 +590,7 @@ Edir ()
     local help
     help="\
 SYNOPSIS
-    Edir [options] <PACKAGE NAME> DIR
+    Edir [options] <PACKAGE NAME> <DIR>
 
 DESCRIPTION
     Epackage directory populate (epackage/)
@@ -614,11 +614,11 @@ OPTIONS
 EXAMPLES
     Generate templates for regular file:
 
-        Edir toggle.el toggle.el
+        Edir toggle.el .
 
     Generate templates for a library package:
 
-        Edir lib-date-calc date-calc.el
+        Edir lib-date-calc .
 
 ENVIRONMENT
 
@@ -676,7 +676,7 @@ STANDARDS
     emacs=$(E_emacs)
 
     ${test:+echo} ${EPACKAGE_EMACS:-$emacs} \
-        -quick \
+        --quick \
         --batch \
         --debug-init \
         --load "$lisp" \
@@ -1172,7 +1172,7 @@ STANDARDS
         ${test:+echo} git checkout --track -b upstream-master upstream/master
 
         ${test:+echo} git checkout upstream
-        ${test:+echo} GIT_MERGE_AUTOEDIT=no git merge upstream-master
+        ${test:+echo} env GIT_MERGE_AUTOEDIT=no git merge upstream-master
 
 	# Create "master" based on "upstream"
         ${test:+echo} git branch master upstream
