@@ -650,7 +650,7 @@ parallel. The *upstream* is periodically merged to *master* branch ::
                 1.0  1.1
 
 If you need to fix upstream code, make changes in separate *patches*
-branch and merge those to *master*. Send patch to upstream so that you
+branch and merge those to *master*. Send patches to upstream so that you
 don't need to maintain different code base. ::
 
 
