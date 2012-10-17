@@ -675,6 +675,24 @@ STANDARDS
     local emacs
     emacs=$(E_emacs)
 
+    # No use of calling Emacs to create template file unless there are *.el
+    # Use of for-loop is faster than find(1) that cannot be stopped.
+
+    local found
+    local file
+
+    for file in *.el */*/.el */*/*/*.el
+    do
+	[ -f "$file" ] || continue
+	found=found
+	break
+    done
+
+    if [ ! "$found" ]; then
+	echo "[ERROR] No *.el files found. Please check directories." >&2
+	return 1
+    fi
+
     ${test:+echo} ${EPACKAGE_EMACS:-$emacs} \
         --quick \
         --batch \
