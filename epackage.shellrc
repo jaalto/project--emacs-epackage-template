@@ -1171,7 +1171,7 @@ STANDARDS
         ${test:+echo} git checkout --track -b upstream-master upstream/master
 
         ${test:+echo} git checkout upstream
-        ${test:+echo} git merge upstream-master
+        ${test:+echo} GIT_MERGE_AUTOEDIT=no git merge upstream-master
 
 	# Create "master" based on "upstream"
         ${test:+echo} git branch master upstream
@@ -1189,15 +1189,13 @@ STANDARDS
 
         # Show last commits (upstream)
 
-        git log --max-count=5 --date=short --pretty='format:%h %ci %s' |
+        git log --max-count=5 --date=short --pretty='format:%h %ci %s' upstream/master |
         sed "s/^/#GIT /"
 
-        # We know that upstream commit is at 3rd commit backward
-        # git merge-base upstream/master HEAD | cut -c1-7
+        # Get latest commit data: SHA DATE TIME TZ
 
-        # SHA DATE TIME TZ
-        set -- $(git log --skip=2 --max-count=1 \
-                 --date=short --pretty='format:%h %ci')
+        set -- $(git log --max-count=1 \
+                 --date=short --pretty='format:%h %ci' upstream/master)
 
         echo
         echo "# WHAT YOU NEED TO DO NEXT:"
