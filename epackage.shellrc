@@ -1078,6 +1078,11 @@ STANDARDS
             wget="wget"
             ;;
 
+        git://* | *.git )
+            giturl="$url"
+            url=""
+            ;;
+
         http:/* | https:/* )
 	    if [ "$git" ]; then
 		giturl="$url"
@@ -1088,10 +1093,6 @@ STANDARDS
 	    fi
             ;;
 
-        git://* | *.git )
-            giturl="$url"
-            url=""
-            ;;
         *[a-z]* )
             echo "[ERROR] Not a known URL: $url" >&2
             return 1
