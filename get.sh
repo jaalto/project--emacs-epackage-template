@@ -206,7 +206,7 @@ Cvs ()
 
 Main ()
 {
-    if [ ! "$1" ] && [ -f epackage/info]; then
+    if [ ! "$1" ] && [ -f epackage/info ]; then
 	set -- epackage/info
     fi
 
