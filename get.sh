@@ -206,8 +206,12 @@ Cvs ()
 
 Main ()
 {
+    if [ ! "$1" ] && [ -f epackage/info]; then
+	set -- epackage/info
+    fi
+
     if [ ! "$1" ]; then
-        Die "ERROR: Missing FILE (typically epackage/info)"
+        Warn "ERROR: Missing ARG 1, FILE (typically epackage/info)"
     fi
 
     if [ ! -f "$1" ]; then
