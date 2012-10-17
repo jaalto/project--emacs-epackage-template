@@ -374,8 +374,8 @@ Making an epackage
 4. Determine version information and import code to Git repository.
    Use clear commit message ::
 
-    $ git add *.el
-    $ git commit -m "import upstream YYYY-MM-MM from http://example.com/path/file.el"
+    git add *.el
+    git commit -m "import upstream YYYY-MM-MM from http://example.com/path/file.el"
 
 5. Mark the commit with a tag that has format
    ``upstream/<UPSTREAM-DATE>[--<UPSTREAM-VERSION>][-<DVCSINFO>]``. In case
@@ -386,11 +386,11 @@ Making an epackage
    *-git-abc1234* (7 chars for Git), *hg-abcdef123456* or *-svn-12234*
    DVCSINFO suffix. An example ::
 
-    $ egrep 'version|[0-9][0-9][0-9][0-9]' *.el
+    egrep 'version|[0-9][0-9][0-9][0-9]' *.el
 
-    Copyright (C) 2010 John Doe <jdoe@example.net>
-    Last-Updated: 2010-05-10
-    (defvar some-mode-version "1.0")
+	Copyright (C) 2010 John Doe <jdoe@example.net>
+	Last-Updated: 2010-05-10
+	(defvar some-mode-version "1.0")
 
     git tag upstream/2010-05-10--1.0
 
@@ -402,7 +402,7 @@ Making an epackage
    you're reading) ::
 
     mkdir epackage/
-    cp <path>/{info,get.sh} epackage/
+    cp <path>/info epackage/
 
 8. Edit the information file. You need to search http://emacswiki.org,
    Google and study the extension's comments to fill in the details ::
@@ -443,7 +443,7 @@ Making an epackage
 
     git remote add github <your URL>    # See section "Addenum"
     git push github upstream master
-    git push github --tags
+    git push github $(git tag -l "upstream/*")
 
 #. Add information about this new epackage to the `Sources List`_ so
    that others know how to find it. The information needed is ::
@@ -475,40 +475,38 @@ steps 1-3 are as follows:
     mkdir extension
     cd extension
 
-2. Initialize a Git repository. Start at *upstream* branch directly ::
-
-    git init
-    git symbolic-ref HEAD refs/heads/upstream
-
-    # To init branch: Make an empty file, commit
-    touch .ignore
-    git add .ignore
-    git commit -m "Add dummy file to start the branch"
-
-3. Instead of downloading, add remote to track upstream code, pull,
+2. Instead of downloading, add a remote to track upstream code, pull,
    and merge ::
 
     git remote add upstream git://example.com/some-emacs-project
     git fetch upstream
-    git checkout --track -b upstream-master upstream/master
-    git checkout upstream
-    git merge upstream-master
+    git checkout --track -b upstream upstream/master
 
-After that proceed as usual by tagging the release and adding
-``epackage/`` directory as outlined previously. To follow upstream
-development, from time to time pull, merge ::
-
-    git fetch upstream
-
-    git checkout upstream-master
-    git pull
+3. Tag the commit you intend to package ::
 
     git checkout upstream
-    git merge upstream-master
+
     git tag upstream/$(date "+%Y-%m-%d")--git-$(git rev-parse HEAD | cut -c1-7)
 
+4. Switch to master and merge ::
+
     git checkout master
-    git merge upstream
+    git merge upstream/<tag name from previous step>
+
+After that proceed as usual by adding ``epackage/`` directory as
+outlined previously; see previous topic and number (7) onward.
+
+To follow upstream development, from time to time pull and merge ::
+
+    git checkout upstream
+    git pull
+
+    # tag it
+    git tag upstream/$(date "+%Y-%m-%d")--git-$(git rev-parse HEAD | cut -c1-7)
+
+    # Merge it
+    git checkout master
+    git merge <the tag name below>
 
 When upstream IS also the packager (Git)
 ----------------------------------------
@@ -570,7 +568,7 @@ An example. Say you use Mercurial, or "Hg" for short ::
     # Install tools
     . /path/to/this-repository/epackage.shellrc
 
-    # Examine dates, version and Tag this to Git
+    # Examine dates, version and tag this to Git
     hg log --limit 1
     git tag epackage/YYYY-MM-DD--hg-abcdef12345
 
@@ -580,7 +578,7 @@ An example. Say you use Mercurial, or "Hg" for short ::
     # Mark this repository as "upstream"
     echo upstream > epackage/format
 
-    # ... Now edit and remove files as needed in epackage/ dorectory
+    # ... Now edit and remove files as needed in epackage/ directory
     # ... commit, push to Github
 
 That's it. Notify `Sources List`_ maintaner about your repository.
