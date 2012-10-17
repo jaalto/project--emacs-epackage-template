@@ -132,6 +132,31 @@ In the simplest case, here are the steps to start creating an epackage.
     done
 }
 
+E_emacs ()
+{
+    local dummy
+    dummy="THIS IS INTERNAL. Not meant to be user callable."
+
+    local help
+    help="\
+SYNOPSIS
+    E_emacs
+
+DESCRIPTION
+    Return name of emacs binary. Prefer non-x version if available.
+
+OPTIONS
+    None"
+
+    if [ -x /usr/bin/emacs-nox ]; then  # Optimize by using non-X version
+	echo /usr/bin/emacs-nox
+    elif [ -x /usr/bin/emacs ]; then
+	echo /usr/bin/emacs		# Use absolute path
+    else
+	echo emacs
+    fi
+}
+
 Ever ()
 {
     local help
@@ -315,12 +340,6 @@ STANDARDS
     local emacs
     emacs=emacs
 
-    if [ /usr/bin/emacs-nox ]; then  # Optimize by using non-X
-	emacs=/usr/bin/emacs-nox
-    elif [ /usr/bin/emacs ]; then
-	emacs=/usr/bin/emacs
-    fi
-
     ${test:+echo} ${EPACKAGE_EMACS:-$emacs} \
         --quick \
         --batch \
@@ -446,13 +465,7 @@ STANDARDS
     file="${TMPDIR:-/tmp}/Egit.${LOGNAME:-${NAME:-foo}}.$$.lint.tmp"
 
     local emacs
-    emacs=emacs
-
-    if [ /usr/bin/emacs-nox ]; then  # Optimize by using non-X
-	emacs=/usr/bin/emacs-nox
-    elif [ /usr/bin/emacs ]; then
-	emacs=/usr/bin/emacs
-    fi
+    emacs=$(E_emacs)
 
     ${test:+echo} ${EPACKAGE_EMACS:-$emacs} \
         --quick \
@@ -559,13 +572,7 @@ STANDARDS
     touch $edir/$pkg-epackage-0loaddefs.el	# Must exist
 
     local emacs
-    emacs=emacs
-
-    if [ /usr/bin/emacs-nox ]; then  # Optimize by using non-X
-	emacs=/usr/bin/emacs-nox
-    elif [ /usr/bin/emacs ]; then
-	emacs=/usr/bin/emacs
-    fi
+    emacs=$(E_emacs)
 
     ${test:+echo} ${EPACKAGE_EMACS:-$emacs} \
         -quick \
@@ -666,13 +673,7 @@ STANDARDS
     fi
 
     local emacs
-    emacs=emacs
-
-    if [ /usr/bin/emacs-nox ]; then  # Optimize by using non-X
-	emacs=/usr/bin/emacs-nox
-    elif [ /usr/bin/emacs ]; then
-	emacs=/usr/bin/emacs
-    fi
+    emacs=$(E_emacs)
 
     ${test:+echo} ${EPACKAGE_EMACS:-$emacs} \
         -quick \
