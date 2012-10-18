@@ -1202,9 +1202,6 @@ STANDARDS
 
         local version
         version=$(E_version "$file")
-
-        local version
-        version=$(E_version "$file")
         [ "$version" ] || version="VERSION"
 
         # Show last commits (upstream)
