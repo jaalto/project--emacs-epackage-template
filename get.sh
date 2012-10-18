@@ -166,8 +166,14 @@ Revno ()
 
 Vcs ()
 {
+    cmd=clone
+
+    case "$VCSNAME" in
+	*bzr*)  cmd=branch ;;
+    esac
+
     if [ ! -d "$VCSDIR" ]; then
-        Run "$VCSNAME" clone "$URL" "$VCSDIR"
+        Run "$VCSNAME" $cmd "$URL" "$VCSDIR"
         ( cd "$VCSDIR" && Revno )
     else
         ( Run cd "$VCSDIR" && Run "$VCSNAME" pull && Revno )
