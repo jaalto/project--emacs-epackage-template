@@ -1176,9 +1176,9 @@ STANDARDS
         fi
 
         ${test:+echo} git init
-        ${test:+echo} git symbolic-ref HEAD refs/heads/upstream
 
-        ${test:+echo} git commit --allow-empty -m "Empty upstream branch"
+        # ${test:+echo} git symbolic-ref HEAD refs/heads/upstream
+        # ${test:+echo} git commit --allow-empty -m "Empty upstream branch"
 
         ${test:+echo} git remote add upstream $giturl
 
@@ -1187,12 +1187,13 @@ STANDARDS
 	esac
 
         ${test:+echo} git fetch upstream
-        ${test:+echo} git checkout --track -b upstream-master upstream/master
+        ${test:+echo} git checkout --track -b upstream upstream/master
 
-        ${test:+echo} git checkout upstream
-        ${test:+echo} env GIT_MERGE_AUTOEDIT=no git merge upstream-master
+        # ${test:+echo} git checkout upstream
+        # ${test:+echo} env GIT_MERGE_AUTOEDIT=no git merge upstream-master
 
 	# Create "master" based on "upstream"
+        ${test:+echo} git branch -D master 2> /dev/null
         ${test:+echo} git branch master upstream
 
         Ever | tee "$file"
