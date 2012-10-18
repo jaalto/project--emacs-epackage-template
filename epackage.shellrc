@@ -191,7 +191,7 @@ DESCRIPTION
 
     ${argv+echo "$@"} ${argv:-find . -type f -name \*.el -a ! -path "*/epackage/*"} |
     xargs \
-    egrep -i '\<v[0-9]+\.|\<version\>|[a-z0-9]@[a-z]|http:/|git:/|\<20[0-1][0-9]|\(require |Package-Requires'  |
+    egrep --with-filename -i '\<v[0-9]+\.|\<version\>|[a-z0-9]@[a-z]|http:/|git:/|\<20[0-1][0-9]|\(require |Package-Requires'  |
     egrep -iv 'emacs-(major-|minor-)?version|%s' |
     egrep -iv '(lat|eith)er version|version( of|\))|\(version' |
     egrep -iv '^[;\"]+ *\(require|[\[\"]http|http-version|version of|www.gnu.org' |
