@@ -164,6 +164,40 @@ Revno ()
     esac
 }
 
+VcsGitRemoteUpstream ()
+{
+    awk '/remote .*upstream/ {i++} i == 1 && ! /[[]/ {print}' \
+	.git/config
+}
+
+VcsGitConfig ()
+{
+    # If there is a remote "upstream" already, use it to fetch sources.
+    [ -d .git ] || return 1
+
+    if VcsGitRemoteUpstream | grep -i "url.*=" ; then
+	echo "\
+Note: Upstream probably already in a Git branch. Plesae update manually:
+
+    git checkout upstream
+    git pull
+"
+
+    else
+	echo "Please follow upstream directly in a Git branch:
+
+    git remote add upstream $URL
+    git fetch upstream
+    git checkout --track -b upstream upstream/master
+    git tag upstream/YYYY-MM-DD-git-COMMIT
+
+    # Merge to epackage branch master
+    git checkout master
+    git merge upstream/YYYY-MM-DD-git-COMMIT
+"
+    fi
+}
+
 Vcs ()
 {
     cmd=clone
@@ -265,6 +299,9 @@ Main ()
                 Cvs "$URL"
             elif [ "$VCSNAME" = "svn" ]; then
                 Svn "$URL"
+            elif [ "$VCSNAME" = "git" ]; then
+	        VcsGitConfig "$URL" ||
+                Vcs "$VCSNAME" "$URL"
             else
                 Vcs "$VCSNAME" "$URL"
             fi
