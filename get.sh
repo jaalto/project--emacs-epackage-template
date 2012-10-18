@@ -173,7 +173,7 @@ VcsGitRemoteUpstream ()
 VcsGitConfig ()
 {
     # If there is a remote "upstream" already, use it to fetch sources.
-pwd
+
     [ -d .git ] || return 1
 
     if VcsGitRemoteUpstream | grep -i "url.*=" ; then
