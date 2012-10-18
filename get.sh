@@ -173,6 +173,7 @@ VcsGitRemoteUpstream ()
 VcsGitConfig ()
 {
     # If there is a remote "upstream" already, use it to fetch sources.
+pwd
     [ -d .git ] || return 1
 
     if VcsGitRemoteUpstream | grep -i "url.*=" ; then
@@ -189,11 +190,11 @@ Note: Upstream probably already in a Git branch. Plesae update manually:
     git remote add upstream $URL
     git fetch upstream
     git checkout --track -b upstream upstream/master
-    git tag upstream/YYYY-MM-DD-git-COMMIT
+    git tag upstream/YYYY-MM-DD--git-COMMIT
 
     # Merge to epackage branch master
     git checkout master
-    git merge upstream/YYYY-MM-DD-git-COMMIT
+    git merge upstream/YYYY-MM-DD--git-COMMIT
 "
     fi
 }
@@ -293,15 +294,17 @@ Main ()
             ;;
 
         [a-z]*)
+
+            if [ "$VCSNAME" = "git" ]; then
+	        VcsGitConfig "$URL" && return 0
+	    fi
+
             Run cd "$EPKGDIR"
 
             if [ "$VCSNAME" = "cvs" ]; then
                 Cvs "$URL"
             elif [ "$VCSNAME" = "svn" ]; then
                 Svn "$URL"
-            elif [ "$VCSNAME" = "git" ]; then
-	        VcsGitConfig "$URL" ||
-                Vcs "$VCSNAME" "$URL"
             else
                 Vcs "$VCSNAME" "$URL"
             fi
