@@ -239,33 +239,33 @@ Things that live in a drop-in package repository bit-rot at an
 alarming rate. In contrast, the `DELPS`_ is based on personal care of
 packages, just like the Debian which has package maintainers. Someone
 is doing the packaging. Making sure package is taken care of, updated,
-released, removed if it no longer works in Emacs. That someone is
-taking care of things for the benefit of others who make use of the
-service.
+released, removed if it no longer works. That someone is taking care
+of things for the benefit of others who make use of the service.
 
 That means, if there is no nobody interested in some file.el, it
 probably won't get packaged. There are lot of old and dead code e.g.
-in `Emacs Wiki`_ which is best left in the place it was found dusting.
+in `Emacs Wiki`_. Such code might be best left in the place it was
+found dusting.
 
 EXAMING FILES
 
-There are lots of things to do when doing packaging. It is desireable
-to keep close contact with the upstream to get QA issues solved as much
-as possible. Well cared code has better chance to be included in core
-Emacs someday. The best practises include:
+For the package maintainer, it is desireable to keep close contact
+with the upstream to get QA issues solved as soon as possible. Well
+cared code also has better chance to work in later Emacs versions. It
+may also improve chnages to be included in core Emacs someday. The
+best practises for package maintainer are:
 
-* When was the code last touched? Years ago? In that case consider
-  labeling package **unmaintained** while it also may be labeled
-  **stable** in *epackage/info::Status*.
-* Examine ``require`` commands. Does packge need other than
-  standard Emacs features? If it does, you must package those
-  first. You can continue packaging this one after you have
-  dealt with the dependencies.
+* Is the code alive? If the code was last updated years ago,
+  consider labeling package **unmaintained** while it also
+  may be labeled **stable** in *epackage/info::Status*.
+* Examine ``require`` commands. Does package depend on other than
+  standard Emacs features? If it does, package those dependencies
+  first.
 * Examine ``require`` commands closer. How many are there? Perhaps the
   author dind't consider library requirements carefully. It may be
   possible to arrange code to load faster and consume less memory
   by utilizing ``autoload`` instead of ``require`` for
-  features that are not immediately used.
+  features that are not immediately used. Talk to upstream about this.
 * Does every variable and function start with a common ``package-*``
   prefix? If not, label package as **unsafe** in
   *epackage/info::Status* . Explain the reason for the unsafe status
@@ -276,16 +276,14 @@ Emacs someday. The best practises include:
   ``defcustom`` definitions according to
   `14 Writing Customization Definitions
   <http://www.gnu.org/software/emacs/manual/html_mono/elisp.html#Customization>`_
-  in GNU Emacs Lisp Reference Manual?
+  in GNU Emacs Lisp Reference Manual? If not, talk to upstream.
 * Are there ``;;;###autoload`` stanzas? These are placed above
   suitable interactive functions and variables that help in generating
   `autoload`_ definitions'. If not, consider adding and sending path
   to maintainer.
-* Does the code contain ``global-set-key`` commands? That's a BIG NO-NO.
-  Don't package any such software wihout first patching the code to not install
-  keybindings without user explicitly requesting it.
+* Does the code contain ``global-set-key`` commands?
   Contact upstream and suggest him to
-  move all setup code to a separate function like
+  move all non-controllable setup code to a separate function like
   *PACKAGE-install-default-key-bindings*.
 * Does the code unconditionally set hooks like ``find-file-hooks``? Not
   good. Package should not change user's settings on load. You need to
@@ -307,9 +305,9 @@ Emacs someday. The best practises include:
   clear with GPL. *NOTE:* `Public Domain`_ is not an internationally
   viable license.
 * Does the code inlude Emacs Lisp files (\*.el) that do not belong to the
-  project? Sometimes files are included from other projects with the
+  project? Sometimes other projects are included along with the
   package. This is a problem because then Emacs ``load-path`` would
-  contains duplicate copies of the files. There would be no guarantee
+  containsduplicate copies of the files. There would be no guarantee
   that the latest version from the original author, or standard Emacs,
   were used. In Git **patches** branch, just ``git rm`` any such files
   and merge your deletion to **master** branch. If there is not yet a
