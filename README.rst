@@ -161,30 +161,28 @@ create your first epackage: ::
         (require 'cl)
         # WHAT YOU NEED TO DO NEXT:
         # Examine dates, version and correct information to commands below.
-        git commit -m "Import upstream 2011-12-29 from http://www.emacswiki.org/emacs/download/toggle.el"
         git tag upstream/2011-12-29--VERSION
         git checkout -b master
 
-    # (1) commit upstream code
 
-    git commit -m "Import upstream 2011-12-29 from http://www.emacswiki.org/emacs/download/toggle.el"
-
-    # (2) Tag, according to displayed information. We were lucky. Not
+    # (1) Tag, according to displayed information. We were lucky. Not
     # all Lisp Files present date and version information this
     # clearly. Notice, the date is LAST MODIFIED date of code by the
     # original author. If not shown, you could check "ls -l *.el"
 
     git tag upstream/2008-09-25--1.3.1
 
-    # (3) Upstream code is now archived. Start "epackaging"
+    # (2) Upstream code is now archived. Start "epackaging"
 
     git checkout -b master
 
-    # Select PACKAGE NAME. If this would have been a library, you
-    # would have used "lib-*" prefix for package name. If this were a
-    # minor or major mode, you would have added "*-mode" suffix.
+    # (3) Select PACKAGE NAME. If this were a library, you would use
+    # "lib-*" prefix. If this were a minor or major mode, you would
+    # have added "*-mode" suffix.
+    #
+    # Here we simply call it epackage "toggle":
 
-    Edir [-h] toggle toggle.el
+    Edir toggle .
 
         Loading vc-git...
         Wrote toggle-epackage-autoloads.el
@@ -195,29 +193,31 @@ create your first epackage: ::
         Wrote toggle-epackage-examples.el
         Wrote toggle-epackage-uninstall.el
 
-    # (4) templates are ready, go and edit
+    # (4) Templates are ready. Clean up as needed.
 
     cd epackage/
     ls -1
 
-        toggle-epackage-autoloads.el
+        info				# required
+        toggle-epackage-autoloads.el	# required
         toggle-epackage-compile.el
         toggle-epackage-examples.el
-        toggle-epackage-install.el
+        toggle-epackage-install.el	# required
         toggle-epackage-uninstall.el
 
-    # Required files: info, *-autoloads.el, -*install.el
-    # - No need for compile, this is a single file package
-    # - No examples this time for this simple package
-    # - Nothing to uninstall
+    # We remove following files:
+    #
+    # - compile: this is a single file package, not needed
+    # - examples: None. The toogle.el docs have no examples.
+    # - uninstall: None. We don't need to undo hooks afterwards etc.
 
     rm *-compile.el *-examples.el *-uninstall.el
 
-    # Edit information and fill in fields
+    # Edit epackage information control file:
 
     $EDITOR info
 
-    # Edit done? Finish the epackage.
+    # Finish thos epackage.
 
     git add .
     git commit -m "epackage/: new"
@@ -227,7 +227,7 @@ create your first epackage: ::
     Elint *.el
     Ecomp *.el
 
-After the exercise continue reading this README to fill in questions
+After the exercise, continue reading this README to fill in questions
 you may have in mind.
 
 Packaging Best Pracises
