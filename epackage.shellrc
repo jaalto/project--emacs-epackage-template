@@ -827,7 +827,7 @@ OPTIONS
     # Search for standard line ";; Version: 3.0"
 
     set -- $(egrep --only-matching --max-count=1 \
-             "^;+ +Version: *[^ ]+" "$1" )
+             "^;+[[:space:]]+Version?[[:space:]]+[^ ]+" "$1" )
 
     if [ "$3" ]; then
         echo $3
