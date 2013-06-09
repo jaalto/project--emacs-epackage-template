@@ -1,7 +1,10 @@
-..  comment: the source is maintained in ReST format.
-    Emacs: http://docutils.sourceforge.net/tools/editors/emacs/rst.el
-    quick: http://docutils.sourceforge.net/docs/user/rst/quickref.html
-    Reference: http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html
+.. comment: This FILE is part of project
+   https://github.com/jaalto/project--emacs-epackage-template
+
+.. comment: this source is maintained in ReST format.
+   Emacs: http://docutils.sourceforge.net/tools/editors/emacs/rst.el
+   quick: http://docutils.sourceforge.net/docs/user/rst/quickref.html
+   Reference: http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html
 
 
 .. _Debian: http://www.debian.org
@@ -146,7 +149,7 @@ create your first epackage: ::
     # Follow the instructions at end of output....
 
         Initialized empty Git repository in /home/jaalto/vc/epackage/xxx/.git/
-        ;; Copyright (C) 2006-2012 by Ryan Davis
+        ;; Copyright (C) 2006-2013 by Ryan Davis
         ;; Author: Ryan Davis <ryand-ruby@zenspider.com>
         ;; Version 1.3.1
         ;; Created: 2006-03-22
@@ -731,7 +734,7 @@ That should be all. For more information about Git, see:
 Copyright and License
 =====================
 
-Copyright (C) 2010-2012 Jari Aalto <jari.aalto@cante.net>
+Copyright (C) 2010-2013 Jari Aalto <jari.aalto@cante.net>
 
 The material is free; you can redistribute and/or modify it under
 the terms of GNU General Public license either version 2 of the
