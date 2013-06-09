@@ -68,20 +68,51 @@ AUTHOR
     exit 0
 }
 
+InitEpackageDir ()
+{
+    EPKGDIR=$(cd $(dirname ${1:-.}); pwd)
+}
+
 Initialize ()
 {
-    # Define global variables
+    if [ ! "$1" ] || [ ! -f "$1" ]; then
+	Die "ERROR: Initialize(): Epackage info file missing"
+    fi
 
-    infofile=$EPKGDIR/info
+    infofile=$1
+
+    # Define global variables
 
     PKG=$(awk '/^[Pp]ackage:/  {print $2}' "$infofile" )
 
     VCSNAME=$(awk '/^[V]cs-[Tt]ype:/  {print $2}' "$infofile" )
 
-    URL=$(awk '/^[Vc]cs-[Uu]rl:/  {print $2}' "$infofile" )
+    # This may be multiline field for http:
+    #
+    #  Vcs-Args: http://example.com/FILE1
+    #    http://example.com/FILE2
+    #    http://example.com/FILE3
 
-    ARGS=$(awk '/^[Vv]cs-[Aa]rgs:/ {sub("Vcs-Args:",""); print }' \
-           "$infofile" )
+    ARGS=$(awk '/^[Vv]cs-[Ar]gs:/  {print $2}' "$infofile" )
+
+    URL=$(awk '
+	header == 1 && /^[A-Za-z-]+:/ {
+	    exit
+        }
+
+	header == 0 && /^[Vv]cs-[Uu]rl:/ {
+	    sub("^[Vv]cs-[Uu]rl:","")
+	    header = 1
+        }
+
+	header == 1 {
+	    args = args " " $0
+	}
+
+	END {
+	    print args
+	}
+	' "$infofile" )
 
     if [ ! "$PKG" ]; then
 	Die "ERROR: Can't read Package: field from $infofile"
@@ -247,21 +278,7 @@ Cvs ()
 
 Main ()
 {
-    if [ ! "$1" ] && [ -f epackage/info ]; then
-	set -- epackage/info
-    fi
-
-    if [ ! "$1" ]; then
-        Warn "ERROR: Missing ARG 1, FILE (typically epackage/info)"
-    fi
-
-    if [ ! -f "$1" ]; then
-        Die "ERROR: file does not exists: $1"
-    fi
-
-    EPKGDIR=$(cd $(dirname $1); pwd)
-
-    Initialize
+    unset args
 
     for arg in "$@"                     # Command line options
     do
@@ -274,8 +291,31 @@ Main ()
                 shift
                 TEST="test"
                 ;;
+            -*)
+                Die "ERROR: Unknown option $1. See --help"
+                ;;
+	    *)	args="$args $1"
+		shift
+		;;
         esac
     done
+
+    if [ "$args" ]; then
+	set -- $args
+    elif [ ! "$1" ] && [ -f epackage/info ]; then
+	set -- epackage/info
+    fi
+
+    if [ ! "$1" ]; then
+        Warn "ERROR: Missing ARG 1, FILE (typically epackage/info)"
+    fi
+
+    if [ ! -f "$1" ]; then
+        Die "ERROR: file does not exists: $1"
+    fi
+
+    InitEpackageDir $1
+    Initialize $1
 
     if [ "$VCSNAME" = "git" ]; then
         Warn "[WARN] For Git, you should use: \
