@@ -1024,7 +1024,7 @@ DESCRIPTION
 
 OPTIONS
 
-    -g, --git   Confirm that the URL is git direcory
+    -g, --git   Confirm that the URL is a git direcory
     -t, --test  Run in test mode. Do now actually execute commands.
     -h, --help  Show help
 
@@ -1092,11 +1092,10 @@ STANDARDS
     case "$url" in
         ew:* | ewiki:* | emacswiki:* )
             wget="wget"
-            url=$(echo $url |
-                sed -e "s/^ew:" \
-                    -e "s/^ewiki:" \
-                    -e "s/^emacswiki:" \
-            )
+            url=$( echo $url |
+                   sed -e "s/^ew://" \
+                       -e "s/^ewiki://" \
+                       -e "s/^emacswiki://" )
             url="http://www.emacswiki.org/emacs/download/$url"
             ;;
         http:/*.el )
@@ -1113,7 +1112,8 @@ STANDARDS
                 giturl="$url"
                 url=""
             else
-                echo "[ERROR] Unknown URL. See -g. If this is svn or hg, download manually." >&2
+                echo "[ERROR] Unknown URL. See -g. If this is svn or hg," \
+		     "download manually." >&2
                 return 1
             fi
             ;;
@@ -1136,7 +1136,7 @@ STANDARDS
             return 1
         fi
 
-        case "$wget" in
+        case "$url" in
             *.el )
                 ;;
             .*[a-z] )                   # .tar.gz
@@ -1149,7 +1149,6 @@ STANDARDS
                 ;;
         esac
 
-
         ${test:+echo} wget \
             --no-check-certificate \
             --user-agent="$UAGENT" \
@@ -1157,7 +1156,7 @@ STANDARDS
 
         empty=""
 
-        if [ ! -s "$wget" ]; then
+        if [ "$test"] && [ ! -s "$wget" ]; then
             echo "[ERROR] Download failed" >&2
             rm -f "$wget"
             return 1
@@ -1170,7 +1169,6 @@ STANDARDS
     local debug
     local file
     file="${TMPDIR:-/tmp}/Egit.${LOGNAME:-${NAME:-foo}}.$$.tmp"
-
 
     if [ "$giturl" ]; then
 
@@ -1245,6 +1243,8 @@ STANDARDS
         E_gitignore
 
         ${test:+echo} git add -A
+
+	[ -f .gitignore ] &&
         ${test:+echo} git rm --cached .gitignore
 
         local version
@@ -1271,19 +1271,20 @@ STANDARDS
 
         [ "$test" ] || ls -l
 
-        git commit -m "Import upstream $date from $url"
+        ${test+echo} git commit -m "Import upstream $date from $url"
 
-        echo "# WHAT YOU NEED TO DO NEXT:"
-        echo "# Examine information and correct commands below."
+	if [ ! "$test" ]; then
+	    echo "# WHAT YOU NEED TO DO NEXT:"
+	    echo "# Examine information and correct commands below."
 
-        echo "git tag upstream/$fdate--$version"
-        echo "git checkout -b master"
+	    echo "git tag upstream/$fdate--$version"
+	    echo "git checkout -b master"
 
-        file=$wget
+	    file=$wget
 
-        echo "Edir ${file%.el}$mode ."
-
-        rm -f .gitignore
+	    echo "Edir ${file%.el}$mode ."
+	    rm -f .gitignore
+	fi
 
     else
 
@@ -1337,16 +1338,18 @@ STANDARDS
             date=$3
         fi
 
-        echo
-        echo "# WHAT YOU NEED TO DO NEXT:"
-        echo "# Examine information and correct commands below."
+	if [ !  "$test" ]; then
+	    echo
+	    echo "# WHAT YOU NEED TO DO NEXT:"
+	    echo "# Examine information and correct commands below."
 
-        echo "git commit -m 'Import upstream $date from ...'"
-        echo "git tag upstream/$date--$version$revision"
-        echo "git checkout -b master"
-        echo "Edir ${file%.el}$mode ."
+	    echo "git commit -m 'Import upstream $date from ...'"
+	    echo "git tag upstream/$date--$version$revision"
+	    echo "git checkout -b master"
+	    echo "Edir ${file%.el}$mode ."
 
-        rm -f .gitignore
+	    rm -f .gitignore
+	fi
     fi
 
     unset test
