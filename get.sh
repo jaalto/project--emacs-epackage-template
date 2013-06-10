@@ -294,11 +294,41 @@ Wget1 ()
     url1=$1
     args2=$2
 
+    # Option --timestamping cannot me used. Git does not preserve time
+    # stamps in directory, so any "git reset", "git clone" commands
+    # would use current time and invalidate original time stamps.
+    #
+    # NOTE: there is no way to force overwriting every file when
+    # downloading files using wget.
+
+    set -- $url1
+
+    unset optionwget
+    optionwget_noquote=$url1
+
+    if [ $# -eq 1 ]; then
+        optionwget="$(basename $url1)"	# Force overwrite
+	unset optionwget_noquote
+    fi
+
+    # Quote file name for spcecial character in -O option
+
     Run wget --user-agent="$UAGENT" \
 	--no-check-certificate \
-	--timestamping \
-	$url1 \
+	${optionwget:+-O} \
+	${optionwget:+"$optionwget"} \
+	${optionwget_noquote:-"$url1"} \
 	$args2
+}
+
+Hex2Character ()
+{
+    # Convert HEX encoding to plain text
+    echo $* | perl -ane \
+    '
+	s/(%([0-9a-f][0-9a-f]))/sprintf qq(%c), hex $2/egi;
+	print
+    '
 }
 
 Wget ()
@@ -313,6 +343,12 @@ Wget ()
     case "$url" in
 	*emacswiki* )
 	    slow=slow
+	    ;;
+    esac
+
+    case "$*" in
+	*%*)
+	    url=$(Hex2Character $url)
 	    ;;
     esac
 
