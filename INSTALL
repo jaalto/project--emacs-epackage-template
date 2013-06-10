@@ -1,25 +1,32 @@
 There is no automatic install target in Makefile
 
-These files are provided to help creating the Epacakges. Do this:
+These files are provided to help with creating epacakges.
 
-1. Add this directiry to your PATH in order to use get.sh
-   that can read epackage/info for URLs how to retrive
-   upstream updates.
+1. Add current directory to your PATH in order to access get.sh that
+   can read epackage/info for URLs how to retrive upstream updates.
 
 2. Source the provided shell startup file to get access to helper
    functions. They assist in creating and dealing with epacakges.
 
-   # Somewhere in your ~/.bashrc ....
+       # Somewhere in your ~/.bashrc ....
 
-   # The variable name has to be exactly like this.
-   # The shell funtions refer to it.
-   EPACKAGE_ROOT=<this directory without trailing slash>
-   . EPACKAGE_ROOT/epackage.shellrc
+       # The variable name has to be exactly like this.
+       # The shell funtions refer to it.
+       . <path to this directory>/epackage.shellrc
 
-3. See what functions are available (you MUST read README*)
+   See what functions are available (you MUST read README*)
    after you have sourced the epackage.shellrc:
 
-   Ehelp
+       Ehelp
+
+3. Point environment variable to the actual epacakge.el directory that
+   will do the actual work. The shell helper functions are only
+   front-ends to it.
+
+       git clone git@github.com:jaalto/project--emacs-epackage.git
+
+       # Add to ~/.bashrc
+       export EPACKAGE_ROOT=<path to>/project--emacs-epackage
 
 See README* for more information how to make and maintain distributed
 Emacs Lisp Packages (DELPS) with Git.
