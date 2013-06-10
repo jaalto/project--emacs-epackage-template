@@ -328,7 +328,7 @@ Main ()
             Run wget --user-agent="$UAGENT" \
                  --no-check-certificate \
                  --timestamping \
-                "$URL" \
+                $URL \
                 $ARGS
             return $?
             ;;
