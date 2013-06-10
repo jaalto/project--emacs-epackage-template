@@ -323,7 +323,7 @@ Wget ()
 
     unset statuswget
 
-    Warn "NOTE: Please wait, current site has limits in downloads"
+    Warn "NOTE: Please wait, current site has limits on download parameters"
 
     for i in $url
     do
