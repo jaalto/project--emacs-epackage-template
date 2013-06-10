@@ -32,6 +32,8 @@ set -e
 VCSDIR="upstream"                               # The VCS download directory
 UAGENT="Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.1.3) Gecko/20090913 Firefox/3.5.3";
 
+unset TEST
+
 Help ()
 {
     echo "\
@@ -131,7 +133,18 @@ Initialize ()
 
 Warn ()
 {
-    echo "$*" >&2
+    # If running in test mode, Add pound sign in front so that user
+    # can simply "program > script.sh".
+    #
+    # Yes, the output will go to stderr and it would not be in the
+    # script but it looks more clear to user that the message is
+    # *safe* to redirect than without the pound sign:
+    #
+    #    command
+    #    # Message
+    #    command
+
+    echo "${TEST+#}${TEST+ }$*" >&2
 }
 
 
@@ -144,7 +157,7 @@ Die ()
 Run ()
 {
     case "$*" in
-        *\|*)
+        *\|*)   # PIPE
             if [ "$TEST" ]; then
                 echo "$*"
             else
@@ -276,6 +289,52 @@ Cvs ()
     fi
 }
 
+Wget1 ()
+{
+    url1=$1
+    args2=$2
+
+    Run wget --user-agent="$UAGENT" \
+	--no-check-certificate \
+	--timestamping \
+	$url1 \
+	$args2
+}
+
+Wget ()
+{
+    url=$1
+    args=$2
+    unset slow
+
+    # emacswiki does not allow donwloading multiple files in
+    # rapid successions (considered spidering)
+
+    case "$url" in
+	*emacswiki* )
+	    slow=slow
+	    ;;
+    esac
+
+    if [ ! "$slow" ]; then
+	Wget1 "$url" "$args"
+	return $?
+    fi
+
+    unset statuswget
+
+    Warn "NOTE: Please wait, current site has limits in downloads"
+
+    for i in $url
+    do
+	Wget1 "$i" "$args"
+	statuswget=$?
+	Run sleep 4
+    done
+
+    return $statuswget
+}
+
 Main ()
 {
     unset args
@@ -315,7 +374,7 @@ Main ()
     fi
 
     InitEpackageDir $1
-    Initialize $1
+    Initialize $1	    # Parse epacakge/info for URL, ARGS ...
 
     if [ "$VCSNAME" = "git" ]; then
         Warn "[WARN] For Git, you should use: \
@@ -325,11 +384,7 @@ Main ()
     case "$VCSNAME" in
         http)
             Run cd "$EPKGDIR/.."
-            Run wget --user-agent="$UAGENT" \
-                 --no-check-certificate \
-                 --timestamping \
-                $URL \
-                $ARGS
+            Wget "$URL" "$ARGS"
             return $?
             ;;
 
