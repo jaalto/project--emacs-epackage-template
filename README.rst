@@ -83,6 +83,14 @@ Hands on example
 
 Before the full script, here is outline of the packaging procedure: ::
 
+    #  Remeber to clone the "engine" first from project page
+    #  https://github.com/jaalto/project--emacs-epackage
+    #
+    #  Tell where the epackage.el "engine" is located to that helper
+    #  functions can call it.
+
+    export EPACKAGE_ROOT=<path to>/project--emacs-epackage
+
     #  read additional shell commands
 
     . /path/to/this-repository/epackage.shellrc
