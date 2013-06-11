@@ -678,27 +678,30 @@ Addenum
 How to set up project at Github
 -------------------------------
 
-In Windows, install <http://cygwin.com> environment which contains
-everything from Emacs, Git, SSH and so on.
+If you use Windows, install <http://cygwin.com> environment which
+contains everything from Emacs, Git, SSH and so on. The instructions
+below are for Cygwin, Linux Mac terminal:
 
-1. Generate the SSH keys, if you don't have those already
-   Refer to generating SSH keys for Linux at
-   http://help.github.com/linux-key-setup
+1. Generate the SSH keys.
 
-2. Register an account
+If you don't have SSH keypair (private, public) already, refer to
+generating SSH keys for Linux at
+https://help.github.com/articles/generating-ssh-keys
 
-- visit front page https://github.com
+2. Register a Github account
+
+Visit front page at https://github.com
 
 3. After sign up, log in to your account
 
-- [top right] select icon *account settings* and from new page
-  [left] *SSH eys*. Select [button] **Add SSH key**
+[top right] select icon *account settings* and from new page
+[left] *SSH eys*. Select [button] **Add SSH key**
 
-4. Create a project, say "xxx"
+4. Create a project repository
 
-- [top right icon, back to your main page] ``https://github.com/<login>``.
-  At top left, click icon **Crea a new Git repo**.
-  After finishing, Write down the shown``git://`` repository URL. ::
+[top right icon, back to your main page] ``https://github.com/<login>``.
+At top left, click icon **Crea a new Git repo**.
+After finishing, Write down the shown``git://`` repository URL.
 
 5. Type in command line: ::
 
