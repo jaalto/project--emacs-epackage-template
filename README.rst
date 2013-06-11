@@ -687,41 +687,35 @@ everything from Emacs, Git, SSH and so on.
 
 2. Register an account
 
-- Use [top right corner] select *Signup* https://github.com
+- visit front page https://github.com
 
-3. Log into account.
+3. After sign up, log in to your account
 
-- [top right] select *login* https://github.com/
-
-- [(own page) at top right] *account settings / SSH public keys*
-  followed by **button:Submit (Copy/paste) your SSH keys (*.pub)**
+- [top right] select icon *account settings* and from new page
+  [left] *SSH eys*. Select [button] **Add SSH key**
 
 4. Create a project, say "xxx"
 
-- [back to main page] ``https://github.com/<login>``. At top left, click
-  **text:GitHub**. In new page, scroll a little past icons at top, to
-  the right click **button:New repository**. In new page type in
-  project details. After finishing, Write down the shown``git://``
-  repository URL. ::
+- [top right icon, back to your main page] ``https://github.com/<login>``.
+  At top left, click icon **Crea a new Git repo**.
+  After finishing, Write down the shown``git://`` repository URL. ::
 
-       Project Name : myproject
-       Description  : <fill in>
-       homepage     : <fill in>
-       [x] anyone can access to this repository
+5. Type in command line: ::
 
-       [lower right] Press button "create repository"
+    # Tell who you are
+    git config --global user.name "FirstName LastName"
+    git config --global user.email "me@example.com"
 
-5. Type on command line: ::
-
-    cd ~/dir/myproject                  # Source code
+    cd ~/dir/project                    # Your source code
     git init                            # Initialize
-    git add .                           # add all files
-    git commit -m "Initial import"      # Put into version control
+    git add .                           # add ALL files
+    git commit -m "Initial import"      # Save into version control
 
     # Let Git know about Github
-    git remote add github git@github.com:<your github login>/myproject.git
+    # This the "git://" URL that you wrote down in step 3
+    git remote add github git@github.com:<your github login>/project.git
 
-    # Publish "master" branch to Github
+    # Push your changes to Github
     git push github master
 
 That should be all. For more information about Git, see:
