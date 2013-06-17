@@ -703,12 +703,12 @@ Visit front page at https://github.com
 3. After sign up, log in to your account
 
 [top right] select icon *account settings* and from new page
-[left] *SSH eys*. Select [button] **Add SSH key**
+[left menu] *SSH keys*. Select [button] **Add SSH key**
 
 4. Create a project repository
 
 [top right icon, back to your main page] ``https://github.com/<login>``.
-At top left, click icon **Crea a new Git repo**.
+At top left, click icon **Create a new Git repo**.
 After finishing, Write down the shown``git://`` repository URL.
 
 5. Type in command line: ::
@@ -723,10 +723,12 @@ After finishing, Write down the shown``git://`` repository URL.
     git commit -m "Initial import"      # Save into version control
 
     # Let Git know about Github
-    # This the "git://" URL that you wrote down in step 3
-    git remote add github git@github.com:<your github login>/project.git
+    # This the "git://" URL that you wrote down in step 4
+
+    git remote add github git@github.com:<your github>/project.git
 
     # Push your changes to Github
+
     git push github master
 
 That should be all. For more information about Git, see:
