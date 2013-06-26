@@ -84,7 +84,7 @@ In the simplest case, here are the steps to start creating an epackage.
 3. Make an empty directory, name does not matter. Cd into it.
 4. Import code to epackage Git repository from the URL with:
 
-    Egit <URL>  # Use "Egit --help" for more information
+    Egit <URL>  # Use \"Egit --help\" for more information
 
     Follow the displayed instructions to commit and tag.
 
