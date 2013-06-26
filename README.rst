@@ -617,7 +617,7 @@ releases new code, make an update.
     git commit -m "import upstream 2010-06-10 from http://example.com/path/file.el"
 
     # Examine what are current dates and version
-    egrep -i 'version|date|modifiedä *.el
+    egrep -i 'version|date|modified' *.el
     git tag upstream/2010-06-10--1.13
 
 5. Switch back to *master* and merge latest upstream ::
