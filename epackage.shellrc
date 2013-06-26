@@ -84,7 +84,7 @@ In the simplest case, here are the steps to start creating an epackage.
 3. Make an empty directory, name does not matter. Cd into it.
 4. Import code to epackage Git repository from the URL with:
 
-    Egit <URL>
+    Egit <URL>  # Use "Egit --help" for more information
 
     Follow the displayed instructions to commit and tag.
 
@@ -95,27 +95,29 @@ In the simplest case, here are the steps to start creating an epackage.
     After this step, you have imported raw upstream code is in
     Git \"upstream\" branch, commited and tagged acordingly.
 
-5.  Create \"master\" branch (see previous \"Egit\" command output):
+5.  Create \"master\" branch (see previous \"Egit\" command's output):
 
-    git git checkout -b master
+    git checkout -b master
 
-6.  Generate template files from a master lisp file of this package:
+6.  Generate template files:
 
-    Edir <PACKAGE-NAME> <FILE>.el
+    Edir <PACKAGE-NAME> .
 
 7.  Edit the generated files in epackage/ directory and commit:
 
     cd epackage/
     .. edit files
-    .. remove files that may not be relevant (*-compile.el etc.).
+    \$EDITOR info
+    .. and edit other files
+    .. remove files that may not be relevant: *-{compile,uninstall}* etc.
     git add .
     git commit -m \"epackage/: new\"
 
-8.  Create a repository at Github, and push your new epackage:
+8.  Create a repository at Github and push your new epackage:
 
-    git remote add github <your repository URL>
-    git push github upstream master
-    git push github --tags
+    git remote add origin <your repository URL>
+    git push origin upstream master
+    git push origin --tags
 
 9   Last, contact Epackage Sources List maintainer to have your epackage
     URL included. See
