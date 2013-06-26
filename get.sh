@@ -104,11 +104,15 @@ Initialize ()
 
 	header == 0 && /^[Vv]cs-[Uu]rl:/ {
 	    sub("^[Vv]cs-[Uu]rl:","")
+	    gsub(" ","")
 	    header = 1
         }
 
 	header == 1 {
-	    args = args " " $0
+	    if (args)
+    	        args = args " " $0
+	    else
+	        args = $0
 	}
 
 	END {
