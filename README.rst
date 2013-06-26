@@ -607,6 +607,13 @@ releases new code, make an update.
 
     /path/to/get.sh epackage/info	# utility from this template directory
 
+    ... IF UPSTREAM USES VCS: the update will appear in directory
+    ... epacakge/upstream and files are copied over the current sources. Be
+    ... carefull to note all removed or new files.
+    ...
+    ... IF UPSTREAM DOES NOT USE VCS: the new version of files are simply
+    ... downloaded and old files are overwritten.
+
 3. Switch to *upstream* branch ::
 
     git checkout upstream
@@ -614,28 +621,40 @@ releases new code, make an update.
 4. Examine version and release date of upstream code. Commit and tag ::
 
     git add -A  # Import all changes since.
-    git commit -m "import upstream 2010-06-10 from http://example.com/path/file.el"
+    git add ...
+    git rm ...
 
-    # Examine what are current dates and version
+    ... If upstream uses VCS: The date is the last commit date
+    ... See e.g. "git log --max-count=1" or "{bzr,hg,svn] log --limit 1"
+
+    git commit -m "import upstream YYYY-MM-DD <VCS revision if any> from http://example.com/path/file.el"
+
+    ... Examine what are current dates and version
     egrep -i 'version|date|modified' *.el
+    Ever
+
+    ... If there is no VERSION announced in files, omit it and use the
+    ... VCS details in the tag \"upstream/YYYY-MM-DD--svn-12345\".
+    ... Notice the use of double dash.
+
     git tag upstream/2010-06-10--1.13
 
-5. Switch back to *master* and merge latest upstream ::
+5. Merge to epackage
 
     git checkout master
     git merge upstream
 
-6. If needed, update `epackage/` directory information ::
+6. Update `epackage/` directory information ::
 
-    ... edit epackage/* files
     Edef			# Regenrate epackage/*loaddef.el
+    ... edit epackage/* files if needed
     ... commit
     ... test that all works
 
 7. Push updated epackage for others to download ::
 
-    git push github upstream master
-    git push github --tags
+    git push upstream master
+    git push --tags
 
 .. _pictures:
 
