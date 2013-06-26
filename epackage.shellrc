@@ -88,6 +88,7 @@ https://github.com/jaalto/project--emacs-epackage-template
 1. You have epackage.el downloaded and stored in ~/.emacs.d
 2. You have the URL to a lisp file you want to package (EmacsWiki.org)
 3. Make an empty directory, name does not matter. Cd into it.
+
 4. Import code to epackage Git repository from the URL with:
 
     Egit <URL>  # See \"Egit --help\" for more information
@@ -112,10 +113,10 @@ https://github.com/jaalto/project--emacs-epackage-template
 7.  Edit the generated files in epackage/ directory and commit:
 
     cd epackage/
-    .. edit files
     \$EDITOR info
-    .. and edit other files
-    .. remove files that may not be relevant: *-{compile,uninstall}* etc.
+
+    ... remove files that may not be relevant: *-{compile,uninstall}* etc.
+    gir rm ...
     git add .
     git commit -m \"epackage/: new\"
 
@@ -125,7 +126,7 @@ https://github.com/jaalto/project--emacs-epackage-template
     git push origin upstream master
     git push origin --tags
 
-9   Last, contact Epackage Sources List maintainer to have your epackage
+9.  Last, contact Epackage Sources List maintainer to have your epackage
     URL included. See
     <https://github.com/jaalto/project--emacs-epackage-sources-list>.
 
