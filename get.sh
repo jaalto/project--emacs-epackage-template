@@ -247,6 +247,26 @@ Note: Upstream probably already in a Git branch. Plesae update manually:
     fi
 }
 
+Log ()
+{
+    case "$VCSNAME" in
+	*git*)
+	    Run git log --first-parent --date=short \
+		--pretty='format:%h %ci %s%d' \
+		--max-count=${1:-1}
+	    ;;
+	*bzr*)
+	    Run bzr log --limit ${1:-1}
+	    ;;
+	*hg*)
+	    Run hg log --limit ${1:-1}
+	    ;;
+	*svn*)
+	    Run svn log --limit ${1:-1}
+	    ;;
+    esac
+}
+
 Vcs ()
 {
     cmd=clone
@@ -269,9 +289,14 @@ Svn ()
 
     if [ ! -d "$VCSDIR" ]; then
         Run "$VCSNAME" co "$URL" "$VCSDIR"
-        ( cd "$VCSDIR" && Revno )
+        ( cd "$VCSDIR" && Revno && Log )
     else
-        ( Run cd "$VCSDIR" && Run "$VCSNAME" update && Revno )
+    (
+	Run cd "$VCSDIR" &&
+	Run "$VCSNAME" update &&
+	Revno &&
+	Log
+    )
     fi
 }
 
