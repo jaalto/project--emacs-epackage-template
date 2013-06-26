@@ -77,7 +77,13 @@ For more information, see: Ehelp --help"
     local long
     long="
 
-In the simplest case, here are the steps to start creating an epackage.
+TO CREATE A NEW EPACKAGE
+========================
+
+In the simplest case, here are the steps to start create a epackage.
+This is a brief summary are not intended for multi-file big packages
+that come with Makefiles etc. Full documentation is at
+https://github.com/jaalto/project--emacs-epackage-template
 
 1. You have epackage.el downloaded and stored in ~/.emacs.d
 2. You have the URL to a lisp file you want to package (EmacsWiki.org)
@@ -121,7 +127,75 @@ In the simplest case, here are the steps to start creating an epackage.
 
 9   Last, contact Epackage Sources List maintainer to have your epackage
     URL included. See
-    <https://github.com/jaalto/project--emacs-epackage-sources-list>."
+    <https://github.com/jaalto/project--emacs-epackage-sources-list>.
+
+
+TO UPGRADE EXISTING EPACKAGE
+============================
+
+This is a brief summary. Full documentation is at
+https://github.com/jaalto/project--emacs-epackage-template#keeping-up-to-date-with-the-upstream
+
+1.  Verify that the repository is in a clean state. Commit any changes
+
+    git status
+
+2.  Download new upstream release
+
+    ... You have get.sh from this template directory in PATH. Run it
+    ... to update upstream sources. It reads the file
+    ... epackage/info and fields Vcs-type, Vcs-Url.
+
+    get.sh
+
+    ... IF UPSTREAM USES VCS: the update will appear in directory
+    ... epacakge/upstream and files are copied over current sources. Be
+    ... carefull to note all removed or new files.
+
+    ... IF UPSTREAM DOES NOT USE VCS: the new version of files are simply
+    ... downloaded and old files are overwritten.
+
+3.  Switch to upstream branch
+
+    git checkout upstream
+
+4. Examine version and release date of upstream code. Commit and tag ::
+
+    git add -A  # Import all changes since.
+    git add ...
+    git rm ...
+
+    ... If upstream uses VCS: The date is the last commit date
+    ... See e.g. "git log --max-count=1" or "{bzr,hg,svn] log --limit 1"
+
+    git commit \"Import upstream YYYY-MM-DD <VCS revision if any> from <URL>\"
+
+    ... Examine what are current dates and version
+    egrep -i 'version|date|modified' *.el
+
+    ... If there is no VERSION announced in files, omit it and use the
+    ... VCS details in the tag \"upstream/YYYY-MM-DD--svn-12345\".
+    ... Notice the use of double dash.
+
+    git tag upstream/YYYY-MM-DD--<VERSION if ay>--svn-12345
+
+5. Merge to epackage
+
+    git checkout master
+    git merge upstream
+
+6. Update epackage/ directory information
+
+    Edef                        # Regenrate epackage/*loaddef.el
+    ... edit epackage/* files if needed
+    ... commit
+    ... test that all works
+
+7. Push updated epackage for others to download
+
+    git push upstream master
+    git push --tags
+"
 
     echo "$header"
 
