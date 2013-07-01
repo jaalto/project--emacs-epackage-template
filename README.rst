@@ -526,7 +526,7 @@ setup is easy:
 
 * Create ``epackage/`` directory with necessary *info* and other
   install files.
-* Create file ``epackage/format`` and add word "upstream" to it's
+* Create file ``epackage/format`` and add word "upstream" on its
   own line.
 
 Essentially ::
