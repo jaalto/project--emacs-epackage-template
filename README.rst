@@ -29,7 +29,7 @@ This directory contains template files for the Emacs packaging system
 called "Distributed Emacs Lisp Package System (`DELPS`_), or in short
 "Epackage". The package format use Git Distributed Version Control
 System (DVCS) containers for the original source code plus a separate
-``epackage/`` subdirectory. These Git repositories can reside anywhere
+``epackage/`` sub directory. These Git repositories can reside anywhere
 publicly available. The repository locations are recorded in a public
 `Sources List`_ file which is used as a master list to available
 Epackages. The person who wraps Emacs extension into these Git
@@ -83,7 +83,7 @@ Hands on example
 
 Before the full script, here is outline of the packaging procedure: ::
 
-    #  Remeber to clone the "engine" first from project page
+    #  Remember to clone the "engine" first from project page
     #  https://github.com/jaalto/project--emacs-epackage
     #
     #  Tell where the epackage.el "engine" is located to that helper
@@ -115,7 +115,7 @@ Before the full script, here is outline of the packaging procedure: ::
     Ecomp *.el
 
     #  Done. Edit file epackage/info.
-    #  Delete unneeded files. Commit and push to github
+    #  Delete unneeded files. Commit and push to Github
     #  Notify "Sources List" about new package.
 
     ... edit epackage/ directory contents
@@ -228,7 +228,7 @@ create your first epackage: ::
 
     $EDITOR info
 
-    # Finish thos epackage.
+    # Finish the epackage.
 
     git add .
     git commit -m "epackage/: new"
@@ -241,7 +241,7 @@ create your first epackage: ::
 After the exercise, continue reading this README to fill in questions
 you may have in mind.
 
-Packaging Best Pracises
+Packaging Best Practises
 -----------------------
 
 FOREWORD
@@ -260,10 +260,10 @@ found dusting.
 
 EXAMING FILES
 
-For the package maintainer, it is desireable to keep close contact
+For the package maintainer, it is desirable to keep close contact
 with the upstream to get QA issues solved as soon as possible. Well
 cared code also has better chance to work in later Emacs versions. It
-may also improve chnages to be included in core Emacs someday. The
+may also improve changes to be included in core Emacs someday. The
 best practises for package maintainer are:
 
 * Is the code alive? If the code was last updated years ago,
@@ -273,7 +273,7 @@ best practises for package maintainer are:
   standard Emacs features? If it does, package those dependencies
   first.
 * Examine ``require`` commands closer. How many are there? Perhaps the
-  author dind't consider library requirements carefully. It may be
+  author didn't consider library requirements carefully. It may be
   possible to arrange code to load faster and consume less memory
   by utilizing ``autoload`` instead of ``require`` for
   features that are not immediately used. Talk to upstream about this.
@@ -315,10 +315,10 @@ best practises for package maintainer are:
   Emacs. If someday the extension finds its way to Emacs, the road is
   clear with GPL. *NOTE:* `Public Domain`_ is not an internationally
   viable license.
-* Does the code inlude Emacs Lisp files (\*.el) that do not belong to the
+* Does the code include Emacs Lisp files (\*.el) that do not belong to the
   project? Sometimes other projects are included along with the
   package. This is a problem because then Emacs ``load-path`` would
-  containsduplicate copies of the files. There would be no guarantee
+  contains duplicate copies of the files. There would be no guarantee
   that the latest version from the original author, or standard Emacs,
   were used. In Git **patches** branch, just ``git rm`` any such files
   and merge your deletion to **master** branch. If there is not yet a
@@ -343,7 +343,7 @@ maintains the code. An example ::
 
     ...
     X-Development:
-     YYYY-MM-DD upstream email confirmad.
+     YYYY-MM-DD upstream email confirmed.
     Description: test package with various functions
      Main command [C-u] M-x test-package runs various tests on
      the current lisp code. With a prefix argument, shows also
@@ -354,7 +354,7 @@ is actively developed or whose maintainer has gone with the winds of
 time. The users will download the package and in many cases send bug
 reports. Do you have the time to deal with those? Especially, if there
 is no more upstream to forward requests to. Packaging dead code serves
-no one unless you are able to serve as the new usptream.
+no one unless you are able to serve as the new upstream.
 
 FINISHING
 
@@ -407,7 +407,7 @@ Making an epackage
 
     git branch -b master upstream
 
-7. Copy the template files (which are available here, in this repo
+7. Copy the template files (which are available here, in this repository
    you're reading) ::
 
     mkdir epackage/
@@ -437,7 +437,7 @@ Making an epackage
     # [optional] Figure out by reading the commentary how the
     # extension is activated for immediate use. Add autoloads and
     # write Emacs lisp code. Try not to load any other packages here
-    # with 'require' (slows emacs startup).
+    # with 'require' (slows emacs start up).
 
     epackage/PACKAGE-install.el
 
@@ -467,7 +467,7 @@ See these page:
 
 - http://help.github.com/forking/  (Forking a project)
 - http://help.github.com/pull-requests/ (Sending pull requests)
-- https://github.com/blog/270-the-fork-queue (Keeping fork in synch)
+- https://github.com/blog/270-the-fork-queue (Keeping fork in sync)
 
 After your URL has been merged, update your copy of `Sources List`_ ::
 
@@ -529,7 +529,7 @@ setup is easy:
 * Create file ``epackage/format`` and add word "upstream" to it's
   own line.
 
-Basicly ::
+Essentially ::
 
     cd /to/your/project/
 
@@ -545,7 +545,7 @@ Basicly ::
     # ... Now edit and remove files as needed in epackage/ directory
     # ... commit, push to Github
 
-Notify `Sources List`_ maintaner about your repository.
+Notify `Sources List`_ maintainer about your repository.
 More information can be found elsewhere in this document.
 
 When upstream IS also the packager (Non-Git)
@@ -554,8 +554,8 @@ When upstream IS also the packager (Non-Git)
 Say you are the upstream. You would like to put your Emacs extensions
 available as epackages. **You use version control system
 other than Git to manage your code**. No problem. Continue to use what
-you have. Only layer Git on top of it. This means that you ínitialize
-Git on top of your current sources. The Git and your exixting VCS
+you have. Only layer Git on top of it. This means that you initialize
+Git on top of your current sources. The Git and your existing VCS
 won't conflict. You switch to Git, when you commit your changes and
 make them available as an epackage.
 
@@ -590,7 +590,7 @@ An example. Say you use Mercurial, or "Hg" for short ::
     # ... Now edit and remove files as needed in epackage/ directory
     # ... commit, push to Github
 
-That's it. Notify `Sources List`_ maintaner about your repository.
+That's it. Notify `Sources List`_ maintainer about your repository.
 More information can be found elsewhere in this document.
 
 Keeping up to date with the upstream
@@ -609,7 +609,7 @@ releases new code, make an update.
 
     ... IF UPSTREAM USES VCS: the update will appear in directory
     ... epacakge/upstream and files are copied over the current sources. Be
-    ... carefull to note all removed or new files.
+    ... careful to note all removed or new files.
     ...
     ... IF UPSTREAM DOES NOT USE VCS: the new version of files are simply
     ... downloaded and old files are overwritten.
@@ -646,7 +646,7 @@ releases new code, make an update.
 
 6. Update `epackage/` directory information ::
 
-    Edef			# Regenrate epackage/*loaddef.el
+    Edef			# Regenerate epackage/*loaddef.el
     ... edit epackage/* files if needed
     ... commit
     ... test that all works
@@ -691,7 +691,7 @@ don't need to maintain different code base. ::
     patches:           o -- o
 
 
-For more reading about Git branching workflows, study:
+For more reading about Git branching work flows, study:
 
 * `Debian Git upstream management <http://wiki.debian.org/ThomasKoch/GitPackagingWorkflow>`_
 * `A successful Git branching model <http://nvie.com/posts/a-successful-git-branching-model/>`_
@@ -711,7 +711,7 @@ below are for Cygwin, Linux Mac terminal:
 
 1. Generate the SSH keys.
 
-If you don't have SSH keypair (private, public) already, refer to
+If you don't have SSH key pair (private, public) already, refer to
 generating SSH keys for Linux at
 https://help.github.com/articles/generating-ssh-keys
 
