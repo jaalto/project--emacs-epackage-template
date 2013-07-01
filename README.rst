@@ -28,7 +28,7 @@ Windows MSI or Linux *.rpm (Redhat) and *.deb (`Debian`_) packages.
 This directory contains template files for the Emacs packaging system
 called "Distributed Emacs Lisp Package System (`DELPS`_), or in short
 "Epackage". The package format use Git Distributed Version Control
-System (DVCS) containers for the original source code plus a separate
+System (DVCS) repositories for the original source code plus a separate
 ``epackage/`` sub directory. These Git repositories can reside anywhere
 publicly available. The repository locations are recorded in a public
 `Sources List`_ file which is used as a master list to available
