@@ -577,7 +577,7 @@ An example. Say you use Mercurial, or "Hg" for short ::
     # Install tools
     . /path/to/this-repository/epackage.shellrc
 
-    # Examine dates, version and tag this to Git
+    # Examine commit date and revision. Tag accordingly.
     hg log --limit 1
     git tag epackage/YYYY-MM-DD--hg-abcdef12345
 
@@ -635,7 +635,7 @@ releases new code, make an update.
 
     ... If there is no VERSION announced in files, omit it and use the
     ... VCS details in the tag \"upstream/YYYY-MM-DD--svn-12345\".
-    ... Notice the use of double dash.
+    ... Notice the use of double dash to make it stand out from the date.
 
     git tag upstream/2010-06-10--1.13
 
