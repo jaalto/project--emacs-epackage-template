@@ -220,30 +220,36 @@ VcsGitRemoteUpstream ()
 
 VcsGitConfig ()
 {
-    # If there is a remote "upstream" already, use it to fetch sources.
+    # No git, nothing to check
 
     [ -d .git ] || return 1
 
+    # If there is a remote "upstream" already, use it to fetch sources.
+
     if VcsGitRemoteUpstream | grep -i "url.*=" ; then
 	echo "\
-Note: Upstream probably already in a Git branch. Plesae update manually:
-
+Note: Upstream probably already in a Git branch, use:
     git checkout upstream
     git pull
-"
-
-    else
-	echo "Please follow upstream directly in a Git branch:
-
-    git remote add upstream $URL
-    git fetch upstream
-    git checkout --track -b upstream upstream/master
-    git tag upstream/YYYY-MM-DD--git-COMMIT
+    git log -1
+    git tag upstream/YYYY-MM-DD{commit date}--git-COMMIT{7hex}
 
     # Merge to epackage branch master
     git checkout master
-    git merge upstream/YYYY-MM-DD--git-COMMIT
-"
+    git merge upstream/YYYY-MM-DD{commit date}--git-COMMIT{7hex}"
+
+    else
+	echo "\
+Please follow upstream directly in a Git branch:
+    git remote add upstream $URL
+    git fetch upstream
+    git checkout --track -b upstream upstream/master
+    git tag upstream/YYYY-MM-DD{commit date}--git-COMMIT{7hex}
+
+    # Merge to epackage branch master
+    git checkout master
+    git merge upstream/YYYY-MM-DD--git-COMMIT"
+
     fi
 }
 
@@ -441,11 +447,6 @@ Main ()
     InitEpackageDir $1
     Initialize $1	    # Parse epacakge/info for URL, ARGS ...
 
-    if [ "$VCSNAME" = "git" ]; then
-        Warn "[WARN] For Git, you should use: \
-'git remote add upstream $URL' and work through it directly."
-    fi
-
     case "$VCSNAME" in
         http)
             Run cd "$EPKGDIR/.."
@@ -457,8 +458,12 @@ Main ()
 
             if [ "$VCSNAME" = "git" ]; then
 	        VcsGitConfig "$URL" && return 0
-	    fi
 
+		Warn "[WARN] For Git, you should use: \
+		'git remote add upstream $URL' and work through it directly."
+
+	    fi
+return 1
             Run cd "$EPKGDIR"
 
             if [ "$VCSNAME" = "cvs" ]; then
