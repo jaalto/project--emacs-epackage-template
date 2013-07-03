@@ -17,6 +17,7 @@
 .. _autoload: http://www.gnu.org/software/emacs/manual/html_mono/elisp.html#Autoload
 .. _License Database: http://pinboard.in/u:jariaalto/t:license/t:database
 .. _Public Domain: http://pinboard.in/u:jariaalto/t:license/t:public-domain/t:faq
+.. _Pristine Tar: http://kitenet.net/~joey/blog/entry/generating_pristine_tarballs_from_git_repositories/
 
 Description
 ===========
@@ -690,6 +691,39 @@ don't need to maintain different code base. ::
                       \     |
     patches:           o -- o
 
+
+Packages that are distributed in archive files (e.g. *.tar.gz format),
+use program called `pristine-tar(1)' to import original archives in a
+separate, disconnected, *pristine-tar* branch. This branch will be
+unrelated to the rest of the project history; it's sole purpose is to
+store archives. The `Pristine Tar`_ intelligently stores only deltas
+between the archives so it's very space efficient.
+
+                  (merge: upstream, patches)
+    master:       o -- o -- o =>
+                 /    /     ^
+    upstream:   o -- o      |
+                1.0  1.1    |
+                      \     |
+    patches:           o -- o
+
+    pristine-tar: package-1.0.tar.gz ...
+
+To use `pristine-tar(1)` workflow:
+
+    # The utility will create the branch as needed. Output:
+    #
+    # pristine-tar: committed package-1.0.tar.gz.delta to branch pristine-tar
+
+    pristine-tar commit package-1.0.tar.gz
+
+    # List archives
+
+    pristine-tar list
+
+    # Retrive a archive
+
+    pristine-tar checkout package-1.0.tar.gz
 
 For more reading about Git branching work flows, study:
 
