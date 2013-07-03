@@ -711,27 +711,27 @@ stores only deltas between the archives so it's very space efficient.
 
 The pristine-tar(1) workflow: ::
 
-    # Have sources unpacked
+    # Do work in branch "upstream"
 
-    tar -xf package-1.0.tar.gz
+    git checkout upstream
+
+    # Unpack sources
+
+    tar -xf ../package-1.0.tar.gz
     mv package-1.0/* .
     rmdir package-1.0
 
     # Import and tag
 
-    git add --all ...
+    git add [--all] ...    (but don't include archice; *.tar.gz)
     git commit ...
     git tag upstream/YYYY-MM-DD--1.0
-
-    # Make sure you're in original branch "upstream"
-
-    git checkout upstream
 
     # The utility will create the branch as needed. Output:
     #
     # pristine-tar: committed package-1.0.tar.gz.delta to branch pristine-tar
 
-    pristine-tar commit package-1.0.tar.gz
+    pristine-tar commit ../package-1.0.tar.gz
 
     # List archives
 
