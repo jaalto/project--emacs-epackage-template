@@ -721,10 +721,10 @@ The pristine-tar(1) workflow: ::
     mv package-1.0/* .
     rmdir package-1.0
 
-    # Import and tag
+    # Import and tag. The YYYY-MM-DD is the date of the archive
 
     git add [--all] ...    (but don't include archice; *.tar.gz)
-    git commit ...
+    git commit -m "import upstream YYYY-MM-DD 1.0 from <URL>"
     git tag upstream/YYYY-MM-DD--1.0
 
     # The utility will create the branch as needed. Output:
