@@ -692,7 +692,7 @@ don't need to maintain different code base. ::
     patches:           o -- o
 
 
-For big packages, use program called `pristine-tar(1)` to import
+For big packages, use program called *pristine-tar(1)* to import
 original archives in a separate, disconnected, **pristine-tar branch**.
 This branch will be unrelated to the rest of the project history; it's
 sole purpose is to store archives. The `Pristine Tar`_ intelligently
