@@ -692,12 +692,12 @@ don't need to maintain different code base. ::
     patches:           o -- o
 
 
-Packages that are distributed in archive files (e.g. *.tar.gz format),
-use program called `pristine-tar(1)' to import original archives in a
-separate, disconnected, *pristine-tar* branch. This branch will be
-unrelated to the rest of the project history; it's sole purpose is to
-store archives. The `Pristine Tar`_ intelligently stores only deltas
-between the archives so it's very space efficient. ::
+For big packages, use program called `pristine-tar(1)` to import
+original archives in a separate, disconnected, **pristine-tar branch**.
+This branch will be unrelated to the rest of the project history; it's
+sole purpose is to store archives. The `Pristine Tar`_ intelligently
+stores only deltas between the archives so it's very space efficient.
+::
 
                   (merge: upstream, patches)
     master:       o -- o -- o =>
@@ -709,7 +709,7 @@ between the archives so it's very space efficient. ::
 
     pristine-tar: package-1.0.tar.gz ...
 
-To use `pristine-tar(1)` workflow: ::
+The ``pristine-tar(1)`` workflow: ::
 
     # The utility will create the branch as needed. Output:
     #
