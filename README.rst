@@ -709,7 +709,7 @@ stores only deltas between the archives so it's very space efficient.
 
     pristine-tar: package-1.0.tar.gz ...
 
-The *pristine-tar(1)* workflow: ::
+The pristine-tar(1) workflow: ::
 
     # The utility will create the branch as needed. Output:
     #
