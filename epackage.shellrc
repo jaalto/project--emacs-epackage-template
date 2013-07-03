@@ -695,7 +695,7 @@ OPTIONS
     -h, --help  Show help
 
 EXAMPLES
-    Generate templates for regular file:
+    Generate templates from a single file:
 
         Edir toggle.el .
 
@@ -764,7 +764,7 @@ STANDARDS
     local found
     local file
 
-    for file in *.el */*/.el */*/*/*.el
+    for file in *.el */*.el */*/*.el */*/*/*.el
     do
         [ -f "$file" ] || continue
         found=found
