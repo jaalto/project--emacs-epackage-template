@@ -757,7 +757,7 @@ How to set up project at Github
 
 If you use Windows, install <http://cygwin.com> environment which
 contains everything from Emacs, Git, SSH and so on. The instructions
-below are for Cygwin, Linux Mac terminal:
+below work in any command line shell (Cygwin, Linux or Mac):
 
 1. Generate the SSH keys.
 
