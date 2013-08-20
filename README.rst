@@ -766,8 +766,8 @@ For more information about Git, see:
 - http://gitref.org
 - http://gitcasts.com
 
-1. Generate the SSH keys.
-.........................
+1. Generate the SSH keys
+........................
 
 If you don't have SSH key pair (private, public) already, refer to
 generating SSH keys for Linux at
