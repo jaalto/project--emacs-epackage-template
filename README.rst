@@ -757,30 +757,44 @@ How to set up project at Github
 
 If you use Windows, install <http://cygwin.com> environment which
 contains everything from Emacs, Git, SSH and so on. The instructions
-below work in any command line shell (Cygwin, Linux or Mac):
+below work in any command line shell (Cygwin, Linux or Mac).
+
+For more information about Git, see:
+
+- http://www.kernel.org/pub/software/scm/git/docs
+- http://git-scm.com
+- http://gitref.org
+- http://gitcasts.com
 
 1. Generate the SSH keys.
+.........................
 
 If you don't have SSH key pair (private, public) already, refer to
 generating SSH keys for Linux at
 https://help.github.com/articles/generating-ssh-keys
 
 2. Register a Github account
+............................
 
 Visit front page at https://github.com
 
 3. After sign up, log in to your account
+........................................
 
 [top right] select icon *account settings* and from new page
-[left menu] *SSH keys*. Select [button] **Add SSH key**
+[left menu] *SSH keys*. Select [button] *Add SSH key*
 
 4. Create a project repository
+..............................
 
 [top right icon, back to your main page] ``https://github.com/<login>``.
-At top left, click icon **Create a new Git repo**.
+At top left, click icon *Create a new Git repo*.
 After finishing, Write down the shown``git://`` repository URL.
 
-5. Type in command line: ::
+5. Import your project to Git
+.............................
+
+Type in command line::
 
     # Tell who you are
     git config --global user.name "FirstName LastName"
@@ -799,13 +813,6 @@ After finishing, Write down the shown``git://`` repository URL.
     # Push your changes to Github
 
     git push github master
-
-That should be all. For more information about Git, see:
-
-- http://www.kernel.org/pub/software/scm/git/docs
-- http://git-scm.com
-- http://gitref.org
-- http://gitcasts.com
 
 Copyright and License
 =====================
