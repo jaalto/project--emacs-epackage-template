@@ -749,8 +749,8 @@ For more reading about Git branching work flows, study:
 .. _addenum:
 .. _github:
 
-Addenum
-=======
+Addendum
+========
 
 How to set up project at Github
 -------------------------------
