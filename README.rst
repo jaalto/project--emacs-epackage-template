@@ -158,7 +158,7 @@ create your first epackage: ::
     # Follow the instructions at end of output....
 
         Initialized empty Git repository in /home/jaalto/vc/epackage/xxx/.git/
-        ;; Copyright (C) 2006-2013 by Ryan Davis
+        ;; Copyright (C) 2006-2015 by Ryan Davis
         ;; Author: Ryan Davis <ryand-ruby@zenspider.com>
         ;; Version 1.3.1
         ;; Created: 2006-03-22
@@ -817,7 +817,7 @@ Type in command line::
 Copyright and License
 =====================
 
-Copyright (C) 2010-2013 Jari Aalto <jari.aalto@cante.net>
+Copyright (C) 2010-2015 Jari Aalto <jari.aalto@cante.net>
 
 The material is free; you can redistribute and/or modify it under
 the terms of GNU General Public license either version 2 of the
