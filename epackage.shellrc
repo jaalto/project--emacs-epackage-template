@@ -95,9 +95,9 @@ https://github.com/jaalto/project--emacs-epackage-template
 
     Follow the displayed instructions to commit and tag.
 
-    NOTE: If you don't see any obvious version number, you must open the *.el
-    in \$EDITOR and examine what might be the last modified date
-    and version number.
+    NOTE: If you don't see any obvious version number, you must open
+    the *.el in \$EDITOR and examine what might be the last modified
+    date and version number.
 
     After this step, you have imported raw upstream code is in
     Git \"upstream\" branch, commited and tagged acordingly.
@@ -1114,10 +1114,10 @@ EXAMPLES
 
         Egit git://github.com/USER/PROJECT.git
 
-    Upstream sources URL does not have *.git extension, confirm that
-    this is still Gir URL:
+    Upstream source URL does not end to *.git extension, treat the
+    URL as a Git repository import:
 
-        Egit -g http://example.com/git/path
+        Egit --git http://example.com/git/path
 
     The sources are in the currect directory; unpacked. Import them:
 
