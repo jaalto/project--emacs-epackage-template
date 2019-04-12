@@ -35,7 +35,7 @@
 #
 #   Decription
 #
-#	Run command "Ehelp" to list all commands briefly.
+#       Run command "Ehelp" to list all commands briefly.
 #
 #   Notes
 #
@@ -63,14 +63,20 @@ site first before using these helper functions."
 Provides following user commands. The rest are just internal
 helpers. Use --help for each command for more detailed information.
 
-    Egit [URL]		     Import current src, from URL, or emacswiki:FILE.el
+    Egit [URL]                 Import current src, from URL, or
+			       emacswiki:FILE.el
 
-    Ever [file.el ...]	     Display version and deps information from all, or given files
-    Edir <PACKAGE NAME> FILE From FILE determine and create epackage/ template files
-    Edef [dir]		     Update loaddefs in epackage/ directory
-    Elint file.el ...	     Lint files to find QA violations
-    Ecomp file.el ...	     Byte compile Emacs Lisp files (QA check)
-    Eclone GITURL	     Clone an existing epackage and set up branches (dev only)
+    Ever [file.el ...]         Display version and deps information
+                               from all, or given files
+
+    Edir <PACKAGE NAME> FILE   From FILE determine and create epackage/
+                               template files
+
+    Edef [dir]                 Update loaddefs in epackage/ directory
+    Elint file.el ...          Lint files to find QA violations
+    Ecomp file.el ...          Byte compile Emacs Lisp files (QA check)
+    Eclone GITURL              Clone an existing epackage and set up
+                               branches (dev only)
 
 For more information, see: Ehelp --help"
 
@@ -78,49 +84,126 @@ For more information, see: Ehelp --help"
     local long
     long="
 
-In the simplest case, here are the steps to start creating an epackage.
+TO CREATE A NEW EPACKAGE
+========================
+
+In the simplest case, here are the steps to start create a epackage.
+This is a brief summary are not intended for multi-file big packages
+that come with Makefiles etc. Full documentation is at
+https://github.com/jaalto/project--emacs-epackage-template
 
 1. You have epackage.el downloaded and stored in ~/.emacs.d
 2. You have the URL to a lisp file you want to package (EmacsWiki.org)
 3. Make an empty directory, name does not matter. Cd into it.
+
 4. Import code to epackage Git repository from the URL with:
 
-    Egit <URL>
+    Egit <URL>  # See \"Egit --help\" for more information
 
     Follow the displayed instructions to commit and tag.
 
-    NOTE: If you don't see any obvious version number, you must open the *.el
-    in \$EDITOR and examine what might be the last modified date
-    and version number.
+    NOTE: If you don't see any obvious version number, you must open
+    the *.el in \$EDITOR and examine what might be the last modified
+    date and version number.
 
     After this step, you have imported raw upstream code is in
     Git \"upstream\" branch, commited and tagged acordingly.
 
-5.  Create \"master\" branch (see previous \"Egit\" command output):
+5.  Create \"master\" branch (see previous \"Egit\" command's output):
 
-    git git checkout -b master
+    git checkout -b master
 
-6.  Generate template files from a master lisp file of this package:
+6.  Generate template files:
 
-    Edir <PACKAGE-NAME> <FILE>.el
+    Edir <PACKAGE-NAME> .
 
 7.  Edit the generated files in epackage/ directory and commit:
 
     cd epackage/
-    .. edit files
-    .. remove files that may not be relevant (*-compile.el etc.).
+    \$EDITOR info
+
+    ... remove files that may not be relevant: *-{compile,uninstall}* etc.
+    gir rm ...
     git add .
     git commit -m \"epackage/: new\"
 
-8.  Create a repository at Github, and push your new epackage:
+8.  Create a repository at Github and push your new epackage:
 
-    git remote add github <your repository URL>
-    git push github upstream master
-    git push github --tags
+    git remote add origin <your repository URL>
+    git push origin upstream master
+    git push origin --tags
 
-9   Last, contact Epackage Sources List maintainer to have your epackage
+9.  Last, contact Epackage Sources List maintainer to have your epackage
     URL included. See
-    <https://github.com/jaalto/project--emacs-epackage-sources-list>."
+    <https://github.com/jaalto/project--emacs-epackage-sources-list>.
+
+
+TO UPGRADE EXISTING EPACKAGE
+============================
+
+This is a brief summary. Full documentation is at
+https://github.com/jaalto/project--emacs-epackage-template#keeping-up-to-date-with-the-upstream
+
+1.  Verify that the repository is in a clean state. Commit any changes
+
+    git status
+
+2.  Download new upstream release
+
+    ... You have get.sh from this template directory in PATH. Run it
+    ... to update upstream sources. It reads the file
+    ... epackage/info and fields Vcs-type, Vcs-Url.
+
+    get.sh
+
+    ... IF UPSTREAM USES VCS: the update will appear in directory
+    ... epacakge/upstream and files are copied over current sources. Be
+    ... carefull to note all removed or new files.
+
+    ... IF UPSTREAM DOES NOT USE VCS: the new version of files are simply
+    ... downloaded and old files are overwritten.
+
+3.  Switch to upstream branch
+
+    git checkout upstream
+
+4. Examine version and release date of upstream code. Commit and tag ::
+
+    git add -A  # Import all changes since.
+    git add ...
+    git rm ...
+
+    ... If upstream uses VCS: The date is the last commit date
+    ... See e.g. \"git log --max-count=1\" or \"{bzr,hg,svn] log --limit 1\"
+
+    git commit \"Import upstream YYYY-MM-DD <VCS revision if any> from <URL>\"
+
+    ... Examine what are current dates and version
+    egrep -i 'version|date|modified' *.el
+
+    ... If there is no VERSION announced in files, omit it and use the
+    ... VCS details in the tag \"upstream/YYYY-MM-DD--svn-12345\".
+    ... Notice the use of double dash.
+
+    git tag upstream/YYYY-MM-DD--<VERSION if ay>--svn-12345
+
+5. Merge to epackage
+
+    git checkout master
+    git merge upstream
+
+6. Update epackage/ directory information
+
+    Edef                        # Regenrate epackage/*loaddef.el
+    ... edit epackage/* files if needed
+    ... commit
+    ... test that all works
+
+7. Push updated epackage for others to download
+
+    git push upstream master
+    git push --tags
+"
 
     echo "$header"
 
@@ -133,7 +216,7 @@ In the simplest case, here are the steps to start creating an epackage.
                 break
                 ;;
             *)  echo "$short"
-		break
+                break
                 ;;
         esac
     done
@@ -156,11 +239,11 @@ OPTIONS
     None"
 
     if [ -x /usr/bin/emacs-nox ]; then  # Optimize by using non-X version
-	echo /usr/bin/emacs-nox
+        echo /usr/bin/emacs-nox
     elif [ -x /usr/bin/emacs ]; then
-	echo /usr/bin/emacs		# Use absolute path
+        echo /usr/bin/emacs             # Use absolute path
     else
-	echo emacs
+        echo emacs
     fi
 }
 
@@ -478,8 +561,8 @@ STANDARDS
         --quick \
         --batch \
         --debug-init \
-	--load "$path" \
-	$opt \
+        --load "$path" \
+        $opt \
         --load "$lisp" \
         --funcall epackage-batch-devel-lint-lisp \
         "$@" > "$file" 2>&1
@@ -557,7 +640,7 @@ STANDARDS
     dir=$1
 
     if [ ! "$dir" ]; then
-	dir=$(pwd)
+        dir=$(pwd)
     fi
 
     if [ ! -d "$dir" ]; then
@@ -576,7 +659,7 @@ STANDARDS
         return 1
     fi
 
-    touch $edir/$pkg-epackage-0loaddefs.el	# Must exist
+    touch $edir/$pkg-epackage-0loaddefs.el      # Must exist
 
     local emacs
     emacs=$(E_emacs)
@@ -585,7 +668,7 @@ STANDARDS
         --quick \
         --batch \
         --debug-init \
-	--load "$lisp" \
+        --load "$lisp" \
         --funcall epackage-batch-autoload-generate-loaddefs-dir \
         "$dir"
 
@@ -619,7 +702,7 @@ OPTIONS
     -h, --help  Show help
 
 EXAMPLES
-    Generate templates for regular file:
+    Generate templates from a single file:
 
         Edir toggle.el .
 
@@ -688,16 +771,16 @@ STANDARDS
     local found
     local file
 
-    for file in *.el */*/.el */*/*/*.el
+    for file in *.el */*.el */*/*.el */*/*/*.el
     do
-	[ -f "$file" ] || continue
-	found=found
-	break
+        [ -f "$file" ] || continue
+        found=found
+        break
     done
 
     if [ ! "$found" ]; then
-	echo "[ERROR] No *.el files found. Please check directories." >&2
-	return 1
+        echo "[ERROR] No *.el files found. Please check directories." >&2
+        return 1
     fi
 
     ${test:+echo} ${EPACKAGE_EMACS:-$emacs} \
@@ -754,9 +837,9 @@ OPTIONS
 
     # Any YYYY-MM-DD
     set -- $(egrep -i --only-matching  \
-		"[12][09][0-9][0-9]-[01][0-9]-[1-3][0-9]" "$file" |
-	     sort |
-	     tail --lines=1 )
+                "[12][09][0-9][0-9]-[01][0-9]-[1-3][0-9]" "$file" |
+             sort |
+             tail --lines=1 )
 
     if [ "$1" ]; then
         echo $1
@@ -834,7 +917,7 @@ OPTIONS
     # Search for standard line ";; Version: 3.0"
 
     set -- $(egrep --only-matching --max-count=1 \
-             "^;+ +Version: *[^ ]+" "$1" )
+             "^;+[[:space:]]+Version?[[:space:]]+[^ ]+" "$1" )
 
     if [ "$3" ]; then
         echo $3
@@ -875,7 +958,7 @@ EXAMPLES
     Clone project directory from github. The saved directory is
     'project' after removing everything to the left of two dashes:
 
-	Eclone git://example.com/dir/emacs--project.git"
+        Eclone git://example.com/dir/emacs--project.git"
 
     unset test
 
@@ -897,11 +980,11 @@ EXAMPLES
     url="$1"
 
     case "$url" in
-	*.git )
-	    ;;
-	    *)
-	    echo "[WARN] URL may not be *.git directory: $url" >&2
-	    ;;
+        *.git )
+            ;;
+            *)
+            echo "[WARN] URL may not be *.git directory: $url" >&2
+            ;;
     esac
 
     local name
@@ -912,24 +995,24 @@ EXAMPLES
     return $?
 
     (
-	${test:+echo} cd $name
+        ${test:+echo} cd $name
         ${test:+echo} git checkout --track -b upstream origin/upstream
-	${test:+echo} git checkout master
+        ${test:+echo} git checkout master
 
-	[ "$test" ] && return 0
+        [ "$test" ] && return 0
 
-	url=$(awk '/Vcs-Url/ { print $2 }' epackage/info)
+        url=$(awk '/Vcs-Url/ { print $2 }' epackage/info)
 
-	case "$url" in
-	    *.git )
-		git remote add upstream $url
-		git fetch upstream
-		git checkout --track -b upstream-master upstream/master
-		git checkout master
-		;;
-	    *)
-		echo "[NOTE] Upstream does not use git, but: $url"
-	esac
+        case "$url" in
+            *.git )
+                git remote add upstream $url
+                git fetch upstream
+                git checkout --track -b upstream-master upstream/master
+                git checkout master
+                ;;
+            *)
+                echo "[NOTE] Upstream does not use git, but: $url"
+        esac
     )
 
     unset test
@@ -974,21 +1057,21 @@ E_vcs ()
     help="Return VCS info: <type> revision date"
 
     if [ -d .svn ]; then
-	svn log --limit 1 |
-	awk '/^r[0-9]/ { gsub("[|r]", ""); print "svn " $1 " " $3 ; exit }'
-	return 0
+        svn log --limit 1 |
+        awk '/^r[0-9]/ { gsub("[|r]", ""); print "svn " $1 " " $3 ; exit }'
+        return 0
 
     elif [ -d .hg ]; then
-	hg log --limit 1 | awk '{ print "hg " $2 " " $3; exit }'
-	return 0
+        hg log --limit 1 | awk '{ print "hg " $2 " " $3; exit }'
+        return 0
 
     elif [ -d .bzr ]; then
-	bzr log --limit 1 --show-ids |
-	awk '
-	    /^revision-id:/ { rev = $2 }
-	    /^timestamp:/   { print "bzr " rev " " $3 ; exit }
+        bzr log --limit 1 --show-ids |
+        awk '
+            /^revision-id:/ { rev = $2 }
+            /^timestamp:/   { print "bzr " rev " " $3 ; exit }
         '
-	return 0
+        return 0
     fi
 
     return 1
@@ -1024,9 +1107,9 @@ DESCRIPTION
       are 'ewiki:FILE.el' and 'emacswiki:FILE.el'
 
 OPTIONS
-    -g, --git   Confirm that the URL is git direcory
+    -g, --git   Confirm that the URL is a git directory
     -t, --test  Run in test mode. Do now actually execute commands.
-    -h, --help  Show help
+    -h, --help  Display help.
 
 EXAMPLES
     To import lisp file from URL address:
@@ -1037,8 +1120,8 @@ EXAMPLES
 
         Egit git://github.com/USER/PROJECT.git
 
-    Upstream source URL does not have a *.git extension, confirm that
-    the URL is a Git source:
+    Upstream source URL does not end to a *.git extension, treat the
+    URL as a Git repository for import:
 
         Egit --git http://example.com/git/path
 
@@ -1092,11 +1175,10 @@ STANDARDS
     case "$url" in
         ew:* | ewiki:* | emacswiki:* )
             wget="wget"
-            url=$(echo $url |
-		sed -e "s/^ew:" \
-		    -e "s/^ewiki:" \
-		    -e "s/^emacswiki:" \
-	    )
+            url=$( echo $url |
+                   sed -e "s/^ew://" \
+                       -e "s/^ewiki://" \
+                       -e "s/^emacswiki://" )
             url="http://www.emacswiki.org/emacs/download/$url"
             ;;
         http:/*.el )
@@ -1109,13 +1191,14 @@ STANDARDS
             ;;
 
         http:/* | https:/* )
-	    if [ "$git" ]; then
-		giturl="$url"
-		url=""
-	    else
-		echo "[ERROR] Unknown URL. See -g. If this is svn or hg, download manually." >&2
-		return 1
-	    fi
+            if [ "$git" ]; then
+                giturl="$url"
+                url=""
+            else
+                echo "[ERROR] Unknown URL. See -g. If this is svn or hg," \
+		     "download manually." >&2
+                return 1
+            fi
             ;;
 
         *[a-z]* )
@@ -1131,37 +1214,36 @@ STANDARDS
 
         wget=$(basename $url)
 
-	if [ -f "$wget" ]; then
-	    echo "[ERROR] File exists: $wget" >&2
-	    return 1
-	fi
+        if [ -f "$wget" ]; then
+            echo "[ERROR] File exists: $wget" >&2
+            return 1
+        fi
 
-	case "$wget" in
-	    *.el )
-		;;
-	    .*[a-z] )			# .tar.gz
-		echo "[WARN] Not *.el in URL: $url" >&2
-		;;
-	    *)
-		url="$url.el"
-		wget="$wget.el"
-		echo "[WARN] Added missing *.el to URL: $url" >&2
-		;;
-	esac
-
+        case "$url" in
+            *.el )
+                ;;
+            .*[a-z] )                   # .tar.gz
+                echo "[WARN] Not *.el in URL: $url" >&2
+                ;;
+            *)
+                url="$url.el"
+                wget="$wget.el"
+                echo "[WARN] Added missing *.el to URL: $url" >&2
+                ;;
+        esac
 
         ${test:+echo} wget \
-	    --no-check-certificate \
-	    --user-agent="$UAGENT" \
-	    "$url" || return $?
+            --no-check-certificate \
+            --user-agent="$UAGENT" \
+            "$url" || return $?
 
         empty=""
 
-	if [ ! -s "$wget" ]; then
-	    echo "[ERROR] Download failed" >&2
-	    rm -f "$wget"
-	    return 1
-	fi
+        if [ "$test"] && [ ! -s "$wget" ]; then
+            echo "[ERROR] Download failed" >&2
+            rm -f "$wget"
+            return 1
+        fi
     fi
 
     local date
@@ -1170,7 +1252,6 @@ STANDARDS
     local debug
     local file
     file="${TMPDIR:-/tmp}/Egit.${LOGNAME:-${NAME:-foo}}.$$.tmp"
-
 
     if [ "$giturl" ]; then
 
@@ -1188,9 +1269,9 @@ STANDARDS
 
         ${test:+echo} git remote add upstream $giturl
 
-	case "$giturl" in
-	    http*) echo "Cloning through HTTP (may be slow)..." ;;
-	esac
+        case "$giturl" in
+            http*) echo "Cloning through HTTP (may be slow)..." ;;
+        esac
 
         ${test:+echo} git fetch upstream
         ${test:+echo} git checkout --track -b upstream upstream/master
@@ -1198,13 +1279,13 @@ STANDARDS
         # ${test:+echo} git checkout upstream
         # ${test:+echo} env GIT_MERGE_AUTOEDIT=no git merge upstream-master
 
-	# Create "master" based on "upstream"
+        # Create "master" based on "upstream"
         ${test:+echo} git branch -D master 2> /dev/null
         ${test:+echo} git branch master upstream
 
         Ever | tee "$file"
 
-	E_mode $(find . -type f -name "*.el" -a ! -path "*epackage*")
+        E_mode $(find . -type f -name "*.el" -a ! -path "*epackage*")
 
         local version
         version=$(E_version "$file")
@@ -1224,16 +1305,16 @@ STANDARDS
         echo "# WHAT YOU NEED TO DO NEXT:"
         echo "# Examine information and correct commands below."
         echo "git tag upstream/$2--$version-git-$1 $1"
-	echo "git checkout master"
+        echo "git checkout master"
 
-	local name
-	name=$(basename $giturl)
-	name=${name%/}			# Delete trailing slash
-	name=${name%.git}
-	name=${name%-emacs}
-	name=${name#emacs-}
+        local name
+        name=$(basename $giturl)
+        name=${name%/}                  # Delete trailing slash
+        name=${name%.git}
+        name=${name%-emacs}
+        name=${name#emacs-}
 
-	echo "Edir $name ."
+        echo "Edir $name ."
 
     elif [ "$wget" ]; then
 
@@ -1242,21 +1323,23 @@ STANDARDS
         ${test:+echo} git init
         ${test:+echo} git symbolic-ref HEAD refs/heads/upstream
 
-	E_gitignore
+        E_gitignore
 
         ${test:+echo} git add -A
+
+	[ -f .gitignore ] &&
         ${test:+echo} git rm --cached .gitignore
 
         local version
 
         Ever | tee "$file"
 
-	local mode
+        local mode
 
-	if E_mode $(find . -type f -name "*.el" -a ! -path "*epackage*")
-	then
-	    mode="-mode"
-	fi
+        if E_mode $(find . -type f -name "*.el" -a ! -path "*epackage*")
+        then
+            mode="-mode"
+        fi
 
         local version
         version=$(E_version "$file")
@@ -1271,19 +1354,20 @@ STANDARDS
 
         [ "$test" ] || ls -l
 
-        git commit -m "Import upstream $date from $url"
+        ${test+echo} git commit -m "Import upstream $date from $url"
 
-        echo "# WHAT YOU NEED TO DO NEXT:"
-        echo "# Examine information and correct commands below."
+	if [ ! "$test" ]; then
+	    echo "# WHAT YOU NEED TO DO NEXT:"
+	    echo "# Examine information and correct commands below."
 
-        echo "git tag upstream/$fdate--$version"
-	echo "git checkout -b master"
+	    echo "git tag upstream/$fdate--$version"
+	    echo "git checkout -b master"
 
-	file=$wget
+	    file=$wget
 
-	echo "Edir ${file%.el}$mode ."
-
-	rm -f .gitignore
+	    echo "Edir ${file%.el}$mode ."
+	    rm -f .gitignore
+	fi
 
     else
 
@@ -1297,56 +1381,58 @@ STANDARDS
         ${test:+echo} git init
         ${test:+echo} git symbolic-ref HEAD refs/heads/upstream
 
-	E_gitignore
+        E_gitignore
 
         ${test:+echo} git add .
         ${test:+echo} git rm --cached .gitignore
 
         Ever
 
-	local version
-	local date
+        local version
+        local date
 
         for file in $(ls *.el 2> /dev/null)
         do
-	    [ -f "$file" ] || continue
+            [ -f "$file" ] || continue
 
             echo "# $file"
             date=$(E_indate "$file" || E_filedate "$file")
             version=$(E_version "$file")
-	    echo $version
+            echo $version
         done
 
-	local mode
+        local mode
 
-	if E_mode $(find . -type f -name "*.el" -a ! -path "*epackage*")
-	then
-	    mode="-mode"
+        if E_mode $(find . -type f -name "*.el" -a ! -path "*epackage*")
+        then
+            mode="-mode"
+        fi
+
+        [ "$date" ] || date="YYYY-MM-DD"
+        [ "$version" ] || version="N.N"
+
+        local revision
+
+        set -- $(E_vcs)
+
+        if [ "$1" ]; then
+            echo "VCS: $1 $2 $3"
+            revision="-$1-$2"
+            date=$3
+        fi
+
+	if [ !  "$test" ]; then
+	    echo
+	    echo "# WHAT YOU NEED TO DO NEXT:"
+	    echo "# Examine information and correct commands below."
+
+	    echo "git commit -m 'Import upstream $date from ...'"
+	    echo "git tag upstream/$date--$version$revision"
+	    echo "git checkout -b master"
+	    echo "Edir ${file%.el}$mode ."
+
+	    rm -f .gitignore
 	fi
-
-	[ "$date" ] || date="YYYY-MM-DD"
-	[ "$version" ] || version="N.N"
-
-	local revision
-
-	set -- $(E_vcs)
-
-	if [ "$1" ]; then
-	    echo "VCS: $1 $2 $3"
-	    revision="-$1-$2"
-	    date=$3
-	fi
-
-        echo
-        echo "# WHAT YOU NEED TO DO NEXT:"
-        echo "# Examine information and correct commands below."
-
-        echo "git commit -m 'Import upstream $date from ...'"
-        echo "git tag upstream/$date--$version$revision"
-        echo "git checkout -b master"
-	echo "Edir ${file%.el}$mode ."
-
-	rm -f .gitignore
     fi
 
     unset test

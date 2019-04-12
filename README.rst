@@ -1,7 +1,10 @@
-..  comment: the source is maintained in ReST format.
-    Emacs: http://docutils.sourceforge.net/tools/editors/emacs/rst.el
-    quick: http://docutils.sourceforge.net/docs/user/rst/quickref.html
-    Reference: http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html
+.. comment: This FILE is part of project
+   https://github.com/jaalto/project--emacs-epackage-template
+
+.. comment: this source is maintained in ReST format.
+   Emacs: http://docutils.sourceforge.net/tools/editors/emacs/rst.el
+   quick: http://docutils.sourceforge.net/docs/user/rst/quickref.html
+   Reference: http://docutils.sourceforge.net/docs/ref/rst/restructuredtext.html
 
 
 .. _Debian: http://www.debian.org
@@ -14,6 +17,7 @@
 .. _autoload: http://www.gnu.org/software/emacs/manual/html_mono/elisp.html#Autoload
 .. _License Database: http://pinboard.in/u:jariaalto/t:license/t:database
 .. _Public Domain: http://pinboard.in/u:jariaalto/t:license/t:public-domain/t:faq
+.. _Pristine Tar: http://kitenet.net/~joey/blog/entry/generating_pristine_tarballs_from_git_repositories/
 
 Description
 ===========
@@ -25,8 +29,8 @@ Windows MSI or Linux *.rpm (Redhat) and *.deb (`Debian`_) packages.
 This directory contains template files for the Emacs packaging system
 called "Distributed Emacs Lisp Package System (`DELPS`_), or in short
 "Epackage". The package format use Git Distributed Version Control
-System (DVCS) containers for the original source code plus a separate
-``epackage/`` subdirectory. These Git repositories can reside anywhere
+System (DVCS) repositories for the original source code plus a separate
+``epackage/`` sub directory. These Git repositories can reside anywhere
 publicly available. The repository locations are recorded in a public
 `Sources List`_ file which is used as a master list to available
 Epackages. The person who wraps Emacs extension into these Git
@@ -80,6 +84,14 @@ Hands on example
 
 Before the full script, here is outline of the packaging procedure: ::
 
+    #  Remember to clone the "engine" first from project page
+    #  https://github.com/jaalto/project--emacs-epackage
+    #
+    #  Tell where the epackage.el "engine" is located to that helper
+    #  functions can call it.
+
+    export EPACKAGE_ROOT=<path to>/project--emacs-epackage
+
     #  read additional shell commands
 
     . /path/to/this-repository/epackage.shellrc
@@ -104,7 +116,7 @@ Before the full script, here is outline of the packaging procedure: ::
     Ecomp *.el
 
     #  Done. Edit file epackage/info.
-    #  Delete unneeded files. Commit and push to github
+    #  Delete unneeded files. Commit and push to Github
     #  Notify "Sources List" about new package.
 
     ... edit epackage/ directory contents
@@ -146,7 +158,7 @@ create your first epackage: ::
     # Follow the instructions at end of output....
 
         Initialized empty Git repository in /home/jaalto/vc/epackage/xxx/.git/
-        ;; Copyright (C) 2006-2012 by Ryan Davis
+        ;; Copyright (C) 2006-2015 by Ryan Davis
         ;; Author: Ryan Davis <ryand-ruby@zenspider.com>
         ;; Version 1.3.1
         ;; Created: 2006-03-22
@@ -161,30 +173,28 @@ create your first epackage: ::
         (require 'cl)
         # WHAT YOU NEED TO DO NEXT:
         # Examine dates, version and correct information to commands below.
-        git commit -m "Import upstream 2011-12-29 from http://www.emacswiki.org/emacs/download/toggle.el"
         git tag upstream/2011-12-29--VERSION
         git checkout -b master
 
-    # (1) commit upstream code
 
-    git commit -m "Import upstream 2011-12-29 from http://www.emacswiki.org/emacs/download/toggle.el"
-
-    # (2) Tag, according to displayed information. We were lucky. Not
+    # (1) Tag, according to displayed information. We were lucky. Not
     # all Lisp Files present date and version information this
     # clearly. Notice, the date is LAST MODIFIED date of code by the
     # original author. If not shown, you could check "ls -l *.el"
 
     git tag upstream/2008-09-25--1.3.1
 
-    # (3) Upstream code is now archived. Start "epackaging"
+    # (2) Upstream code is now archived. Start "epackaging"
 
     git checkout -b master
 
-    # Select PACKAGE NAME. If this would have been a library, you
-    # would have used "lib-*" prefix for package name. If this were a
-    # minor or major mode, you would have added "*-mode" suffix.
+    # (3) Select PACKAGE NAME. If this were a library, you would use
+    # "lib-*" prefix. If this were a minor or major mode, you would
+    # have added "*-mode" suffix.
+    #
+    # Here we simply call it epackage "toggle":
 
-    Edir [-h] toggle toggle.el
+    Edir toggle .
 
         Loading vc-git...
         Wrote toggle-epackage-autoloads.el
@@ -195,29 +205,31 @@ create your first epackage: ::
         Wrote toggle-epackage-examples.el
         Wrote toggle-epackage-uninstall.el
 
-    # (4) templates are ready, go and edit
+    # (4) Templates are ready. Clean up as needed.
 
     cd epackage/
     ls -1
 
-        toggle-epackage-autoloads.el
+        info				# required
+        toggle-epackage-autoloads.el	# required
         toggle-epackage-compile.el
         toggle-epackage-examples.el
-        toggle-epackage-install.el
+        toggle-epackage-install.el	# required
         toggle-epackage-uninstall.el
 
-    # Required files: info, *-autoloads.el, -*install.el
-    # - No need for compile, this is a single file package
-    # - No examples this time for this simple package
-    # - Nothing to uninstall
+    # We remove following files:
+    #
+    # - compile: this is a single file package, not needed
+    # - examples: None. The toogle.el docs have no examples.
+    # - uninstall: None. We don't need to undo hooks afterwards etc.
 
     rm *-compile.el *-examples.el *-uninstall.el
 
-    # Edit information and fill in fields
+    # Edit epackage information control file:
 
     $EDITOR info
 
-    # Edit done? Finish the epackage.
+    # Finish the epackage.
 
     git add .
     git commit -m "epackage/: new"
@@ -227,10 +239,10 @@ create your first epackage: ::
     Elint *.el
     Ecomp *.el
 
-After the exercise continue reading this README to fill in questions
+After the exercise, continue reading this README to fill in questions
 you may have in mind.
 
-Packaging Best Pracises
+Packaging Best Practises
 -----------------------
 
 FOREWORD
@@ -239,33 +251,33 @@ Things that live in a drop-in package repository bit-rot at an
 alarming rate. In contrast, the `DELPS`_ is based on personal care of
 packages, just like the Debian which has package maintainers. Someone
 is doing the packaging. Making sure package is taken care of, updated,
-released, removed if it no longer works in Emacs. That someone is
-taking care of things for the benefit of others who make use of the
-service.
+released, removed if it no longer works. That someone is taking care
+of things for the benefit of others who make use of the service.
 
 That means, if there is no nobody interested in some file.el, it
 probably won't get packaged. There are lot of old and dead code e.g.
-in `Emacs Wiki`_ which is best left in the place it was found dusting.
+in `Emacs Wiki`_. Such code might be best left in the place it was
+found dusting.
 
 EXAMING FILES
 
-There are lots of things to do when doing packaging. It is desireable
-to keep close contact with the upstream to get QA issues solved as much
-as possible. Well cared code has better chance to be included in core
-Emacs someday. The best practises include:
+For the package maintainer, it is desirable to keep close contact
+with the upstream to get QA issues solved as soon as possible. Well
+cared code also has better chance to work in later Emacs versions. It
+may also improve changes to be included in core Emacs someday. The
+best practises for package maintainer are:
 
-* When was the code last touched? Years ago? In that case consider
-  labeling package **unmaintained** while it also may be labeled
-  **stable** in *epackage/info::Status*.
-* Examine ``require`` commands. Does packge need other than
-  standard Emacs features? If it does, you must package those
-  first. You can continue packaging this one after you have
-  dealt with the dependencies.
+* Is the code alive? If the code was last updated years ago,
+  consider labeling package **unmaintained** while it also
+  may be labeled **stable** in *epackage/info::Status*.
+* Examine ``require`` commands. Does package depend on other than
+  standard Emacs features? If it does, package those dependencies
+  first.
 * Examine ``require`` commands closer. How many are there? Perhaps the
-  author dind't consider library requirements carefully. It may be
+  author didn't consider library requirements carefully. It may be
   possible to arrange code to load faster and consume less memory
   by utilizing ``autoload`` instead of ``require`` for
-  features that are not immediately used.
+  features that are not immediately used. Talk to upstream about this.
 * Does every variable and function start with a common ``package-*``
   prefix? If not, label package as **unsafe** in
   *epackage/info::Status* . Explain the reason for the unsafe status
@@ -276,16 +288,14 @@ Emacs someday. The best practises include:
   ``defcustom`` definitions according to
   `14 Writing Customization Definitions
   <http://www.gnu.org/software/emacs/manual/html_mono/elisp.html#Customization>`_
-  in GNU Emacs Lisp Reference Manual?
+  in GNU Emacs Lisp Reference Manual? If not, talk to upstream.
 * Are there ``;;;###autoload`` stanzas? These are placed above
   suitable interactive functions and variables that help in generating
   `autoload`_ definitions'. If not, consider adding and sending path
   to maintainer.
-* Does the code contain ``global-set-key`` commands? That's a BIG NO-NO.
-  Don't package any such software wihout first patching the code to not install
-  keybindings without user explicitly requesting it.
+* Does the code contain ``global-set-key`` commands?
   Contact upstream and suggest him to
-  move all setup code to a separate function like
+  move all non-controllable setup code to a separate function like
   *PACKAGE-install-default-key-bindings*.
 * Does the code unconditionally set hooks like ``find-file-hooks``? Not
   good. Package should not change user's settings on load. You need to
@@ -306,8 +316,8 @@ Emacs someday. The best practises include:
   Emacs. If someday the extension finds its way to Emacs, the road is
   clear with GPL. *NOTE:* `Public Domain`_ is not an internationally
   viable license.
-* Does the code inlude Emacs Lisp files (\*.el) that do not belong to the
-  project? Sometimes files are included from other projects with the
+* Does the code include Emacs Lisp files (\*.el) that do not belong to the
+  project? Sometimes other projects are included along with the
   package. This is a problem because then Emacs ``load-path`` would
   contains duplicate copies of the files. There would be no guarantee
   that the latest version from the original author, or standard Emacs,
@@ -334,7 +344,7 @@ maintains the code. An example ::
 
     ...
     X-Development:
-     YYYY-MM-DD upstream email confirmad.
+     YYYY-MM-DD upstream email confirmed.
     Description: test package with various functions
      Main command [C-u] M-x test-package runs various tests on
      the current lisp code. With a prefix argument, shows also
@@ -345,7 +355,7 @@ is actively developed or whose maintainer has gone with the winds of
 time. The users will download the package and in many cases send bug
 reports. Do you have the time to deal with those? Especially, if there
 is no more upstream to forward requests to. Packaging dead code serves
-no one unless you are able to serve as the new usptream.
+no one unless you are able to serve as the new upstream.
 
 FINISHING
 
@@ -398,7 +408,7 @@ Making an epackage
 
     git branch -b master upstream
 
-7. Copy the template files (which are available here, in this repo
+7. Copy the template files (which are available here, in this repository
    you're reading) ::
 
     mkdir epackage/
@@ -428,7 +438,7 @@ Making an epackage
     # [optional] Figure out by reading the commentary how the
     # extension is activated for immediate use. Add autoloads and
     # write Emacs lisp code. Try not to load any other packages here
-    # with 'require' (slows emacs startup).
+    # with 'require' (slows emacs start up).
 
     epackage/PACKAGE-install.el
 
@@ -458,7 +468,7 @@ See these page:
 
 - http://help.github.com/forking/  (Forking a project)
 - http://help.github.com/pull-requests/ (Sending pull requests)
-- https://github.com/blog/270-the-fork-queue (Keeping fork in synch)
+- https://github.com/blog/270-the-fork-queue (Keeping fork in sync)
 
 After your URL has been merged, update your copy of `Sources List`_ ::
 
@@ -517,10 +527,10 @@ setup is easy:
 
 * Create ``epackage/`` directory with necessary *info* and other
   install files.
-* Create file ``epackage/format`` and add word "upstream" to it's
+* Create file ``epackage/format`` and add word "upstream" on its
   own line.
 
-Basicly ::
+Essentially ::
 
     cd /to/your/project/
 
@@ -536,7 +546,7 @@ Basicly ::
     # ... Now edit and remove files as needed in epackage/ directory
     # ... commit, push to Github
 
-Notify `Sources List`_ maintaner about your repository.
+Notify `Sources List`_ maintainer about your repository.
 More information can be found elsewhere in this document.
 
 When upstream IS also the packager (Non-Git)
@@ -545,8 +555,8 @@ When upstream IS also the packager (Non-Git)
 Say you are the upstream. You would like to put your Emacs extensions
 available as epackages. **You use version control system
 other than Git to manage your code**. No problem. Continue to use what
-you have. Only layer Git on top of it. This means that you ínitialize
-Git on top of your current sources. The Git and your exixting VCS
+you have. Only layer Git on top of it. This means that you initialize
+Git on top of your current sources. The Git and your existing VCS
 won't conflict. You switch to Git, when you commit your changes and
 make them available as an epackage.
 
@@ -568,7 +578,7 @@ An example. Say you use Mercurial, or "Hg" for short ::
     # Install tools
     . /path/to/this-repository/epackage.shellrc
 
-    # Examine dates, version and tag this to Git
+    # Examine commit date and revision. Tag accordingly.
     hg log --limit 1
     git tag epackage/YYYY-MM-DD--hg-abcdef12345
 
@@ -581,7 +591,7 @@ An example. Say you use Mercurial, or "Hg" for short ::
     # ... Now edit and remove files as needed in epackage/ directory
     # ... commit, push to Github
 
-That's it. Notify `Sources List`_ maintaner about your repository.
+That's it. Notify `Sources List`_ maintainer about your repository.
 More information can be found elsewhere in this document.
 
 Keeping up to date with the upstream
@@ -598,6 +608,13 @@ releases new code, make an update.
 
     /path/to/get.sh epackage/info	# utility from this template directory
 
+    ... IF UPSTREAM USES VCS: the update will appear in directory
+    ... epacakge/upstream and files are copied over the current sources. Be
+    ... careful to note all removed or new files.
+    ...
+    ... IF UPSTREAM DOES NOT USE VCS: the new version of files are simply
+    ... downloaded and old files are overwritten.
+
 3. Switch to *upstream* branch ::
 
     git checkout upstream
@@ -605,28 +622,40 @@ releases new code, make an update.
 4. Examine version and release date of upstream code. Commit and tag ::
 
     git add -A  # Import all changes since.
-    git commit -m "import upstream 2010-06-10 from http://example.com/path/file.el"
+    git add ...
+    git rm ...
 
-    # Examine what are current dates and version
-    egrep -i 'version|date|modifiedä *.el
+    ... If upstream uses VCS: The date is the last commit date
+    ... See e.g. "git log --max-count=1" or "{bzr,hg,svn] log --limit 1"
+
+    git commit -m "import upstream YYYY-MM-DD <VCS revision if any> from http://example.com/path/file.el"
+
+    ... Examine what are current dates and version
+    egrep -i 'version|date|modified' *.el
+    Ever
+
+    ... If there is no VERSION announced in files, omit it and use the
+    ... VCS details in the tag \"upstream/YYYY-MM-DD--svn-12345\".
+    ... Notice the use of double dash to make it stand out from the date.
+
     git tag upstream/2010-06-10--1.13
 
-5. Switch back to *master* and merge latest upstream ::
+5. Merge to epackage
 
     git checkout master
     git merge upstream
 
-6. If needed, update `epackage/` directory information ::
+6. Update `epackage/` directory information ::
 
-    ... edit epackage/* files
-    Edef			# Regenrate epackage/*loaddef.el
+    Edef			# Regenerate epackage/*loaddef.el
+    ... edit epackage/* files if needed
     ... commit
     ... test that all works
 
 7. Push updated epackage for others to download ::
 
-    git push github upstream master
-    git push github --tags
+    git push upstream master
+    git push --tags
 
 .. _pictures:
 
@@ -663,7 +692,56 @@ don't need to maintain different code base. ::
     patches:           o -- o
 
 
-For more reading about Git branching workflows, study:
+For big packages, use program called *pristine-tar(1)* to import
+original archives in a separate, disconnected, **pristine-tar branch**.
+This branch will be unrelated to the rest of the project history; it's
+sole purpose is to store archives. The `Pristine Tar`_ intelligently
+stores only deltas between the archives so it's very space efficient.
+::
+
+                  (merge: upstream, patches)
+    master:       o -- o -- o =>
+                 /    /     ^
+    upstream:   o -- o      |
+                1.0  1.1    |
+                      \     |
+    patches:           o -- o
+
+    pristine-tar: package-1.0.tar.gz ...
+
+The pristine-tar(1) workflow: ::
+
+    # Do work in branch "upstream"
+
+    git checkout upstream
+
+    # Unpack sources
+
+    tar -xf ../package-1.0.tar.gz
+    mv package-1.0/* .
+    rmdir package-1.0
+
+    # Import and tag. The YYYY-MM-DD is the date of the archive
+
+    git add [--all] ...    (but don't include archice; *.tar.gz)
+    git commit -m "import upstream YYYY-MM-DD 1.0 from <URL>"
+    git tag upstream/YYYY-MM-DD--1.0
+
+    # The utility will create the branch as needed. Output:
+    #
+    # pristine-tar: committed package-1.0.tar.gz.delta to branch pristine-tar
+
+    pristine-tar commit ../package-1.0.tar.gz
+
+    # List archives
+
+    pristine-tar list
+
+    # Retrive a archive
+
+    pristine-tar checkout package-1.0.tar.gz
+
+For more reading about Git branching work flows, study:
 
 * `Debian Git upstream management <http://wiki.debian.org/ThomasKoch/GitPackagingWorkflow>`_
 * `A successful Git branching model <http://nvie.com/posts/a-successful-git-branching-model/>`_
@@ -671,69 +749,75 @@ For more reading about Git branching workflows, study:
 .. _addenum:
 .. _github:
 
-Addenum
-=======
+Addendum
+========
 
 How to set up project at Github
 -------------------------------
 
-In Windows, install <http://cygwin.com> environment which contains
-everything from Emacs, Git, SSH and so on.
+If you use Windows, install <http://cygwin.com> environment which
+contains everything from Emacs, Git, SSH and so on. The instructions
+below work in any command line shell (Cygwin, Linux or Mac).
 
-1. Generate the SSH keys, if you don't have those already
-   Refer to generating SSH keys for Linux at
-   http://help.github.com/linux-key-setup
-
-2. Register an account
-
-- Use [top right corner] select *Signup* https://github.com
-
-3. Log into account.
-
-- [top right] select *login* https://github.com/
-
-- [(own page) at top right] *account settings / SSH public keys*
-  followed by **button:Submit (Copy/paste) your SSH keys (*.pub)**
-
-4. Create a project, say "xxx"
-
-- [back to main page] ``https://github.com/<login>``. At top left, click
-  **text:GitHub**. In new page, scroll a little past icons at top, to
-  the right click **button:New repository**. In new page type in
-  project details. After finishing, Write down the shown``git://``
-  repository URL. ::
-
-       Project Name : myproject
-       Description  : <fill in>
-       homepage     : <fill in>
-       [x] anyone can access to this repository
-
-       [lower right] Press button "create repository"
-
-5. Type on command line: ::
-
-    cd ~/dir/myproject                  # Source code
-    git init                            # Initialize
-    git add .                           # add all files
-    git commit -m "Initial import"      # Put into version control
-
-    # Let Git know about Github
-    git remote add github git@github.com:<your github login>/myproject.git
-
-    # Publish "master" branch to Github
-    git push github master
-
-That should be all. For more information about Git, see:
+For more information about Git, see:
 
 - http://www.kernel.org/pub/software/scm/git/docs
 - http://git-scm.com
 - http://gitref.org
 - http://gitcasts.com
 
+1. Generate the SSH keys
+........................
+
+If you don't have SSH key pair (private, public) already, refer to
+generating SSH keys for Linux at
+https://help.github.com/articles/generating-ssh-keys
+
+2. Register a Github account
+............................
+
+Visit front page at https://github.com
+
+3. After sign up, log in to your account
+........................................
+
+[top right] select icon *account settings* and from new page
+[left menu] *SSH keys*. Select [button] *Add SSH key*
+
+4. Create a project repository
+..............................
+
+[top right icon, back to your main page] ``https://github.com/<login>``.
+At top left, click icon *Create a new Git repo*.
+After finishing, Write down the shown``git://`` repository URL.
+
+5. Import your project to Git
+.............................
+
+Type in command line::
+
+    # Tell who you are
+    git config --global user.name "FirstName LastName"
+    git config --global user.email "me@example.com"
+
+    cd ~/dir/project                    # Your source code
+    git init                            # Initialize
+    git add .                           # add ALL files
+    git commit -m "Initial import"      # Save into version control
+
+    # Let Git know about Github
+    # This the "git://" URL that you wrote down in step 4
+
+    git remote add github git@github.com:<your github>/project.git
+
+    # Push your changes to Github
+
+    git push github master
+
 Copyright and License
 =====================
 
-Copyright (C) 2010-2012 Jari Aalto <jari.aalto@cante.net>
+Copyright (C) 2010-2015 Jari Aalto <jari.aalto@cante.net>
 
 The material is free; you can redistribute and/or modify it under
 the terms of GNU General Public license either version 2 of the

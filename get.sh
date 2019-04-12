@@ -2,7 +2,7 @@
 #
 #   Copyright
 #
-#       Copyright (C) 2010-2012 Jari Aalto <jari.aalto@cante.net>
+#       Copyright (C) 2010-2015 Jari Aalto <jari.aalto@cante.net>
 #
 #   License
 #
@@ -31,6 +31,8 @@ set -e
 
 VCSDIR="upstream"                               # The VCS download directory
 UAGENT="Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.1.3) Gecko/20090913 Firefox/3.5.3";
+
+unset TEST
 
 Help ()
 {
@@ -68,20 +70,55 @@ AUTHOR
     exit 0
 }
 
+InitEpackageDir ()
+{
+    EPKGDIR=$(cd $(dirname ${1:-.}); pwd)
+}
+
 Initialize ()
 {
-    # Define global variables
+    if [ ! "$1" ] || [ ! -f "$1" ]; then
+	Die "ERROR: Initialize(): Epackage info file missing"
+    fi
 
-    infofile=$EPKGDIR/info
+    infofile=$1
+
+    # Define global variables
 
     PKG=$(awk '/^[Pp]ackage:/  {print $2}' "$infofile" )
 
     VCSNAME=$(awk '/^[V]cs-[Tt]ype:/  {print $2}' "$infofile" )
 
-    URL=$(awk '/^[Vc]cs-[Uu]rl:/  {print $2}' "$infofile" )
+    # This may be multiline field for http:
+    #
+    #  Vcs-Args: http://example.com/FILE1
+    #    http://example.com/FILE2
+    #    http://example.com/FILE3
 
-    ARGS=$(awk '/^[Vv]cs-[Aa]rgs:/ {sub("Vcs-Args:",""); print }' \
-           "$infofile" )
+    ARGS=$(awk '/^[Vv]cs-[Ar]gs:/  {print $2}' "$infofile" )
+
+    URL=$(awk '
+	header == 1 && /^[A-Za-z-]+:/ {
+	    exit
+        }
+
+	header == 0 && /^[Vv]cs-[Uu]rl:/ {
+	    sub("^[Vv]cs-[Uu]rl:","")
+	    gsub(" ","")
+	    header = 1
+        }
+
+	header == 1 {
+	    if (args)
+    	        args = args " " $0
+	    else
+	        args = $0
+	}
+
+	END {
+	    print args
+	}
+	' "$infofile" )
 
     if [ ! "$PKG" ]; then
 	Die "ERROR: Can't read Package: field from $infofile"
@@ -100,7 +137,18 @@ Initialize ()
 
 Warn ()
 {
-    echo "$*" >&2
+    # If running in test mode, Add pound sign in front so that user
+    # can simply "program > script.sh".
+    #
+    # Yes, the output will go to stderr and it would not be in the
+    # script but it looks more clear to user that the message is
+    # *safe* to redirect than without the pound sign:
+    #
+    #    command
+    #    # Message
+    #    command
+
+    echo "${TEST+#}${TEST+ }$*" >&2
 }
 
 
@@ -113,7 +161,7 @@ Die ()
 Run ()
 {
     case "$*" in
-        *\|*)
+        *\|*)   # PIPE
             if [ "$TEST" ]; then
                 echo "$*"
             else
@@ -172,31 +220,57 @@ VcsGitRemoteUpstream ()
 
 VcsGitConfig ()
 {
-    # If there is a remote "upstream" already, use it to fetch sources.
+    # No git, nothing to check
 
     [ -d .git ] || return 1
 
+    # If there is a remote "upstream" already, use it to fetch sources.
+
     if VcsGitRemoteUpstream | grep -i "url.*=" ; then
 	echo "\
-Note: Upstream probably already in a Git branch. Plesae update manually:
-
+Note: Upstream probably already in a Git branch, use:
     git checkout upstream
     git pull
-"
-
-    else
-	echo "Please follow upstream directly in a Git branch:
-
-    git remote add upstream $URL
-    git fetch upstream
-    git checkout --track -b upstream upstream/master
-    git tag upstream/YYYY-MM-DD--git-COMMIT
+    git log -1
+    git tag upstream/YYYY-MM-DD{commit date}--git-COMMIT{7hex}
 
     # Merge to epackage branch master
     git checkout master
-    git merge upstream/YYYY-MM-DD--git-COMMIT
-"
+    git merge upstream/YYYY-MM-DD{commit date}--git-COMMIT{7hex}"
+
+    else
+	echo "\
+Please follow upstream directly in a Git branch:
+    git remote add upstream $URL
+    git fetch upstream
+    git checkout --track -b upstream upstream/master
+    git tag upstream/YYYY-MM-DD{commit date}--git-COMMIT{7hex}
+
+    # Merge to epackage branch master
+    git checkout master
+    git merge upstream/YYYY-MM-DD--git-COMMIT"
+
     fi
+}
+
+Log ()
+{
+    case "$VCSNAME" in
+	*git*)
+	    Run git log --first-parent --date=short \
+		--pretty='format:%h %ci %s%d' \
+		--max-count=${1:-1}
+	    ;;
+	*bzr*)
+	    Run bzr log --limit ${1:-1}
+	    ;;
+	*hg*)
+	    Run hg log --limit ${1:-1}
+	    ;;
+	*svn*)
+	    Run svn log --limit ${1:-1}
+	    ;;
+    esac
 }
 
 Vcs ()
@@ -221,9 +295,14 @@ Svn ()
 
     if [ ! -d "$VCSDIR" ]; then
         Run "$VCSNAME" co "$URL" "$VCSDIR"
-        ( cd "$VCSDIR" && Revno )
+        ( cd "$VCSDIR" && Revno && Log )
     else
-        ( Run cd "$VCSDIR" && Run "$VCSNAME" update && Revno )
+    (
+	Run cd "$VCSDIR" &&
+	Run "$VCSNAME" update &&
+	Revno &&
+	Log
+    )
     fi
 }
 
@@ -245,23 +324,91 @@ Cvs ()
     fi
 }
 
+Wget1 ()
+{
+    url1=$1
+    args2=$2
+
+    # Option --timestamping cannot me used. Git does not preserve time
+    # stamps in directory, so any "git reset", "git clone" commands
+    # would use current time and invalidate original time stamps.
+    #
+    # NOTE: there is no way to force overwriting every file when
+    # downloading files using wget.
+
+    set -- $url1
+
+    unset optionwget
+    optionwget_noquote=$url1
+
+    if [ $# -eq 1 ]; then
+        optionwget="$(basename $url1)"	# Force overwrite
+	unset optionwget_noquote
+    fi
+
+    # Quote file name for spcecial character in -O option
+
+    Run wget --user-agent="$UAGENT" \
+	--no-check-certificate \
+	${optionwget:+-O} \
+	${optionwget:+"$optionwget"} \
+	${optionwget_noquote:-"$url1"} \
+	$args2
+}
+
+Hex2Character ()
+{
+    # Convert HEX encoding to plain text
+    echo $* | perl -ane \
+    '
+	s/(%([0-9a-f][0-9a-f]))/sprintf qq(%c), hex $2/egi;
+	print
+    '
+}
+
+Wget ()
+{
+    url=$1
+    args=$2
+    unset slow
+
+    # emacswiki does not allow donwloading multiple files in
+    # rapid successions (considered spidering)
+
+    case "$url" in
+	*emacswiki* )
+	    slow=slow
+	    ;;
+    esac
+
+    case "$*" in
+	*%*)
+	    url=$(Hex2Character $url)
+	    ;;
+    esac
+
+    if [ ! "$slow" ]; then
+	Wget1 "$url" "$args"
+	return $?
+    fi
+
+    unset statuswget
+
+    Warn "NOTE: Please wait, current site has limits on download parameters"
+
+    for i in $url
+    do
+	Wget1 "$i" "$args"
+	statuswget=$?
+	Run sleep 4
+    done
+
+    return $statuswget
+}
+
 Main ()
 {
-    if [ ! "$1" ] && [ -f epackage/info ]; then
-	set -- epackage/info
-    fi
-
-    if [ ! "$1" ]; then
-        Warn "ERROR: Missing ARG 1, FILE (typically epackage/info)"
-    fi
-
-    if [ ! -f "$1" ]; then
-        Die "ERROR: file does not exists: $1"
-    fi
-
-    EPKGDIR=$(cd $(dirname $1); pwd)
-
-    Initialize
+    unset args
 
     for arg in "$@"                     # Command line options
     do
@@ -274,22 +421,36 @@ Main ()
                 shift
                 TEST="test"
                 ;;
+            -*)
+                Die "ERROR: Unknown option $1. See --help"
+                ;;
+	    *)	args="$args $1"
+		shift
+		;;
         esac
     done
 
-    if [ "$VCSNAME" = "git" ]; then
-        Warn "[WARN] For Git, you should use: \
-'git remote add upstream $URL' and work through it directly."
+    if [ "$args" ]; then
+	set -- $args
+    elif [ ! "$1" ] && [ -f epackage/info ]; then
+	set -- epackage/info
     fi
+
+    if [ ! "$1" ]; then
+        Warn "ERROR: Missing ARG 1, FILE (typically epackage/info)"
+    fi
+
+    if [ ! -f "$1" ]; then
+        Die "ERROR: file does not exists: $1"
+    fi
+
+    InitEpackageDir $1
+    Initialize $1	    # Parse epacakge/info for URL, ARGS ...
 
     case "$VCSNAME" in
         http)
             Run cd "$EPKGDIR/.."
-            Run wget --user-agent="$UAGENT" \
-                 --no-check-certificate \
-                 --timestamping \
-                "$URL" \
-                "$ARGS"
+            Wget "$URL" "$ARGS"
             return $?
             ;;
 
@@ -297,8 +458,12 @@ Main ()
 
             if [ "$VCSNAME" = "git" ]; then
 	        VcsGitConfig "$URL" && return 0
-	    fi
 
+		Warn "[WARN] For Git, you should use: \
+		'git remote add upstream $URL' and work through it directly."
+
+	    fi
+return 1
             Run cd "$EPKGDIR"
 
             if [ "$VCSNAME" = "cvs" ]; then
