@@ -2,7 +2,7 @@
 #
 #   Copyright
 #
-#       Copyright (C) 2011-2012 Jari Aalto <jari.aalto@cante.net>
+#       Copyright (C) 2011-2019 Jari Aalto <jari.aalto@cante.net>
 #
 #   License
 #
@@ -27,7 +27,7 @@
 #
 #   Requirements
 #
-#       You must have GNU programs (grep etc.) in PATH first
+#       You must have GNU programs (/bin/sh, grep etc.) in PATH first
 #       You must know Emacs Lisp Programming
 #       You must know Git well (branching, merging etc.)
 #       You must have epackage.el installed, see
@@ -37,10 +37,17 @@
 #
 #	Run command "Ehelp" to list all commands briefly.
 #
+#   Notes
+#
+#       The code uses keyword "local" from GNU-style dash or bash
+#       running in sh-mode. Keyword "local" is not defined in standard
+#       POSIX sh.
+#
+#       Nonetheless, the code should work under standard /bin/sh although
+#       warnings/errors are displayed about non-existign "local" command.
 
 Ehelp ()
 {
-
     local header
     header="\
 Command line utilities for Distributed Emacs Lisp Package
@@ -1017,26 +1024,25 @@ DESCRIPTION
       are 'ewiki:FILE.el' and 'emacswiki:FILE.el'
 
 OPTIONS
-
     -g, --git   Confirm that the URL is git direcory
     -t, --test  Run in test mode. Do now actually execute commands.
     -h, --help  Show help
 
 EXAMPLES
-    You have a direct URL to the Emacs Lisp file. Import it:
+    To import lisp file from URL address:
 
         Egit http://www.emacswiki.org/emacs/download/<filename>.el
 
-    Upstream uses Git repository for Emacs Lisp source code. Import it:
+    To import from upstream Git repository:
 
         Egit git://github.com/USER/PROJECT.git
 
-    Upstream sources URL does not have *.git extension, confirm that
-    this is still Gir URL:
+    Upstream source URL does not have a *.git extension, confirm that
+    the URL is a Git source:
 
-        Egit -g http://example.com/git/path
+        Egit --git http://example.com/git/path
 
-    The sources are in the currect directory; unpacked. Import them:
+    To import unpacked sources from the currect directory:
 
         Egit
 
