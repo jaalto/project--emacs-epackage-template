@@ -1315,6 +1315,7 @@ STANDARDS
         name=${name#emacs-}
 
         echo "Edir $name ."
+        echo "# ...and edit files in epackage/ directory"
 
     elif [ "$wget" ]; then
 
